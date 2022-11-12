@@ -14,9 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Header(destination: Destination.HeaderDestination) {
-    Box(
-        modifier = Modifier
+fun Header(destination: HeaderDestination) {
+    Box(modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
             .background(color = Color.White)

@@ -24,7 +24,7 @@ fun NavGraphBuilder.composable(
 }
 
 fun NavGraphBuilder.composable(
-    destination: Destination.HeaderDestination,
+    destination: HeaderDestination,
     showHeader: Boolean = true,
     content: @Composable (NavBackStackEntry) -> Unit,
 ) {
@@ -68,3 +68,10 @@ fun NavHostController.navigate(
 fun NavController.getBackStackEntry(
     destination: Destination
 ) = getBackStackEntry(destination.route)
+
+/**
+ * [value] takes only primitives or [String] otherwise it won't work as expected.
+ */
+fun Destination.withParam(param: String, value: Any): String {
+    return route.replace("{$param}", "{$value}")
+}

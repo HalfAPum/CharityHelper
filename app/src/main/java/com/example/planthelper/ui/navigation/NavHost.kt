@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.planthelper.ui.navigation.Destination.*
 import com.example.planthelper.ui.screen.plant.create.Calendar
 import com.example.planthelper.ui.screen.plant.create.CreatePlant
 import com.example.planthelper.ui.screen.plant.create.search.SearchPlantType
@@ -34,13 +33,14 @@ fun NavHostContent(
 
         bottomNavigation {
             composable(BottomNavigation.Tasks) {
-                Column(modifier = Modifier
-                    .background(color = LightGreyBackground)
-                    .padding(top = 8.dp)
+                Column(
+                    modifier = Modifier
+                        .background(color = LightGreyBackground)
+                        .padding(top = 8.dp)
                 ) {
                     TasksScreen(
                         onTaskClicked = {
-                            navigate(PlantDetails.route.replace("{plantId}", "{${it.id}}"))
+                            navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, it.id))
                         }
                     )
                 }
@@ -49,7 +49,7 @@ fun NavHostContent(
             composable(BottomNavigation.Plants) {
                 PlantsScreen(
                     onPlantClicked = {
-                        navigate(PlantDetails.route.replace("{plantId}", "{${it.plant.id}}"))
+                        navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, it.id))
                     },
                     onEmptySlotClicked = {
                         navigate(CreatePlant)
@@ -71,8 +71,7 @@ fun NavHostContent(
 
 
         composable(PlantDetails) { navBackStackEntry ->
-            //TODO create advanced navigation params without hardcoded strings
-            val plantId = navBackStackEntry.arguments?.getLong("plantId")
+            val plantId = navBackStackEntry.arguments?.getLong(PlantDetails.PLANT_ID_NAV_PARAM)
 
             plantId?.let {
                 PlantDetails(

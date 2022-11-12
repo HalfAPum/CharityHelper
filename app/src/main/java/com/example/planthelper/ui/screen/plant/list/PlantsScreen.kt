@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.planthelper.models.data.local.Plant
 import com.example.planthelper.models.ui.plants.PlantSlot.*
 import com.example.planthelper.ui.ListSpacer
 import com.example.planthelper.ui.screen.plant.list.slot.EmptySlot
@@ -22,7 +23,7 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PlantsScreen(
-    onPlantClicked: GenericCallback<FilledSlot>,
+    onPlantClicked: GenericCallback<Plant>,
     onEmptySlotClicked: UnitCallback,
     onLockedSlotClicked: UnitCallback,
     viewModel: PlantViewModel = getViewModel(),
@@ -40,7 +41,7 @@ fun PlantsScreen(
             when (slot) {
                 is FilledSlot -> FilledPlantSlot(
                     slot = slot,
-                    onPlantClicked = { onPlantClicked(it) },
+                    onPlantClicked = { onPlantClicked(it.plant) },
                 )
                 EmptySlot -> EmptySlot(
                     onEmptySlotClicked = { onEmptySlotClicked() },
