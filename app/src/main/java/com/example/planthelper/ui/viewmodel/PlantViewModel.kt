@@ -12,7 +12,7 @@ import com.example.planthelper.models.ui.plants.EmptyPlantSlotsUiState
 import com.example.planthelper.models.ui.plants.PlantSlot
 import com.example.planthelper.models.ui.plants.PlantSlot.FilledSlot
 import com.example.planthelper.models.ui.plants.PlantSlotsUiState
-import com.example.planthelper.utils.launch
+import com.halfapum.general.coroutines.launch
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 

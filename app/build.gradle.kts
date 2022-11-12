@@ -85,6 +85,10 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.5.2")
 
+
+    //Common extensions
+    implementation("com.github.HalfAPum:CommonExtensions:0.2.0")
+
     //Test dependencies
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:2.4.3")

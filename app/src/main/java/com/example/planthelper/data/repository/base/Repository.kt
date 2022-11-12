@@ -1,7 +1,7 @@
 package com.example.planthelper.data.repository.base
 
-import com.example.planthelper.utils.Dispatcher
 import com.example.planthelper.utils.inject
+import com.halfapum.general.coroutines.Dispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.withContext
 
