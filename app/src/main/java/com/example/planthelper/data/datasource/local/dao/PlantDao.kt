@@ -2,7 +2,7 @@ package com.example.planthelper.data.datasource.local.dao
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import com.example.planthelper.models.local.Plant
+import com.example.planthelper.models.data.local.Plant
 import kotlinx.coroutines.flow.Flow
 
 @Dao
