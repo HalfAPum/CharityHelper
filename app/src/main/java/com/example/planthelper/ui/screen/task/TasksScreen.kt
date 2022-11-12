@@ -15,7 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.planthelper.models.data.local.task.Task
+import com.example.planthelper.models.data.local.Plant
 import com.example.planthelper.ui.ListSpacer
 import com.example.planthelper.ui.theme.LightGreyBackground
 import com.example.planthelper.ui.viewmodel.TaskViewModel
@@ -30,7 +30,7 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TasksScreen(
-    onTaskClicked: GenericCallback<Task>,
+    onTaskClicked: GenericCallback<Plant>,
     viewModel: TaskViewModel = getViewModel(),
     modifier: Modifier = Modifier
 ) = with(viewModel) {
@@ -88,7 +88,7 @@ fun TasksScreen(
                 items(tasks) { item ->
                     TaskCard(
                         task = item,
-                        onTaskClicked = { onTaskClicked(it.task) },
+                        onTaskClicked = { onTaskClicked(it.plant) },
                         onAcceptClicked = { completeTask(it.task) },
                     )
                 }

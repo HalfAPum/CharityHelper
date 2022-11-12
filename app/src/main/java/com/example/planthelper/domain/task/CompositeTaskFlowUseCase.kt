@@ -14,7 +14,7 @@ class CompositeTaskFlowUseCase(
     private val scheduleRepository: ScheduleRepository,
 ) {
 
-    operator fun invoke() = taskRepository.taskFlow().map { taskList ->
+    operator fun invoke(plantId: Long?) = taskRepository.taskFlow(plantId).map { taskList ->
 //        taskList.map { task ->
 //            val schedule = scheduleRepository.getSchedule(task.scheduleId)
 //            val plant = plantRepository.getPlant(schedule.plantId)

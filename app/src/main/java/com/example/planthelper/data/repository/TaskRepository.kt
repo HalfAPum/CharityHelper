@@ -22,9 +22,9 @@ class TaskRepository(
     private val taskDao: TaskDao,
 ) : Repository() {
 
-    fun taskFlow() = taskDao.flowAll()
-
-    fun taskFlowByPlantId(plantId: Long) = taskDao.flowByPlantId(plantId)
+    fun taskFlow(plantId: Long?) = plantId?.let {
+        taskDao.flowByPlantId(plantId)
+    } ?: taskDao.flowAll()
 
     suspend fun completeTask(task: Task) {
         val completedTask = task.copy(status = TaskStatus.Completed)

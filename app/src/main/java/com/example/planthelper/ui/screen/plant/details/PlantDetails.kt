@@ -28,85 +28,89 @@ import com.example.planthelper.ui.viewmodel.TaskViewModel
 import com.example.planthelper.utils.GenericCallback
 import com.example.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun PlantDetails(
+    plantId: Long,
     onDeleteClicked: UnitCallback,
     onEditClicked: GenericCallback<Plant>,
-    viewModel: PlantDetailsViewModel = getViewModel(),
-    taskViewModel: TaskViewModel = getViewModel(),
-) = with(viewModel) {
-    var tabIndex by remember { mutableStateOf(0) }
+) {
+    val viewModel = getViewModel<PlantDetailsViewModel>(parameters = { parametersOf(plantId) })
+    val taskViewModel = getViewModel<TaskViewModel>(parameters = { parametersOf(plantId) })
+    with(viewModel) {
+        var tabIndex by remember { mutableStateOf(0) }
 
-    LazyColumn(
-        modifier = Modifier.background(color = LightGreyBackground),
-        verticalArrangement = Arrangement.spaceBetween(20.dp)
-    ) {
-        item {
-            Column(modifier = Modifier.background(color = Color.White)) {
-                AsyncImage(
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .crossfade(true)
-                        .data(plantDetailsUiState.plant.imageUrl)
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+        LazyColumn(
+            modifier = Modifier.background(color = LightGreyBackground),
+            verticalArrangement = Arrangement.spaceBetween(20.dp)
+        ) {
+            item {
+                Column(modifier = Modifier.background(color = Color.White)) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(context = LocalContext.current)
+                            .crossfade(true)
+                            .data(plantDetailsUiState.plant.imageUrl)
+                            .build(),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
 
-                PlantAdditionalInfo(
-                    plant = plantDetailsUiState.plant,
-                    onEditClicked = { onEditClicked(it) },
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .padding(horizontal = 16.dp),
-                )
+                    PlantAdditionalInfo(
+                        plant = plantDetailsUiState.plant,
+                        onEditClicked = { onEditClicked(it) },
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .padding(horizontal = 16.dp),
+                    )
 
-                PlantAgeHealth(
-                    plant = plantDetailsUiState.plant,
-                    modifier = Modifier.padding(
-                        start = 16.dp,
-                        end = 40.dp,
-                        top = 20.dp,
-                    ),
-                )
+                    PlantAgeHealth(
+                        plant = plantDetailsUiState.plant,
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 40.dp,
+                            top = 20.dp,
+                        ),
+                    )
 
-                Spacer(modifier = Modifier.height(40.dp))
+                    Spacer(modifier = Modifier.height(40.dp))
 
-                Spacer(modifier = Modifier
-                    .height(32.dp)
-                    .background(color = LightGreyBackground)
-                )
+                    Spacer(modifier = Modifier
+                        .height(32.dp)
+                        .background(color = LightGreyBackground)
+                    )
 
-                TabRow(selectedTabIndex = tabIndex) {
-                    tabs.forEachIndexed { index, title ->
-                        Tab(
-                            selected = tabIndex == index,
-                            onClick = { tabIndex = index },
-                            text = { Text(text = title) }
-                        )
+                    TabRow(selectedTabIndex = tabIndex) {
+                        tabs.forEachIndexed { index, title ->
+                            Tab(
+                                selected = tabIndex == index,
+                                onClick = { tabIndex = index },
+                                text = { Text(text = title) }
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        val tasks = when(tabIndex) {
-            ACTIVE_TASKS_INDEX -> taskViewModel.tasksUiState.activeTasks
-            HISTORY_TASKS_INDEX -> taskViewModel.tasksUiState.historyTasks
-            else -> emptyList()
-        }
-
-        items(tasks) { item ->
-            Box(
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                TaskCard(
-                    task = item,
-                    onTaskClicked = {},
-                    onAcceptClicked = { taskViewModel.completeTask(it.task) },
-                )
+            val tasks = when(tabIndex) {
+                ACTIVE_TASKS_INDEX -> taskViewModel.tasksUiState.activeTasks
+                HISTORY_TASKS_INDEX -> taskViewModel.tasksUiState.historyTasks
+                else -> emptyList()
             }
-        }
 
-        ListSpacer()
+            items(tasks) { item ->
+                Box(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    TaskCard(
+                        task = item,
+                        onTaskClicked = {},
+                        onAcceptClicked = { taskViewModel.completeTask(it.task) },
+                    )
+                }
+            }
+
+            ListSpacer()
+        }
     }
 }

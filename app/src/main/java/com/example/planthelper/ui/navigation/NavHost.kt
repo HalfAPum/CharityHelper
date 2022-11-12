@@ -40,7 +40,7 @@ fun NavHostContent(
                 ) {
                     TasksScreen(
                         onTaskClicked = {
-                            navigate(PlantDetails)
+                            navigate(PlantDetails.route.replace("{plantId}", "{${it.id}}"))
                         }
                     )
                 }
@@ -49,7 +49,7 @@ fun NavHostContent(
             composable(BottomNavigation.Plants) {
                 PlantsScreen(
                     onPlantClicked = {
-                        navigate(PlantDetails)
+                        navigate(PlantDetails.route.replace("{plantId}", "{${it.plant.id}}"))
                     },
                     onEmptySlotClicked = {
                         navigate(CreatePlant)
@@ -70,17 +70,21 @@ fun NavHostContent(
         }
 
 
-        composable(PlantDetails) {
-//            plant = previewPlant,
+        composable(PlantDetails) { navBackStackEntry ->
+            //TODO create advanced navigation params without hardcoded strings
+            val plantId = navBackStackEntry.arguments?.getLong("plantId")
 
-            PlantDetails(
-                onDeleteClicked = {
-                    popBackStack()
-                },
-                onEditClicked = {
-                    //TODO GO TO EDIT PAGE
-                }
-            )
+            plantId?.let {
+                PlantDetails(
+                    plantId = plantId,
+                    onDeleteClicked = {
+                        popBackStack()
+                    },
+                    onEditClicked = {
+                        //TODO GO TO EDIT PAGE
+                    },
+                )
+            }
         }
 
         composable(CreatePlant) {

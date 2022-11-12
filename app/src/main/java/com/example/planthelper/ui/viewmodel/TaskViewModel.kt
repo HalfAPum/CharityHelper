@@ -13,10 +13,9 @@ import com.example.planthelper.models.ui.task.EmptyTasksUiState
 import com.halfapum.general.coroutines.launchCatching
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.annotation.KoinViewModel
 
-@KoinViewModel
 class TaskViewModel(
+    private val plantId: Long?,
     private val activeCompositeTaskFlowUseCase: ActiveCompositeTaskFlowUseCase,
     private val historyCompositeTaskFlowUseCase: HistoryCompositeTaskFlowUseCase,
     private val taskRepository: TaskRepository,
@@ -31,21 +30,19 @@ class TaskViewModel(
     }
 
     private fun collectActiveTasksFlow() {
-        activeCompositeTaskFlowUseCase()
+        activeCompositeTaskFlowUseCase(plantId)
             .onEach { tasksUiState = tasksUiState.copy(activeTasks = it) }
             .launchIn(viewModelScope)
     }
 
     private fun collectHistoryTasksFlow() {
-        historyCompositeTaskFlowUseCase()
+        historyCompositeTaskFlowUseCase(plantId)
             .onEach { tasksUiState = tasksUiState.copy(historyTasks = it) }
             .launchIn(viewModelScope)
     }
 
     fun completeTask(task: Task) {
-        launchCatching {
-            taskRepository.completeTask(task)
-        }
+        launchCatching { taskRepository.completeTask(task) }
     }
 
 }

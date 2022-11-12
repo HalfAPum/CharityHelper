@@ -11,8 +11,8 @@ class ActiveCompositeTaskFlowUseCase(
     private val compositeTaskFlowUseCase: CompositeTaskFlowUseCase,
 ) {
 
-    operator fun invoke(): Flow<List<CompositeTask>> {
-        return compositeTaskFlowUseCase.invoke().map { compositeTasks ->
+    operator fun invoke(plantId: Long?): Flow<List<CompositeTask>> {
+        return compositeTaskFlowUseCase.invoke(plantId).map { compositeTasks ->
             compositeTasks.filter { it.task.status == TaskStatus.Scheduled }
         }
     }
