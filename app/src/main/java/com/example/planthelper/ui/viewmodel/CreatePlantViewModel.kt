@@ -20,8 +20,8 @@ class CreatePlantViewModel(
     private val addPlantUseCase: AddPlantUseCase,
 ) : ViewModel() {
 
-    private val _createActionSharedFlow: MutableSharedFlow<String> = MutableSharedFlow()
-    val createActionSharedFlow = _createActionSharedFlow.asSharedFlow()
+    private val _savePlantActionSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
+    val savePlantActionSharedFlow = _savePlantActionSharedFlow.asSharedFlow()
 
     var createPlantUiState by mutableStateOf(EmptyCreatePlantUiState())
         private set
@@ -29,7 +29,7 @@ class CreatePlantViewModel(
     fun saveBitmap(bitmap: Bitmap?) = bitmap?.let {
         val imagePath = photoRepository.saveBitmap(
             oldBitmapPath = createPlantUiState.imageUrl,
-            newBitmap = bitmap
+            newBitmap = bitmap,
         )
 
         createPlantUiState = createPlantUiState.copy(imageUrl = imagePath)
@@ -39,14 +39,19 @@ class CreatePlantViewModel(
         createPlantUiState = createPlantUiState.copy(plantBirthDay = date)
     }
 
-    fun updatePlantUiState(plantName: String) {
-        createPlantUiState = createPlantUiState.copy(plantName = plantName)
+    fun plantNameChanged(plantName: String) {
+        createPlantUiState = createPlantUiState.copy(
+            plantName = plantName,
+            isPlantNameError = false,
+        )
     }
 
     fun savePlant() {
         if (createPlantUiState.isValid) {
-            launchCatching { addPlantUseCase(createPlantUiState) }
-            _createActionSharedFlow.tryEmit("")
+            launchCatching {
+                addPlantUseCase(createPlantUiState)
+                _savePlantActionSharedFlow.emit(Unit)
+            }
         } else {
             createPlantUiState = createPlantUiState.copyWithErrors()
         }

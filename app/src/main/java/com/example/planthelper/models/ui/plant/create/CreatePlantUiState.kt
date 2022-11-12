@@ -1,9 +1,11 @@
 package com.example.planthelper.models.ui.plant.create
 
+import androidx.compose.runtime.Immutable
 import com.example.planthelper.utils.isNotBlank
 import com.example.planthelper.utils.shortBirthDay
 import java.util.*
 
+@Immutable
 data class CreatePlantUiState(
     val plantName: String = "",
     val plantType: String = "",
@@ -22,8 +24,8 @@ data class CreatePlantUiState(
         get() = plantName.isNotBlank() && plantType.isNotBlank()
 
     fun copyWithErrors() = copy(
-        isPlantNameError = plantName.isNotBlank(),
-        isPlantTypeError = plantType.isNotBlank(),
+        isPlantNameError = plantName.isBlank(),
+        isPlantTypeError = plantType.isBlank(),
     )
 
 }

@@ -2,10 +2,12 @@ package com.example.planthelper.ui.screen.plant.create
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,9 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planthelper.R
-import com.example.planthelper.ui.rememberSaveableString
 import com.example.planthelper.ui.viewmodel.CreatePlantViewModel
 import com.example.planthelper.utils.UnitCallback
+import com.halfapum.general.coroutines.launchCatching
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -26,6 +29,13 @@ fun CreatePlant(
     openCalendarClicked: UnitCallback,
     viewModel: CreatePlantViewModel = getViewModel()
 ) = with(viewModel) {
+    val scope = rememberCoroutineScope()
+    scope.launchCatching {
+        savePlantActionSharedFlow.collectLatest {
+            onPlantSaved()
+        }
+    }
+
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         PlantImageEditable(
             createPlantUiState = createPlantUiState,
@@ -35,22 +45,27 @@ fun CreatePlant(
             onPhotoPicked = { saveBitmap(it) }
         )
 
-        val plantName = rememberSaveableString(createPlantUiState.plantName)
+        val plantName = createPlantUiState.plantName
 
         OutlinedPlantTextField(
             text = plantName,
             label = stringResource(R.string.name),
+            errorLabel = stringResource(R.string.empty_name),
             singleLine = true,
+            error = createPlantUiState.isPlantNameError,
             modifier = Modifier.padding(top = 20.dp),
+            onValueChanged = { plantNameChanged(it) }
         )
 
-        val plantType = rememberSaveableString()
+        val plantType = createPlantUiState.plantType
 
         OutlinedPlantTextField(
             text = plantType,
             label = stringResource(R.string.plant_type),
+            errorLabel = stringResource(R.string.empty_plant_type),
             singleLine = false,
             enabled = false,
+            error = createPlantUiState.isPlantTypeError,
             modifier = Modifier.padding(top = 20.dp),
             onClick = { onPlantTypeSearchClicked() }
         )
@@ -58,7 +73,7 @@ fun CreatePlant(
         val birthDate = createPlantUiState.shortPlantBirthDay
 
         OutlinedPlantTextField(
-            text = mutableStateOf(birthDate),
+            text = birthDate,
             label = stringResource(R.string.plant_birthday),
             singleLine = true,
             enabled = false,
@@ -67,18 +82,18 @@ fun CreatePlant(
         )
 
         Button(
-            onClick = {
-                updatePlantUiState(
-                    plantName = plantName.value
-                )
-
-                savePlant()
-            }
+            onClick = { savePlant() },
+            shape = RoundedCornerShape(20.dp),
+            elevation = ButtonDefaults.elevation(),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 20.dp)
         ) {
             Text(
                 text = stringResource(R.string.save),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 52.dp)
             )
         }
     }

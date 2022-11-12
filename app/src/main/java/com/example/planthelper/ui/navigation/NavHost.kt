@@ -50,9 +50,11 @@ fun NavHostContent(
             }
 
             composable(BottomNavigation.Settings) {
-                SettingsScreen(onPurchaseClicked = {
-                    navigate(Purchase)
-                })
+                SettingsScreen(
+                    onPurchaseClicked = {
+                        navigate(Purchase)
+                    },
+                )
             }
         }
 

@@ -7,4 +7,12 @@
     <string name="plant_type">Plant type:</string>
     <string name="plant_birthday">Plant birthday (approx.):</string>
     <string name="save">Save</string>
+    <string name="empty_plant_type">Empty plant type</string>
+    <string name="empty_name">Empty name</string>
+    <string name="busy_hours_text">Busy hours (do not disturb me):</string>
+    <string name="from">From</string>
+    <string name="weekdays">(weekdays)</string>
+    <string name="to">to</string>
+    <string name="current_pay_plan">Current pay plan:</string>
+    <string name="get_premium">Get premium</string>
 </resources>
