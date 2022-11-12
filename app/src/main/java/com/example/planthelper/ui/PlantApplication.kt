@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.planthelper.BuildConfig
 import com.example.planthelper.di.appModule
 import com.example.planthelper.di.databaseModule
+import com.example.planthelper.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -22,7 +23,7 @@ class PlantApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PlantApplication)
-            modules(appModule, databaseModule)
+            modules(appModule, databaseModule, viewModelModule)
         }
 
     }

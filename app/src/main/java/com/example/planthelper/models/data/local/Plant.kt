@@ -1,10 +1,8 @@
-package com.example.planthelper.models.local
+package com.example.planthelper.models.data.local
 
-import androidx.compose.runtime.Immutable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Immutable
 @Entity
 data class Plant(
     @PrimaryKey
