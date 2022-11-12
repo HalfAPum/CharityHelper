@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Task(
     @ColumnInfo(name = "schedule_id")
-    val scheduleId: Int,
+    val scheduleId: Long,
     @ColumnInfo(name = "status")
     val status: TaskStatus,
     @ColumnInfo(name = "task_date")
@@ -18,5 +18,5 @@ data class Task(
     val name: String,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int = -1,
+    val id: Long = -1,
 )

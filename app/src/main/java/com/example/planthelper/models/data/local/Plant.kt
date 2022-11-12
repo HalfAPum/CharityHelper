@@ -21,5 +21,5 @@ data class Plant(
     val healthPercentage: Double = 1.0,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int = -1
+    val id: Long = -1
 )

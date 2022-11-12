@@ -8,14 +8,14 @@ import androidx.room.PrimaryKey
 @Entity
 data class Schedule(
     @ColumnInfo(name = "plant_id")
-    val plantId: Int,
+    val plantId: Long = -1,
     @ColumnInfo(name = "schedule_type")
     val scheduleType: ScheduleType,
     @ColumnInfo(name = "name")
-    val name: String,
+    val name: String?,
     @Embedded
     val monthSchedule: MonthSchedule,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int = -1
+    val id: Long = -1
 )

@@ -8,9 +8,9 @@ data class PlantInfo(
     @SerializedName("image_url")
     val imageUrl: String,
     @SerializedName("watering")
-    val watering: Schedule,
+    val watering: Scheduling,
     @SerializedName("fertilizer")
-    val fertilizer: Schedule,
+    val fertilizer: Scheduling,
     @SerializedName("pruning")
-    val pruning: Schedule,
+    val pruning: Scheduling,
 )

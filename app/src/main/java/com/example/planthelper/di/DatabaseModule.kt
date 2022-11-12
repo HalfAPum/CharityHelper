@@ -3,6 +3,7 @@ package com.example.planthelper.di
 import android.content.Context
 import androidx.room.Room
 import com.example.planthelper.data.datasource.local.PlantDatabase
+import com.example.planthelper.data.datasource.local.TransactionManager
 import com.example.planthelper.ui.viewmodel.FeedViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -17,6 +18,12 @@ val databaseModule = module {
             PLANT_DATABASE
         ).build()
     }
+
+    fun provideTransactionManager(
+        plantDatabase: PlantDatabase
+    ): TransactionManager = plantDatabase
+
+    factory { provideTransactionManager(get()) }
 
     fun providePlantDao(database: PlantDatabase) = database.getPlantDao()
 

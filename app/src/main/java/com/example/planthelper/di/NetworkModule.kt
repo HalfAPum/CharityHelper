@@ -36,8 +36,6 @@ val networkModule = module {
 
     single { providePlantInfoApi(get()) }
 
-    factory { PlantInfoApiHelper(get()) }
-
 }
 
 private const val PLANT_INFO_JSON_BASE_URL = "https://drive.google.com/"
