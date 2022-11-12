@@ -5,35 +5,37 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun BottomBar(navController: NavHostController) = BottomNavigation {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
+    /**
+     * This lines needed only to update composable when nev destination moves to top.
+     */
+    //Crutch part1 start
+    val backStack = navController.currentBackStackEntryAsState()
+    //Crutch part1 end
+
+    val selectedRoute = navController.backQueue.asReversed().firstOrNull { entry ->
+        bottomNavigationItems.any { bottomNavItem ->
+            entry.destination.route == bottomNavItem.route
+        }
+    }?.destination?.route
 
     bottomNavigationItems.forEach { destination ->
+        //Crutch part2 start
+        println("Current top destination is ${backStack.value?.destination?.route}")
+        //Crutch part2 end
+
         BottomNavigationItem(
             icon = { Icon(painter = painterResource(destination.icon), contentDescription = destination.text) },
             label = { Text(destination.text) },
-            selected = currentDestination?.hierarchy?.any { it.route == destination.route } == true,
+            selected = destination.route == selectedRoute,
             onClick = {
                 navController.navigate(destination.route) {
-                    // Pop up to the start destination of the graph to
-                    // avoid building up a large stack of destinations
-                    // on the back stack as users select items
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
-                    }
-                    // Avoid multiple copies of the same destination when
-                    // reselecting the same item
                     launchSingleTop = true
-                    // Restore state when reselecting a previously selected item
                     restoreState = true
                 }
             }
