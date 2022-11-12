@@ -6,24 +6,42 @@ import com.example.planthelper.ui.navigation.Destination.BottomNavigation
 
 sealed class Destination(val route: String) {
 
+    sealed class HeaderDestination(route: String, val headerText: String) : Destination(route)
+
     sealed class BottomNavigation(
         name: String,
+        headerText: String,
         @DrawableRes val icon: Int,
         //TODO CHANGE TO STRING RESOURCE
         val text: String,
-    ): Destination(name) {
+    ): HeaderDestination(name, headerText) {
 
-        object Feed : BottomNavigation("Feed", R.drawable.ic_activity, "Feed")
+        object Tasks : BottomNavigation(
+            name = "Tasks",
+            headerText = "My tasks",
+            icon = R.drawable.ic_activity,
+            text = "Tasks"
+        )
 
-        object Plants : BottomNavigation("Plants", R.drawable.ic_plant, "Plants")
+        object Plants : BottomNavigation(
+            name = "Plants",
+            headerText = "My plants list",
+            icon = R.drawable.ic_plant,
+            text = "Plants"
+        )
 
-        object Settings : BottomNavigation("Settings", R.drawable.ic_settings, "Settings")
+        object Settings : BottomNavigation(
+            name = "Settings",
+            headerText = "Settings",
+            icon = R.drawable.ic_settings,
+            text = "Settings"
+        )
 
     }
 
     object PlantDetails : Destination("PlantDetails")
 
-    object CreatePlant : Destination("CreatePlant")
+    object CreatePlant : HeaderDestination("CreatePlant", "Tell us about the plant")
 
     object SearchPlantType : Destination("SearchPlantType")
 
@@ -33,7 +51,7 @@ sealed class Destination(val route: String) {
 }
 
 val bottomNavigationItems = listOf(
-    BottomNavigation.Feed,
+    BottomNavigation.Tasks,
     BottomNavigation.Plants,
     BottomNavigation.Settings,
 )

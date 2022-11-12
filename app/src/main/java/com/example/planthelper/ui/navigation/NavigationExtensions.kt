@@ -1,5 +1,6 @@
 package com.example.planthelper.ui.navigation
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
@@ -19,6 +20,25 @@ fun NavGraphBuilder.composable(
         arguments = emptyList(),
         deepLinks = emptyList(),
         content = content,
+    )
+}
+
+fun NavGraphBuilder.composable(
+    destination: Destination.HeaderDestination,
+    showHeader: Boolean = true,
+    content: @Composable (NavBackStackEntry) -> Unit,
+) {
+    composable(
+        route = destination.route,
+        arguments = emptyList(),
+        deepLinks = emptyList(),
+        content = {
+            Column {
+                if (showHeader) Header(destination)
+
+                content(it)
+            }
+        },
     )
 }
 

@@ -1,5 +1,6 @@
 package com.example.planthelper.ui.screen.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planthelper.R
 import com.example.planthelper.ui.screen.plant.create.OutlinedPlantTextField
+import com.example.planthelper.ui.theme.LightGreyBackground
 import com.example.planthelper.ui.viewmodel.SettingsViewModel
 import com.example.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
@@ -27,6 +29,7 @@ fun SettingsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(LightGreyBackground)
             .padding(horizontal = 16.dp, vertical = 20.dp)
     ) {
         OutlinedPlantTextField(

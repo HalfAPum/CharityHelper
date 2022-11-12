@@ -1,7 +1,7 @@
 package com.example.planthelper.ui.screen.plant.create
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planthelper.R
+import com.example.planthelper.ui.theme.LightGreyBackground
 import com.example.planthelper.ui.viewmodel.CreatePlantViewModel
 import com.example.planthelper.utils.UnitCallback
 import com.halfapum.general.coroutines.launchCatching
@@ -35,6 +36,12 @@ fun CreatePlant(
             onPlantSaved()
         }
     }
+
+    Spacer(modifier = Modifier
+        .fillMaxWidth()
+        .height(10.dp)
+        .background(LightGreyBackground)
+    )
 
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         PlantImageEditable(

@@ -1,26 +1,40 @@
 package com.example.planthelper.ui.screen.feed
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.planthelper.models.ui.feed.FeedElement.FeedHeader
 import com.example.planthelper.models.ui.feed.FeedElement.FeedItem
+import com.example.planthelper.ui.ListSpacer
+import com.example.planthelper.ui.theme.LightGreyBackground
 import com.example.planthelper.ui.viewmodel.FeedViewModel
 import com.example.planthelper.utils.GenericCallback
-import com.example.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun FeedScreen(
+fun TasksScreen(
     onFeedClicked: GenericCallback<FeedItem>,
     viewModel: FeedViewModel = getViewModel()
 ) {
-    LazyColumn {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(LightGreyBackground)
+            .padding(horizontal = 16.dp)
+    ) {
+        ListSpacer()
+
         items(viewModel.feedUiState.feedItems) { item ->
             when (item) {
                 is FeedItem -> FeedItem(
@@ -32,6 +46,8 @@ fun FeedScreen(
                 is FeedHeader -> FeedHeader(item)
             }
         }
+
+        ListSpacer()
     }
 }
 
@@ -62,6 +78,6 @@ fun FeedHeader(
 
 @Preview(showBackground = true)
 @Composable
-fun FeedScreenPreview() {
-    FeedScreen({})
+fun TasksScreenPreview() {
+    TasksScreen({})
 }

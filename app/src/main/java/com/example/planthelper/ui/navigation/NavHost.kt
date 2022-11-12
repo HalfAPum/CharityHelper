@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.planthelper.ui.navigation.Destination.*
-import com.example.planthelper.ui.screen.feed.FeedScreen
+import com.example.planthelper.ui.screen.feed.TasksScreen
 import com.example.planthelper.ui.screen.plant.create.Calendar
 import com.example.planthelper.ui.screen.plant.create.CreatePlant
 import com.example.planthelper.ui.screen.plant.create.search.SearchPlantType
@@ -24,13 +24,13 @@ fun NavHostContent(
 ) = with(navController) {
     NavHost(
         navController = navController,
-        startDestination = BottomNavigation.Feed,
+        startDestination = BottomNavigation.Tasks,
         modifier = Modifier.padding(innerPadding),
     ) {
 
         bottomNavigation {
-            composable(BottomNavigation.Feed) {
-                FeedScreen(onFeedClicked = {
+            composable(BottomNavigation.Tasks) {
+                TasksScreen(onFeedClicked = {
                     navigate(PlantDetails)
                 })
             }

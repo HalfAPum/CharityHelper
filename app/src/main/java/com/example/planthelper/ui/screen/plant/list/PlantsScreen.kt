@@ -1,6 +1,8 @@
 package com.example.planthelper.ui.screen.plant.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,6 +14,7 @@ import com.example.planthelper.ui.ListSpacer
 import com.example.planthelper.ui.screen.plant.list.slot.EmptySlot
 import com.example.planthelper.ui.screen.plant.list.slot.FilledPlantSlot
 import com.example.planthelper.ui.screen.plant.list.slot.LockedSlot
+import com.example.planthelper.ui.theme.LightGreyBackground
 import com.example.planthelper.ui.viewmodel.PlantViewModel
 import com.example.planthelper.utils.GenericCallback
 import com.example.planthelper.utils.UnitCallback
@@ -26,7 +29,10 @@ fun PlantsScreen(
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(20.dp),
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(LightGreyBackground)
+            .padding(horizontal = 16.dp)
     ) {
         ListSpacer()
 
