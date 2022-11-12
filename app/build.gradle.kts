@@ -98,6 +98,10 @@ dependencies {
     //Date picker
     implementation ("com.github.DogusTeknoloji:compose-date-picker:1.0.1")
 
+    //Tabs
+    implementation ("com.google.accompanist:accompanist-pager:0.27.0")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.27.0")
+
     //Test dependencies
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:2.4.3")

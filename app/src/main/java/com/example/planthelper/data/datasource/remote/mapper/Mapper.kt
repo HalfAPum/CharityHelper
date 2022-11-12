@@ -27,6 +27,7 @@ fun PlantsResponse.map(): Map<Plant, List<Schedule>> {
 }
 
 fun Scheduling.map(scheduleType: ScheduleType) = Schedule(
+    plantId = -1,
     scheduleType = scheduleType,
     name = name,
     monthSchedule = monthSchedule

@@ -14,7 +14,7 @@ import com.example.planthelper.ui.screen.plant.details.PlantDetails
 import com.example.planthelper.ui.screen.plant.list.PlantsScreen
 import com.example.planthelper.ui.screen.purchase.Purchase
 import com.example.planthelper.ui.screen.settings.SettingsScreen
-import com.example.planthelper.ui.screen.task.TasksScreen
+import com.example.planthelper.ui.screen.task.Tasks
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -30,7 +30,7 @@ fun NavHostContent(
 
         bottomNavigation {
             composable(BottomNavigation.Tasks) {
-                TasksScreen(onTaskClicked = {
+                Tasks(onTaskClicked = {
                     navigate(PlantDetails)
                 })
             }

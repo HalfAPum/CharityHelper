@@ -18,7 +18,7 @@ import com.example.planthelper.models.data.local.task.Task
         Task::class,
         Schedule::class,
     ],
-    version = 1
+    version = 2
 )
 @TypeConverters(IntMapConverter::class)
 abstract class PlantDatabase : RoomDatabase(), TransactionManager {

@@ -1,7 +1,10 @@
 package com.example.planthelper.models.data.local.schedule
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
+import androidx.room.PrimaryKey
 import com.example.planthelper.models.data.local.Plant
 
 @Entity(foreignKeys = [
@@ -15,7 +18,7 @@ import com.example.planthelper.models.data.local.Plant
 ])
 data class Schedule(
     @ColumnInfo(name = "plant_id")
-    val plantId: Long = -1,
+    val plantId: Long,
     @ColumnInfo(name = "schedule_type")
     val scheduleType: ScheduleType,
     @ColumnInfo(name = "name")

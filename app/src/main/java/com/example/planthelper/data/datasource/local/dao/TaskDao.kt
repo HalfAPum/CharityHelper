@@ -16,6 +16,14 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task> {
     override fun flow(id: Long): Flow<Task>
 
     @JvmSuppressWildcards
+    @Query("""
+        SELECT * FROM Task
+        INNER JOIN Schedule ON Task.schedule_id = Schedule.id
+        WHERE Schedule.plant_id = :id
+        """)
+    fun flowByPlantId(id: Long): Flow<List<Task>>
+
+    @JvmSuppressWildcards
     @Query("SELECT * FROM Task")
     override fun flowAll(): Flow<List<Task>>
 

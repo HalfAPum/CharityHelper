@@ -13,7 +13,8 @@ val databaseModule = module {
             androidContext(),
             PlantDatabase::class.java,
             PLANT_DATABASE
-        ).build()
+        //TODO REMOVE DESTRUCTIVE MIGRATIONS
+        ).fallbackToDestructiveMigration().build()
     }
 
     fun provideTransactionManager(

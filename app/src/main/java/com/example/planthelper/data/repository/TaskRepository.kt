@@ -9,7 +9,11 @@ import com.example.planthelper.data.utils.throwIllegalMonthException
 import com.example.planthelper.models.data.local.Plant
 import com.example.planthelper.models.data.local.schedule.Schedule
 import com.example.planthelper.models.data.local.task.Task
-import com.example.planthelper.utils.*
+import com.example.planthelper.models.data.local.task.TaskStatus
+import com.example.planthelper.utils.forEachMonth
+import com.example.planthelper.utils.monthDay
+import com.example.planthelper.utils.toDate
+import com.example.planthelper.utils.totalDaysInMonth
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -17,6 +21,16 @@ class TaskRepository(
     private val scheduleDao: ScheduleDao,
     private val taskDao: TaskDao,
 ) : Repository() {
+
+    fun taskFlow() = taskDao.flowAll()
+
+    fun taskFlowByPlantId(plantId: Long) = taskDao.flowByPlantId(plantId)
+
+    suspend fun completeTask(task: Task) {
+        val completedTask = task.copy(status = TaskStatus.Completed)
+
+        taskDao.update(completedTask)
+    }
 
     suspend fun generateFirstTasksForPlant(plant: Plant) = IOOperation {
         val plantSchedules = scheduleDao.getSchedulesByPlantId(plant.id)
