@@ -14,7 +14,9 @@ import com.example.planthelper.models.ui.plants.PlantSlot.FilledSlot
 import com.example.planthelper.models.ui.plants.PlantSlotsUiState
 import com.example.planthelper.utils.launch
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 
+@KoinViewModel
 class PlantViewModel(private val plantRepository: PlantRepository) : ViewModel() {
 
     val columns = GridCells.Fixed(PLANT_COLUMNS)

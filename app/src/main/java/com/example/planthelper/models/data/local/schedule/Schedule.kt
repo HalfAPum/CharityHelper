@@ -14,7 +14,6 @@ data class Schedule(
     @ColumnInfo(name = "name")
     val name: String,
     @Embedded
-    @ColumnInfo(name = "month_schedule")
     val monthSchedule: MonthSchedule,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

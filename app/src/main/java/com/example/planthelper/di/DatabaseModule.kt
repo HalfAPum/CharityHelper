@@ -10,13 +10,13 @@ import org.koin.dsl.module
 
 val databaseModule = module {
 
-    fun provideRoomDatabase(context: Context) = Room.databaseBuilder(
-        context,
-        PlantDatabase::class.java,
-        PLANT_DATABASE
-    ).build()
-
-    single { provideRoomDatabase(androidContext()) }
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            PlantDatabase::class.java,
+            PLANT_DATABASE
+        ).build()
+    }
 
     fun providePlantDao(database: PlantDatabase) = database.getPlantDao()
 

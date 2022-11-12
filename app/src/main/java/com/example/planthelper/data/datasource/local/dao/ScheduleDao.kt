@@ -5,7 +5,7 @@ import androidx.room.Query
 import com.example.planthelper.data.datasource.local.dao.base.combined.BaseDao
 import com.example.planthelper.data.datasource.local.dao.base.get.GetAllDao
 import com.example.planthelper.data.datasource.local.dao.base.get.GetByIdDao
-import com.example.planthelper.models.data.remote.Schedule
+import com.example.planthelper.models.data.local.schedule.Schedule
 
 @Dao
 interface ScheduleDao: BaseDao<Schedule>, GetByIdDao<Schedule>, GetAllDao<Schedule> {
