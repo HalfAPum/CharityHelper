@@ -34,6 +34,7 @@ fun SettingsScreen(
     ) {
         OutlinedPlantTextField(
             label = stringResource(R.string.busy_hours_text),
+            enabled = false
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

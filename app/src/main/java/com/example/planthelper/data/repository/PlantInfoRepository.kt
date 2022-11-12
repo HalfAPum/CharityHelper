@@ -41,6 +41,8 @@ class PlantInfoRepository(
         else it.originName.contains(query)
     }
 
+    suspend fun loadPlantTypes() { searchPlant(SEARCH_ALL_PLANTS_QUERY) }
+
     companion object {
         internal const val SEARCH_ALL_PLANTS_QUERY = ""
     }

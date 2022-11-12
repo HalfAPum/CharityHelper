@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.planthelper.ui.navigation.Destination.*
-import com.example.planthelper.ui.screen.feed.TasksScreen
 import com.example.planthelper.ui.screen.plant.create.Calendar
 import com.example.planthelper.ui.screen.plant.create.CreatePlant
 import com.example.planthelper.ui.screen.plant.create.search.SearchPlantType
@@ -15,6 +14,7 @@ import com.example.planthelper.ui.screen.plant.details.PlantDetails
 import com.example.planthelper.ui.screen.plant.list.PlantsScreen
 import com.example.planthelper.ui.screen.purchase.Purchase
 import com.example.planthelper.ui.screen.settings.SettingsScreen
+import com.example.planthelper.ui.screen.task.TasksScreen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -30,7 +30,7 @@ fun NavHostContent(
 
         bottomNavigation {
             composable(BottomNavigation.Tasks) {
-                TasksScreen(onFeedClicked = {
+                TasksScreen(onTaskClicked = {
                     navigate(PlantDetails)
                 })
             }
@@ -58,6 +58,7 @@ fun NavHostContent(
             }
         }
 
+
         composable(PlantDetails) {
             PlantDetails(onPlantDeleteClicked = {
                 popBackStack()
@@ -79,7 +80,14 @@ fun NavHostContent(
         }
 
         composable(SearchPlantType) {
-            SearchPlantType()
+            val viewModelStateOwner = remember {
+                navController.getBackStackEntry(CreatePlant)
+            }
+
+            SearchPlantType(
+                onPlantTypeSelected = { popBackStack() },
+                viewModel = getViewModel(owner = viewModelStateOwner),
+            )
         }
 
         composable(Calendar) {

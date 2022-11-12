@@ -43,7 +43,7 @@ sealed class Destination(val route: String) {
 
     object CreatePlant : HeaderDestination("CreatePlant", "Tell us about the plant")
 
-    object SearchPlantType : Destination("SearchPlantType")
+    object SearchPlantType : HeaderDestination("SearchPlantType", "Search your plant")
 
     object Calendar : Destination("Calendar")
 

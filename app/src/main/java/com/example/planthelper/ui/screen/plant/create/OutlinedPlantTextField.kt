@@ -31,7 +31,7 @@ fun OutlinedPlantTextField(
     onClick: UnitCallback? = null,
     onValueChanged: (String) -> Unit = {},
     modifier: Modifier = Modifier,
-    content: (@Composable ColumnScope.() -> Unit)? = null,
+    content: (@Composable ColumnScope.(@Composable () -> Unit) -> Unit)? = null,
 ) = OutlinedPlantTextField(
     text = mutableStateOf(text),
     label = label,
@@ -56,7 +56,7 @@ fun OutlinedPlantTextField(
     onClick: UnitCallback? = null,
     onValueChanged: (String) -> Unit = {},
     modifier: Modifier = Modifier,
-    content: (@Composable ColumnScope.() -> Unit)? = null,
+    content: (@Composable ColumnScope.(@Composable () -> Unit) -> Unit)? = null,
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
@@ -94,7 +94,7 @@ fun OutlinedPlantTextField(
                         innerTextField()
                     } else {
                         //Custom content
-                        content()
+                        content(innerTextField)
                     }
                 }
             },

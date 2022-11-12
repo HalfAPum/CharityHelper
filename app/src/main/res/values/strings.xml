@@ -15,4 +15,5 @@
     <string name="to">to</string>
     <string name="current_pay_plan">Current pay plan:</string>
     <string name="get_premium">Get premium</string>
+    <string name="plant_type_hint">Plant type:</string>
 </resources>

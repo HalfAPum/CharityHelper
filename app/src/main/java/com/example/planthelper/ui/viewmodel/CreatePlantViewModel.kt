@@ -6,7 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.planthelper.data.repository.PhotoRepository
+import com.example.planthelper.data.repository.PlantInfoRepository
 import com.example.planthelper.domain.AddPlantUseCase
+import com.example.planthelper.models.data.local.Plant
 import com.example.planthelper.models.ui.plant.create.EmptyCreatePlantUiState
 import com.halfapum.general.coroutines.launchCatching
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,6 +19,7 @@ import java.util.*
 @KoinViewModel
 class CreatePlantViewModel(
     private val photoRepository: PhotoRepository,
+    private val plantInfoRepository: PlantInfoRepository,
     private val addPlantUseCase: AddPlantUseCase,
 ) : ViewModel() {
 
@@ -25,6 +28,11 @@ class CreatePlantViewModel(
 
     var createPlantUiState by mutableStateOf(EmptyCreatePlantUiState())
         private set
+
+    init {
+        //Preload plant types
+        launchCatching { plantInfoRepository.loadPlantTypes() }
+    }
 
     fun saveBitmap(bitmap: Bitmap?) = bitmap?.let {
         val imagePath = photoRepository.saveBitmap(
@@ -55,6 +63,13 @@ class CreatePlantViewModel(
         } else {
             createPlantUiState = createPlantUiState.copyWithErrors()
         }
+    }
+
+    fun plantTypeSelected(plant: Plant) {
+        createPlantUiState = createPlantUiState.copy(
+            plantType = plant.originName,
+            defaultImageUrl = plant.imageUrl,
+        )
     }
 
 }

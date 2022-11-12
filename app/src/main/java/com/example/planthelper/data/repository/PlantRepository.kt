@@ -29,14 +29,13 @@ class PlantRepository(
         plantDao.delete(plant)
     }
 
+    suspend fun getPlant(id: Long) = plantDao.get(id)
+
     fun plantsFlow() =
         //TEMP
         flowOf(testData)
         // REAL
         // plantDao.flowAll()
-
-    suspend fun searchPlant(query: String) = plantInfoRepository.searchPlant(query)
-
 
     private val testData = listOf(
         previewPlant,
