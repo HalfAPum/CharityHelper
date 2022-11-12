@@ -1,10 +1,13 @@
 package com.example.planthelper.ui.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.planthelper.ui.navigation.Destination.*
 import com.example.planthelper.ui.screen.plant.create.Calendar
@@ -14,7 +17,8 @@ import com.example.planthelper.ui.screen.plant.details.PlantDetails
 import com.example.planthelper.ui.screen.plant.list.PlantsScreen
 import com.example.planthelper.ui.screen.purchase.Purchase
 import com.example.planthelper.ui.screen.settings.SettingsScreen
-import com.example.planthelper.ui.screen.task.Tasks
+import com.example.planthelper.ui.screen.task.TasksScreen
+import com.example.planthelper.ui.theme.LightGreyBackground
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -30,9 +34,16 @@ fun NavHostContent(
 
         bottomNavigation {
             composable(BottomNavigation.Tasks) {
-                Tasks(onTaskClicked = {
-                    navigate(PlantDetails)
-                })
+                Column(modifier = Modifier
+                    .background(color = LightGreyBackground)
+                    .padding(top = 8.dp)
+                ) {
+                    TasksScreen(
+                        onTaskClicked = {
+                            navigate(PlantDetails)
+                        }
+                    )
+                }
             }
 
             composable(BottomNavigation.Plants) {
@@ -60,9 +71,16 @@ fun NavHostContent(
 
 
         composable(PlantDetails) {
-            PlantDetails(onPlantDeleteClicked = {
-                popBackStack()
-            })
+//            plant = previewPlant,
+
+            PlantDetails(
+                onDeleteClicked = {
+                    popBackStack()
+                },
+                onEditClicked = {
+                    //TODO GO TO EDIT PAGE
+                }
+            )
         }
 
         composable(CreatePlant) {

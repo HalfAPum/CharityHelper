@@ -29,7 +29,7 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Tasks(
+fun TasksScreen(
     onTaskClicked: GenericCallback<Task>,
     viewModel: TaskViewModel = getViewModel(),
     modifier: Modifier = Modifier
@@ -99,14 +99,14 @@ fun Tasks(
     }
 }
 
-private const val ACTIVE_TASKS_INDEX = 0
-private const val HISTORY_TASKS_INDEX = 1
+internal const val ACTIVE_TASKS_INDEX = 0
+internal const val HISTORY_TASKS_INDEX = 1
 
-private val tabs = listOf("Active", "History")
+internal val tabs = listOf("Active", "History")
 
 
 @Preview(showBackground = true)
 @Composable
 fun TasksScreenPreview() {
-    Tasks({})
+    TasksScreen({})
 }

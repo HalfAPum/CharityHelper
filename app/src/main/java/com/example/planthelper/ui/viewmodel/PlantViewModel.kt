@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.planthelper.domain.PlantSlotFlowUseCase
+import com.example.planthelper.domain.plant.PlantSlotFlowUseCase
 import com.example.planthelper.models.ui.plants.EmptyPlantSlotsUiState
 import com.example.planthelper.models.ui.plants.PlantSlotsUiState
 import kotlinx.coroutines.flow.launchIn

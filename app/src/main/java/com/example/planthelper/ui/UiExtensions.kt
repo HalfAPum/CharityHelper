@@ -13,12 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.dt.composedatepicker.*
 import java.text.DateFormatSymbols
 import java.util.*
+import kotlin.math.roundToInt
 
 @Composable
 fun Scaffold(
@@ -190,5 +193,59 @@ fun BoxScope.ComposeCalendar(
                     positiveButtonTitle=positiveButtonTitle)
             }
         }
+    }
+}
+
+fun Arrangement.spaceBetween(space: Dp): Arrangement.HorizontalOrVertical {
+    fun IntArray.forEachIndexed(reversed: Boolean, action: (Int, Int) -> Unit) {
+        if (!reversed) {
+            forEachIndexed(action)
+        } else {
+            for (i in (size - 1) downTo 0) {
+                action(i, get(i))
+            }
+        }
+    }
+
+    fun placeSpaceBetween(
+        totalSize: Int,
+        size: IntArray,
+        outPosition: IntArray,
+        reverseInput: Boolean
+    ) {
+        val consumedSize = size.fold(0) { a, b -> a + b }
+        val gapSize = if (size.size > 1) {
+            (totalSize - consumedSize).toFloat() / (size.size - 1)
+        } else {
+            0f
+        }
+        var current = 0f
+        size.forEachIndexed(reverseInput) { index, it ->
+            outPosition[index] = current.roundToInt()
+            current += it.toFloat() + gapSize
+        }
+    }
+
+    return object : Arrangement.HorizontalOrVertical {
+        override val spacing = space
+
+        override fun Density.arrange(
+            totalSize: Int,
+            sizes: IntArray,
+            layoutDirection: LayoutDirection,
+            outPositions: IntArray
+        ) = if (layoutDirection == LayoutDirection.Ltr) {
+            placeSpaceBetween(totalSize, sizes, outPositions, reverseInput = false)
+        } else {
+            placeSpaceBetween(totalSize, sizes, outPositions, reverseInput = true)
+        }
+
+        override fun Density.arrange(
+            totalSize: Int,
+            sizes: IntArray,
+            outPositions: IntArray
+        ) = placeSpaceBetween(totalSize, sizes, outPositions, reverseInput = false)
+
+        override fun toString() = "Arrangement#SpaceBetween"
     }
 }

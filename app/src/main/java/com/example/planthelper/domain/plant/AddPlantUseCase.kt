@@ -1,4 +1,4 @@
-package com.example.planthelper.domain
+package com.example.planthelper.domain.plant
 
 import com.example.planthelper.data.repository.PlantRepository
 import com.example.planthelper.data.repository.TaskRepository

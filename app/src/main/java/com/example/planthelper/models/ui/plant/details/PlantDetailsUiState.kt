@@ -1,7 +1,7 @@
 package com.example.planthelper.models.ui.plant.details
 
-data class PlantDetailsUiState(
-    val info: String
-)
+import com.example.planthelper.models.data.local.Plant
 
-fun EmptyPlantDetailsUiState() = PlantDetailsUiState("")
+data class PlantDetailsUiState(
+    val plant: Plant
+)

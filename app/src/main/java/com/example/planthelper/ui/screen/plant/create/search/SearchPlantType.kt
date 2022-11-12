@@ -30,48 +30,50 @@ fun SearchPlantType(
     onPlantTypeSelected: () -> Unit,
     searchViewModel: SearchViewModel = getViewModel(),
 ) = with(searchViewModel) {
-    Column(modifier = Modifier
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        modifier = Modifier
             .fillMaxSize()
             .background(color = LightGreyBackground)
             .padding(20.dp)
     ) {
-        val plantTypeText = rememberSaveable { mutableStateOf("") }
+        item {
+            val plantTypeText = rememberSaveable { mutableStateOf("") }
 
-        OutlinedPlantTextField(
-            text = plantTypeText,
-            label = stringResource(R.string.plant_type_hint),
-            singleLine = true,
-            onValueChanged = { searchViewModel.search(it) }
-        ) { innerTextField ->
-            Row {
-               innerTextField()
+            OutlinedPlantTextField(
+                text = plantTypeText,
+                label = stringResource(R.string.plant_type_hint),
+                singleLine = true,
+                onValueChanged = { searchViewModel.search(it) }
+            ) { innerTextField ->
+                Row {
+                    innerTextField()
 
-               Spacer(modifier = Modifier.weight(1F).background(color = LightGreyBackground))
+                    Spacer(modifier = Modifier.weight(1F).background(color = LightGreyBackground))
 
-               Image(
-                   imageVector = Icons.Rounded.Cancel,
-                   contentDescription = null,
-                   modifier = Modifier
-                       .clip(CircleShape)
-                       .clickable { plantTypeText.value = "" }
-               )
+                    Image(
+                        imageVector = Icons.Rounded.Cancel,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .clickable { plantTypeText.value = "" }
+                    )
+                }
             }
         }
 
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            ListSpacer()
+        ListSpacer()
 
-            items(searchUiState.plants) { plant ->
-                SearchCard(
-                    plant = plant,
-                    onPlantClicked = {
-                        viewModel.plantTypeSelected(plant)
-                        onPlantTypeSelected()
-                    }
-                )
-            }
-
-            ListSpacer()
+        items(searchUiState.plants) { plant ->
+            SearchCard(
+                plant = plant,
+                onPlantClicked = {
+                    viewModel.plantTypeSelected(plant)
+                    onPlantTypeSelected()
+                }
+            )
         }
+
+        ListSpacer()
     }
 }
