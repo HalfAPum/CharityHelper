@@ -38,7 +38,7 @@ class PlantInfoRepository(
         query: String,
     ) = keys.filter {
         if (query == SEARCH_ALL_PLANTS_QUERY) true
-        else it.originName.contains(query)
+        else it.originName.contains(query, ignoreCase = true)
     }
 
     suspend fun loadPlantTypes() { searchPlant(SEARCH_ALL_PLANTS_QUERY) }
