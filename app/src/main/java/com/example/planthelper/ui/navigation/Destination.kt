@@ -1,35 +1,33 @@
 package com.example.planthelper.ui.navigation
 
-import android.graphics.drawable.Icon
-import androidx.annotation.StringRes
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BrightnessHigh
-import androidx.compose.material.icons.rounded.List
-import androidx.compose.material.icons.rounded.ListAlt
-import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
+import com.example.planthelper.R
 import com.example.planthelper.ui.navigation.Destination.BottomNavigation
 
 sealed class Destination(val route: String) {
 
     sealed class BottomNavigation(
         name: String,
-        val icon: ImageVector,
+        @DrawableRes val icon: Int,
         //TODO CHANGE TO STRING RESOURCE
         val text: String,
     ): Destination(name) {
 
-        object Feed : BottomNavigation("Feed", Icons.Rounded.ListAlt, "Feed")
+        object Feed : BottomNavigation("Feed", R.drawable.ic_activity, "Feed")
 
-        object Plants : BottomNavigation("Plants", Icons.Rounded.BrightnessHigh, "Plants")
+        object Plants : BottomNavigation("Plants", R.drawable.ic_plant, "Plants")
 
-        object Settings : BottomNavigation("Settings", Icons.Rounded.Settings, "Settings")
+        object Settings : BottomNavigation("Settings", R.drawable.ic_settings, "Settings")
 
     }
 
     object PlantDetails : Destination("PlantDetails")
 
     object CreatePlant : Destination("CreatePlant")
+
+    object SearchPlantType : Destination("SearchPlantType")
+
+    object Calendar : Destination("Calendar")
 
     object Purchase : Destination("Purchase")
 }

@@ -1,4 +1,4 @@
 package com.example.planthelper.domain
 
-class PlantTaskUseCase {
+class SavePlantTaskUseCase {
 }

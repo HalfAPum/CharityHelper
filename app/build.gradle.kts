@@ -87,7 +87,16 @@ dependencies {
 
 
     //Common extensions
-    implementation("com.github.HalfAPum:CommonExtensions:0.2.0")
+    implementation("com.github.HalfAPum:CommonExtensions:0.2.1")
+
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+    //Shimmer
+    implementation ("com.valentinilk.shimmer:compose-shimmer:1.0.3")
+
+    //Date picker
+    implementation ("com.github.DogusTeknoloji:compose-date-picker:1.0.1")
 
     //Test dependencies
     // optional - Test helpers

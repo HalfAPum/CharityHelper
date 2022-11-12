@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Planthelper</string>
+    <string name="age">Age</string>
+    <string name="health">Health</string>
+    <string name="add_new_plant">Add new plant</string>
+    <string name="name">Name:</string>
+    <string name="plant_type">Plant type:</string>
+    <string name="plant_birthday">Plant birthday (approx.):</string>
+    <string name="save">Save</string>
 </resources>

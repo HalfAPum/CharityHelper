@@ -1,12 +1,10 @@
 package com.example.planthelper.ui.navigation
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.core.net.toUri
 import androidx.navigation.*
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 
 fun NavGraphBuilder.bottomNavigation(builder: NavGraphBuilder.() -> Unit) {
     builder()
@@ -46,3 +44,7 @@ fun NavHostController.navigate(
 ) {
     navigate(destination.route, navOptions, navigatorExtras)
 }
+
+fun NavController.getBackStackEntry(
+    destination: Destination
+) = getBackStackEntry(destination.route)

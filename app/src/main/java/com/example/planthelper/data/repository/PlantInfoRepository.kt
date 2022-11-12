@@ -30,4 +30,19 @@ class PlantInfoRepository(
         return get(plantKey) ?: emptyList()
     }
 
+    suspend fun searchPlant(query: String) = IOOperation {
+        getAllPlants().search(query)
+    }
+
+    private fun Map<Plant, *>.search(
+        query: String,
+    ) = keys.filter {
+        if (query == SEARCH_ALL_PLANTS_QUERY) true
+        else it.originName.contains(query)
+    }
+
+    companion object {
+        internal const val SEARCH_ALL_PLANTS_QUERY = ""
+    }
+
 }
