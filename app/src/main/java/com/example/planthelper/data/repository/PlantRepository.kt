@@ -20,21 +20,23 @@ class PlantRepository(
     private val plantDao: PlantDao,
 ) : Repository() {
 
-    suspend fun addPlant(plant: Plant) = withContext(IODispatcher) {
+    suspend fun getPlants() {}
+
+    suspend fun addPlant(plant: Plant) = IOOperation {
         val schedules = plantInfoRepository.getPlantSchedules(plant)
 
         savePlantWithScheduleDaoHelper.save(plant, schedules)
     }
 
-    suspend fun updatePlant(plant: Plant) = withContext(IODispatcher) {
+    suspend fun updatePlant(plant: Plant) = IOOperation {
         plantDao.update(plant)
     }
 
-    suspend fun deletePlant(plant: Plant) = withContext(IODispatcher) {
+    suspend fun deletePlant(plant: Plant) = IOOperation {
         plantDao.delete(plant)
     }
 
-    suspend fun searchPlant(query: String) = withContext(IODispatcher) {
+    suspend fun searchPlant(query: String) = IOOperation {
         plantInfoRepository.getAllPlants().search(query)
     }
 

@@ -6,5 +6,5 @@ data class Scheduling(
     @SerializedName("name")
     val name: String?,
     @SerializedName("schedule")
-    val monthSchedule: MonthSchedule
+    val monthSchedule: Map<String, Int>
 )

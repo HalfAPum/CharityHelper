@@ -15,12 +15,12 @@ class PlantInfoRepository(
 
     private val allPlantsInfo: HashMap<Plant, List<Schedule>> = HashMap()
 
-    suspend fun getAllPlants(): Map<Plant, List<Schedule>> = withContext(IODispatcher) {
+    suspend fun getAllPlants(): Map<Plant, List<Schedule>> = IOOperation {
         if (allPlantsInfo.isEmpty()) {
             allPlantsInfo.putAll(plantHelper.getPlants())
         }
 
-        return@withContext allPlantsInfo
+        return@IOOperation allPlantsInfo
     }
 
     suspend fun getPlantSchedules(

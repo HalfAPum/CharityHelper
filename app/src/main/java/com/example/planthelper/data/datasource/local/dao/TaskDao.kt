@@ -13,7 +13,7 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task> {
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Task WHERE id = :id")
-    override fun flow(id: Int): Flow<Task>
+    override fun flow(id: Long): Flow<Task>
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Task")

@@ -12,10 +12,13 @@ interface ScheduleDao: BaseDao<Schedule>, GetByIdDao<Schedule>, GetAllDao<Schedu
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Schedule WHERE id = :id")
-    override suspend fun get(id: Int): Schedule
+    override suspend fun get(id: Long): Schedule
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Schedule")
     override suspend fun getAll(): List<Schedule>
+
+    @Query("SELECT * FROM Schedule WHERE plant_id = :plantId")
+    suspend fun getSchedulesByPlantId(plantId: Long): List<Schedule>
 
 }
