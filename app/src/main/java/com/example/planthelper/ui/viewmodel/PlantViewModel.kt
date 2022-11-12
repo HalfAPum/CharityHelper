@@ -6,12 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.planthelper.data.repository.PlantRepository
 import com.example.planthelper.models.ui.plants.EmptyPlantSlotsUiState
 import com.example.planthelper.models.ui.plants.PlantSlot
 import com.example.planthelper.models.ui.plants.PlantSlot.FilledSlot
 import com.example.planthelper.models.ui.plants.PlantSlotsUiState
+import com.example.planthelper.utils.launch
+import kotlinx.coroutines.launch
 
-class PlantsViewModel : ViewModel() {
+class PlantViewModel(private val plantRepository: PlantRepository) : ViewModel() {
 
     val columns = GridCells.Fixed(PLANT_COLUMNS)
 
@@ -23,6 +27,9 @@ class PlantsViewModel : ViewModel() {
     }
 
     private fun loadPlantSlots() {
+        launch {
+            plantRepository.getPlants()
+        }
         plantSlotsUiState = plantSlotsUiState.copy(plantSlots = testData)
     }
 

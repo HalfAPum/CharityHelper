@@ -8,7 +8,7 @@ val viewModelModule = module {
 
     viewModel { FeedViewModel() }
 
-    viewModel { PlantsViewModel() }
+    viewModel { PlantViewModel(get()) }
 
     viewModel { SettingsViewModel() }
 

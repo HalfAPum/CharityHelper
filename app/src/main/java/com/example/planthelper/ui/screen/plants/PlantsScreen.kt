@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import com.example.planthelper.models.ui.plants.PlantSlot.FilledSlot
 import com.example.planthelper.models.ui.plants.PlantSlot.EmptySlot
 import com.example.planthelper.models.ui.plants.PlantSlot.LockedSlot
-import com.example.planthelper.ui.viewmodel.PlantsViewModel
+import com.example.planthelper.ui.viewmodel.PlantViewModel
 import com.example.planthelper.utils.GenericCallback
 import com.example.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
@@ -20,7 +20,7 @@ fun PlantsScreen(
     onPlantClicked: GenericCallback<FilledSlot>,
     onEmptySlotClicked: UnitCallback,
     onLockedSlotClicked: UnitCallback,
-    viewModel: PlantsViewModel = getViewModel(),
+    viewModel: PlantViewModel = getViewModel(),
 ) {
     LazyVerticalGrid(columns = viewModel.columns) {
         items(viewModel.plantSlotsUiState.plantSlots) { slot ->
