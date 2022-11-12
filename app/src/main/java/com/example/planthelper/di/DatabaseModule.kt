@@ -16,11 +16,19 @@ val databaseModule = module {
         PLANT_DATABASE
     ).build()
 
-    fun providePlantDao(database: PlantDatabase) = database.getPlantDao()
-
     single { provideRoomDatabase(androidContext()) }
 
+    fun providePlantDao(database: PlantDatabase) = database.getPlantDao()
+
     factory { providePlantDao(get()) }
+
+    fun provideTaskDao(database: PlantDatabase) = database.getTaskDao()
+
+    factory { provideTaskDao(get()) }
+
+    fun provideScheduleDao(database: PlantDatabase) = database.getScheduleDao()
+
+    factory { provideScheduleDao(get()) }
 
 }
 

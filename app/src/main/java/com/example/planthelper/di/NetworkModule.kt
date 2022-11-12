@@ -40,5 +40,5 @@ val networkModule = module {
 
 }
 
-private const val PLANT_INFO_JSON_BASE_URL = "https://raw.githubusercontent.com/"
-const val PLANT_INFO_JSON_URL = "https://raw.githubusercontent.com/HalfAPum/Planthelper/master/release/plant_info.json?token=GHSAT0AAAAAABYUMQU37ZHOU7EAJ2MIYC74YZQB6ZQ"
+private const val PLANT_INFO_JSON_BASE_URL = "https://drive.google.com/"
+const val PLANT_INFO_JSON_URL = "https://drive.google.com/uc?export=download&confirm=no_antivirus&id=1LeIzmxhkMfyaaEfQOS_OcdDBFGuvSveT"
