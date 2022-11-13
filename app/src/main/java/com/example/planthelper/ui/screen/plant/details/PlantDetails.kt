@@ -110,7 +110,7 @@ fun PlantDetails(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         TaskCard(
-                            task = item,
+                            compositeTask = item,
                             onTaskClicked = {},
                             onAcceptClicked = { taskViewModel.completeTask(it.task) },
                         )

@@ -87,7 +87,7 @@ fun TasksScreen(
 
                 items(tasks) { item ->
                     TaskCard(
-                        task = item,
+                        compositeTask = item,
                         onTaskClicked = { onTaskClicked(it.plant) },
                         onAcceptClicked = { completeTask(it.task) },
                     )
