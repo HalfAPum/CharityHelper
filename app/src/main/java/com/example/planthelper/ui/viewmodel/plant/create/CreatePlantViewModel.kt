@@ -1,4 +1,4 @@
-package com.example.planthelper.ui.viewmodel
+package com.example.planthelper.ui.viewmodel.plant.create
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.getValue

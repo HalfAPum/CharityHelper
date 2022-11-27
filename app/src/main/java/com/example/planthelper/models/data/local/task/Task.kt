@@ -2,22 +2,28 @@ package com.example.planthelper.models.data.local.task
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.example.planthelper.models.data.local.Plant
-import com.example.planthelper.models.data.local.schedule.Schedule
 
 
 @Entity(foreignKeys = [
-    ForeignKey(
-        entity = Schedule::class,
-        parentColumns = ["id"],
-        childColumns = ["schedule_id"],
-        onDelete = ForeignKey.CASCADE,
-        onUpdate = ForeignKey.CASCADE,
-    )
+//    ForeignKey(
+//        entity = Schedule::class,
+//        parentColumns = ["id"],
+//        childColumns = ["schedule_id"],
+//        onDelete = ForeignKey.CASCADE,
+//        onUpdate = ForeignKey.CASCADE,
+//    ),
+//    ForeignKey(
+//        entity = Plant::class,
+//        parentColumns = ["id"],
+//        childColumns = ["plant_id"],
+//        onDelete = ForeignKey.CASCADE,
+//        onUpdate = ForeignKey.CASCADE,
+//    )
 ])
 data class Task(
+    @ColumnInfo(name = "plant_id")
+    val plantId: Long,
     @ColumnInfo(name = "schedule_id")
     val scheduleId: Long,
     @ColumnInfo(name = "name")
@@ -30,5 +36,5 @@ data class Task(
     val status: TaskStatus = TaskStatus.Scheduled,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long = -1,
+    val id: Long = 0,
 )

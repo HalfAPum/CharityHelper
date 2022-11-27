@@ -51,7 +51,7 @@ sealed class BottomNavigation(
 
 object PlantDetails : Destination("PlantDetails/{plantId}") {
 
-    const val PLANT_ID_NAV_PARAM = "plantIdNavParam"
+    const val PLANT_ID_NAV_PARAM = "plantId"
 
     override val params = listOf(PLANT_ID_NAV_PARAM)
 

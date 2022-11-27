@@ -1,6 +1,7 @@
 package com.example.planthelper.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         collectLatestException {
+
+            println("$it")
+            Log.e("FUCK", "$it")
+            it.stackTrace.forEach {
+                Log.e("FUCK", "${it}")
+            }
+            println(it.stackTrace)
+
             Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
             true
         }

@@ -14,10 +14,9 @@ class SavePlantWithScheduleDaoHelper(
 ): DaoHelper() {
 
     suspend fun save(plant: Plant, schedules: List<Schedule>) = withTransaction {
-        val plantId = plantDao.insert(plant)
-
-        val schedulesWithPlantId = schedules.map { it.copy(plantId = plantId) }
-        scheduleDao.insert(schedulesWithPlantId)
+        println("FUCK SAVE ${plant} with $schedules")
+        scheduleDao.insert(schedules)
+        return@withTransaction plantDao.insert(plant)
     }
 
 }

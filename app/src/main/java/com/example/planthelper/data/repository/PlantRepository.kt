@@ -5,7 +5,6 @@ import com.example.planthelper.data.datasource.local.helper.SavePlantWithSchedul
 import com.example.planthelper.data.repository.base.Repository
 import com.example.planthelper.models.data.local.Plant
 import com.example.planthelper.utils.previewPlant
-import kotlinx.coroutines.flow.flowOf
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -15,7 +14,7 @@ class PlantRepository(
     private val plantDao: PlantDao,
 ) : Repository() {
 
-    suspend fun addPlant(plant: Plant) = IOOperation {
+    suspend fun addPlant(plant: Plant): Long = IOOperation {
         val schedules = plantInfoRepository.getPlantSchedules(plant)
 
         savePlantWithScheduleDaoHelper.save(plant, schedules)
@@ -31,11 +30,9 @@ class PlantRepository(
 
     suspend fun getPlant(id: Long) = plantDao.get(id)
 
-    fun plantsFlow() =
-        //TEMP
-        flowOf(testData)
-        // REAL
-        // plantDao.flowAll()
+    fun plantsFlow() = plantDao.flowAll()
+
+    fun plantFlow(plantId: Long) = plantDao.flow(plantId)
 
     private val testData = listOf(
         previewPlant,

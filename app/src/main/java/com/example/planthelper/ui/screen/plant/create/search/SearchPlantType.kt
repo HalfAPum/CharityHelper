@@ -20,8 +20,8 @@ import com.example.planthelper.R
 import com.example.planthelper.ui.ListSpacer
 import com.example.planthelper.ui.screen.plant.create.OutlinedPlantTextField
 import com.example.planthelper.ui.theme.LightGreyBackground
-import com.example.planthelper.ui.viewmodel.CreatePlantViewModel
-import com.example.planthelper.ui.viewmodel.SearchViewModel
+import com.example.planthelper.ui.viewmodel.plant.create.CreatePlantViewModel
+import com.example.planthelper.ui.viewmodel.plant.details.SearchViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable

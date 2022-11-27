@@ -16,9 +16,9 @@ fun PlantsResponse.map(): Map<Plant, List<Schedule>> {
             age = 0,
         )
 
-        val waterSchedule = plantInfo.watering.map(ScheduleType.Watering)
-        val fertilizerSchedule = plantInfo.fertilizer.map(ScheduleType.Fertilizer)
-        val pruningSchedule = plantInfo.pruning.map(ScheduleType.Pruning)
+        val waterSchedule = plantInfo.watering.map(ScheduleType.Watering, plant.originName)
+        val fertilizerSchedule = plantInfo.fertilizer.map(ScheduleType.Fertilizer, plant.originName)
+        val pruningSchedule = plantInfo.pruning.map(ScheduleType.Pruning, plant.originName)
 
         result[plant] = listOf(waterSchedule, fertilizerSchedule, pruningSchedule)
     }
@@ -26,8 +26,8 @@ fun PlantsResponse.map(): Map<Plant, List<Schedule>> {
     return result
 }
 
-fun Scheduling.map(scheduleType: ScheduleType) = Schedule(
-    plantId = -1,
+fun Scheduling.map(scheduleType: ScheduleType, plantOriginName: String) = Schedule(
+    plantName = plantOriginName,
     scheduleType = scheduleType,
     name = name,
     monthSchedule = monthSchedule

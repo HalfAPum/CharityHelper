@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planthelper.R
 import com.example.planthelper.ui.theme.LightGreyBackground
-import com.example.planthelper.ui.viewmodel.CreatePlantViewModel
+import com.example.planthelper.ui.viewmodel.plant.create.CreatePlantViewModel
 import com.example.planthelper.utils.UnitCallback
 import com.halfapum.general.coroutines.launchCatching
 import kotlinx.coroutines.flow.collectLatest

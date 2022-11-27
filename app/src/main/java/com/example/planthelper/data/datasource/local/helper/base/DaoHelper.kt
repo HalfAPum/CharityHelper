@@ -7,8 +7,8 @@ open class DaoHelper {
 
     private val transactionManager: TransactionManager by inject()
 
-    protected suspend fun <R> withTransaction(block: suspend () -> R) {
-        transactionManager.withTransaction(block)
+    protected suspend fun <R> withTransaction(block: suspend () -> R): R {
+        return transactionManager.withTransaction(block)
     }
 
 }

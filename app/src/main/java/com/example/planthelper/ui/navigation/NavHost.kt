@@ -40,6 +40,7 @@ fun NavHostContent(
                 ) {
                     TasksScreen(
                         onTaskClicked = {
+                            navigationPlantId = it.id
                             navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, it.id))
                         }
                     )
@@ -49,6 +50,7 @@ fun NavHostContent(
             composable(BottomNavigation.Plants) {
                 PlantsScreen(
                     onPlantClicked = {
+                        navigationPlantId = it.id
                         navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, it.id))
                     },
                     onEmptySlotClicked = {
@@ -71,11 +73,11 @@ fun NavHostContent(
 
 
         composable(PlantDetails) { navBackStackEntry ->
-            val plantId = navBackStackEntry.arguments?.getLong(PlantDetails.PLANT_ID_NAV_PARAM)
+//            val plantId = navBackStackEntry.arguments?.getString(PlantDetails.PLANT_ID_NAV_PARAM)?.toLong()
 
-            plantId?.let {
+//            plantId?.let {
                 PlantDetails(
-                    plantId = plantId,
+                    plantId = navigationPlantId,
                     onDeleteClicked = {
                         popBackStack()
                     },
@@ -83,7 +85,7 @@ fun NavHostContent(
                         //TODO GO TO EDIT PAGE
                     },
                 )
-            }
+//            }
         }
 
         composable(CreatePlant) {
@@ -129,3 +131,5 @@ fun NavHostContent(
     }
 }
 
+//TODO REALLY TEMP FIX NAVIGATION SHIT LATER
+var navigationPlantId = 0L

@@ -1,4 +1,4 @@
-package com.example.planthelper.ui.viewmodel
+package com.example.planthelper.ui.viewmodel.plant.details
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

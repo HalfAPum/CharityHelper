@@ -16,7 +16,7 @@ import com.example.planthelper.ui.screen.plant.list.slot.EmptySlot
 import com.example.planthelper.ui.screen.plant.list.slot.FilledPlantSlot
 import com.example.planthelper.ui.screen.plant.list.slot.LockedSlot
 import com.example.planthelper.ui.theme.LightGreyBackground
-import com.example.planthelper.ui.viewmodel.PlantViewModel
+import com.example.planthelper.ui.viewmodel.plant.list.PlantViewModel
 import com.example.planthelper.utils.GenericCallback
 import com.example.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel

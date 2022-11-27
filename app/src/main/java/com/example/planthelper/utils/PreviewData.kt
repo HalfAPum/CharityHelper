@@ -15,12 +15,14 @@ val previewPlant = Plant(
     health = 0.78,
 )
 val previewTask = Task(
+    plantId = 1,
     scheduleId = 1,
     name = "Watering",
     healthImpact = 3.0,
     scheduledDate = "Tomorrow",
 )
 val previewTaskCompleted = Task(
+    plantId = 1,
     scheduleId = 1,
     name = "Watering",
     healthImpact = 3.0,
@@ -28,6 +30,7 @@ val previewTaskCompleted = Task(
     status = TaskStatus.Completed
 )
 val previewTaskFailed = Task(
+    plantId = 1,
     scheduleId = 1,
     name = "Watering",
     healthImpact = 3.0,
@@ -35,7 +38,7 @@ val previewTaskFailed = Task(
     status = TaskStatus.Failed
 )
 val previewSchedule = Schedule(
-    plantId = -1,
+    plantName = "Cucumber",
     scheduleType = ScheduleType.Watering,
     name = "Some additional info",
     monthSchedule = mapOf()

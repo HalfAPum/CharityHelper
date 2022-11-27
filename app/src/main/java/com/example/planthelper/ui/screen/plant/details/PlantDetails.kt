@@ -25,8 +25,8 @@ import com.example.planthelper.ui.screen.task.TaskCard
 import com.example.planthelper.ui.screen.task.tabs
 import com.example.planthelper.ui.spaceBetween
 import com.example.planthelper.ui.theme.LightGreyBackground
-import com.example.planthelper.ui.viewmodel.PlantDetailsViewModel
 import com.example.planthelper.ui.viewmodel.TaskViewModel
+import com.example.planthelper.ui.viewmodel.plant.details.PlantDetailsViewModel
 import com.example.planthelper.utils.GenericCallback
 import com.example.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
@@ -40,7 +40,9 @@ fun PlantDetails(
     onEditClicked: GenericCallback<Plant>,
 ) {
     val viewModel = getViewModel<PlantDetailsViewModel>(parameters = { parametersOf(plantId) })
-    val taskViewModel = getViewModel<TaskViewModel>(parameters = { parametersOf(plantId) })
+    val taskViewModel = getViewModel<TaskViewModel>(
+        parameters = { parametersOf(plantId) }
+    )
     with(viewModel) {
         var tabIndex by remember { mutableStateOf(0) }
 

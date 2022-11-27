@@ -18,13 +18,13 @@ import com.example.planthelper.models.data.local.task.Task
         Task::class,
         Schedule::class,
     ],
-    version = 2
+    version = 4,
 )
 @TypeConverters(IntMapConverter::class)
 abstract class PlantDatabase : RoomDatabase(), TransactionManager {
 
-    override suspend fun <R> withTransaction(block: suspend () -> R) {
-        (this as RoomDatabase).withTransaction(block)
+    override suspend fun <R> withTransaction(block: suspend () -> R): R {
+        return (this as RoomDatabase).withTransaction(block)
     }
 
     abstract fun getPlantDao(): PlantDao

@@ -24,7 +24,7 @@ data class Plant(
     val health: Double = 1.0,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long = -1
+    val id: Long = 0
 ) {
 
     val plantName: String

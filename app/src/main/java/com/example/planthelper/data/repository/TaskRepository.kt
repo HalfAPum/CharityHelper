@@ -14,6 +14,7 @@ import com.example.planthelper.utils.forEachMonth
 import com.example.planthelper.utils.monthDay
 import com.example.planthelper.utils.toDate
 import com.example.planthelper.utils.totalDaysInMonth
+import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -23,8 +24,14 @@ class TaskRepository(
 ) : Repository() {
 
     fun taskFlow(plantId: Long?) = plantId?.let {
-        taskDao.flowByPlantId(plantId)
-    } ?: taskDao.flowAll()
+        taskDao.flowByPlantId(plantId).map {
+            println("PRINT SHITTY TASK $it")
+            it
+        }
+    } ?: taskDao.flowAll().map {
+        println("PRINT SHITTY TASK $it")
+        it
+    }
 
     suspend fun completeTask(task: Task) {
         val completedTask = task.copy(status = TaskStatus.Completed)
@@ -33,18 +40,20 @@ class TaskRepository(
     }
 
     suspend fun generateFirstTasksForPlant(plant: Plant) = IOOperation {
-        val plantSchedules = scheduleDao.getSchedulesByPlantId(plant.id)
+        val plantSchedules = scheduleDao.getSchedulesByPlantOriginName(plant.originName)
 
-        val tasks = generateFirstPlantTasks(plantSchedules)
+        val tasks = generateFirstPlantTasks(schedules = plantSchedules, plantId = plant.id)
 
         taskDao.insert(tasks)
     }
 
     private fun generateFirstPlantTasks(
-        schedules: List<Schedule>
-    ) = schedules.map { it.generateFirstTask() }
+        schedules: List<Schedule>,
+        plantId: Long,
+    ) = schedules.map { it.generateFirstTask(plantId) }
 
-    private fun Schedule.generateFirstTask() = Task(
+    private fun Schedule.generateFirstTask(plantId: Long) = Task(
+        plantId = plantId,
         scheduleId = id,
         name = name ?: scheduleType.action,
         healthImpact = scheduleType.healthImpact,

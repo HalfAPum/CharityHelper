@@ -18,7 +18,7 @@ interface ScheduleDao: BaseDao<Schedule>, GetByIdDao<Schedule>, GetAllDao<Schedu
     @Query("SELECT * FROM Schedule")
     override suspend fun getAll(): List<Schedule>
 
-    @Query("SELECT * FROM Schedule WHERE plant_id = :plantId")
-    suspend fun getSchedulesByPlantId(plantId: Long): List<Schedule>
+    @Query("SELECT * FROM Schedule WHERE origin_plant_name = :plantOriginName")
+    suspend fun getSchedulesByPlantOriginName(plantOriginName: String): List<Schedule>
 
 }

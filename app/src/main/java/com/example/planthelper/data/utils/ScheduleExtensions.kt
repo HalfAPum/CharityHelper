@@ -5,12 +5,12 @@ import com.example.planthelper.utils.Month
 import com.example.planthelper.utils.asString
 
 fun Schedule.throwIllegalMonthException(): Nothing = throw IllegalArgumentException(
-    "Empty ${scheduleType.name} schedule for plant with id: $plantId"
+    "Empty ${scheduleType.name} schedule for plant with id: $plantName"
 )
 
 context (Month)
 val Schedule.scheduledMonthRepetitions: Int
-    get() = monthSchedule[this@Month.asString] ?: throwIllegalMonthException()
+    get() = monthSchedule[this@Month.asString] ?: 0
 
 context (Month)
 val Schedule.monthRepetitionsAreAtLeastNotZero: Boolean
