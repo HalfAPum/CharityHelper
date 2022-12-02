@@ -1,7 +1,6 @@
 package com.example.planthelper.data.repository
 
 import com.example.planthelper.data.datasource.local.dao.PlantDao
-import com.example.planthelper.data.datasource.local.helper.SavePlantWithScheduleDaoHelper
 import com.example.planthelper.data.repository.base.Repository
 import com.example.planthelper.models.data.local.Plant
 import com.example.planthelper.utils.previewPlant
@@ -9,15 +8,11 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class PlantRepository(
-    private val plantInfoRepository: PlantInfoRepository,
-    private val savePlantWithScheduleDaoHelper: SavePlantWithScheduleDaoHelper,
     private val plantDao: PlantDao,
 ) : Repository() {
 
     suspend fun addPlant(plant: Plant): Long = IOOperation {
-        val schedules = plantInfoRepository.getPlantSchedules(plant)
-
-        savePlantWithScheduleDaoHelper.save(plant, schedules)
+        plantDao.insert(plant)
     }
 
     suspend fun updatePlant(plant: Plant) = IOOperation {
