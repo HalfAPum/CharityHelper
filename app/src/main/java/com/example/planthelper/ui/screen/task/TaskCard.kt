@@ -70,7 +70,7 @@ fun TaskCard(
                 Spacer(modifier = modifier.weight(1f))
 
                 Text(
-                    text = task.scheduledDate,
+                    text = task.scheduledDateString,
                     fontSize = 16.sp,
                 )
             }

@@ -16,6 +16,7 @@ import com.example.planthelper.utils.toDate
 import com.example.planthelper.utils.totalDaysInMonth
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Factory
+import java.util.*
 
 @Factory
 class TaskRepository(
@@ -60,8 +61,8 @@ class TaskRepository(
         scheduledDate = generateFirstTaskDate(),
     )
 
-    private fun Schedule.generateFirstTaskDate(): String {
-        var resultTaskDate: String? = null
+    private fun Schedule.generateFirstTaskDate(): Date {
+        var resultTaskDate: Date? = null
         forEachMonth {
             val periodBetweenTasksInMonth = totalDaysInMonth /
                     scheduledMonthRepetitions.plus(1)

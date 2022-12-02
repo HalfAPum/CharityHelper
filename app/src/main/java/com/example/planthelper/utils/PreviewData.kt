@@ -6,6 +6,7 @@ import com.example.planthelper.models.data.local.schedule.ScheduleType
 import com.example.planthelper.models.data.local.task.Task
 import com.example.planthelper.models.data.local.task.TaskStatus
 import com.example.planthelper.models.ui.task.CompositeTask
+import java.util.*
 
 val previewPlant = Plant(
     name = "Cucumber",
@@ -19,14 +20,14 @@ val previewTask = Task(
     scheduleId = 1,
     name = "Watering",
     healthImpact = 3.0,
-    scheduledDate = "Tomorrow",
+    scheduledDate = Date(),
 )
 val previewTaskCompleted = Task(
     plantId = 1,
     scheduleId = 1,
     name = "Watering",
     healthImpact = 3.0,
-    scheduledDate = "Tomorrow",
+    scheduledDate = Date(),
     status = TaskStatus.Completed
 )
 val previewTaskFailed = Task(
@@ -34,7 +35,7 @@ val previewTaskFailed = Task(
     scheduleId = 1,
     name = "Watering",
     healthImpact = 3.0,
-    scheduledDate = "Tomorrow",
+    scheduledDate = Date(),
     status = TaskStatus.Failed
 )
 val previewSchedule = Schedule(

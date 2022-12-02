@@ -3,6 +3,8 @@ package com.example.planthelper.models.data.local.task
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @Entity(foreignKeys = [
@@ -31,10 +33,18 @@ data class Task(
     @ColumnInfo(name = "health_impact")
     val healthImpact: Double,
     @ColumnInfo(name = "task_date")
-    val scheduledDate: String,
+    val scheduledDate: Date,
     @ColumnInfo(name = "status")
     val status: TaskStatus = TaskStatus.Scheduled,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long = 0,
-)
+) {
+
+    val scheduledDateString: String
+        get() {
+            val sdf = SimpleDateFormat("MMM, dd")
+            return sdf.format(scheduledDate)
+        }
+
+}

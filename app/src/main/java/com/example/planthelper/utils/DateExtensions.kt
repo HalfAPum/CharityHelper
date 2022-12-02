@@ -56,7 +56,7 @@ fun forEachMonth(block: Month.() -> Unit) {
 }
 
 context (Month, Schedule)
-fun Double.toDate(): String {
+fun Double.toDate(): Date {
     val day = this.toInt()
     val month = month
 
@@ -65,6 +65,5 @@ fun Double.toDate(): String {
         set(Calendar.DAY_OF_MONTH, day)
     }
 
-    //TODO CORRECT TO DATE CONVERT TO APPROPRIATE DATE FORMAT WITH !!SDF!!
-    return calendar.toString()
+    return calendar.time
 }
