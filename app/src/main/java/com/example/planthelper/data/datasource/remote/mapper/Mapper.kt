@@ -13,7 +13,6 @@ fun PlantsResponse.map(): Map<Plant, List<Schedule>> {
         val plant = Plant(
             originName = plantInfo.name,
             imageUrl = plantInfo.imageUrl,
-            age = 0,
         )
 
         val waterSchedule = plantInfo.watering.map(ScheduleType.Watering, plant.originName)

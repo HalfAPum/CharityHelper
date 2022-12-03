@@ -12,7 +12,6 @@ val previewPlant = Plant(
     name = "Cucumber",
     originName = "Cucumber original",
     imageUrl = "https://whatflower.net/wp-content/uploads/2017/10/5-800x500.jpg",
-    age = 12,
     health = 0.78,
 )
 val previewTask = Task(

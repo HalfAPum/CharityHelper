@@ -44,6 +44,8 @@ class CreatePlantViewModel(
     }
 
     fun updatePlantBirthDay(date: Date) {
+        if (date.time < Date().time) return
+
         createPlantUiState = createPlantUiState.copy(plantBirthDay = date)
     }
 

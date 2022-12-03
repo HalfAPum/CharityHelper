@@ -19,7 +19,7 @@ import com.example.planthelper.models.data.local.task.Task
         Task::class,
         Schedule::class,
     ],
-    version = 5,
+    version = DB_VERSION,
 )
 @TypeConverters(IntMapConverter::class, DateConverter::class)
 abstract class PlantDatabase : RoomDatabase(), TransactionManager {
@@ -35,3 +35,5 @@ abstract class PlantDatabase : RoomDatabase(), TransactionManager {
     abstract fun getScheduleDao(): ScheduleDao
 
 }
+
+private const val DB_VERSION = 6
