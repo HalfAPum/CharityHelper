@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id ("com.google.gms.google-services")
+    id ("com.google.firebase.crashlytics")
     id("com.google.devtools.ksp") version "1.7.0-1.0.6"
 }
 
@@ -105,6 +106,7 @@ dependencies {
 
     //Firebase
     implementation (platform("com.google.firebase:firebase-bom:31.1.1"))
+    implementation ("com.google.firebase:firebase-crashlytics-ktx")
     implementation ("com.google.firebase:firebase-analytics-ktx")
 
 
