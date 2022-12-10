@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
+    id ("com.google.gms.google-services")
     id("com.google.devtools.ksp") version "1.7.0-1.0.6"
 }
 
@@ -101,6 +102,11 @@ dependencies {
     //Tabs
     implementation ("com.google.accompanist:accompanist-pager:0.27.0")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.27.0")
+
+    //Firebase
+    implementation (platform("com.google.firebase:firebase-bom:31.1.1"))
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+
 
     //Test dependencies
     // optional - Test helpers
