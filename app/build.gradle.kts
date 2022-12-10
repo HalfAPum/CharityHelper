@@ -11,7 +11,7 @@ android {
     compileSdkVersion(33)
 
     defaultConfig {
-        applicationId = "com.example.planthelper"
+        applicationId = "com.narvatov.planthelper"
         minSdkVersion(21)
         targetSdkVersion(33)
         versionCode = 1
