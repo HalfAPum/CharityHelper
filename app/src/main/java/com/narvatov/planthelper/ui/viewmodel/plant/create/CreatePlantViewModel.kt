@@ -59,7 +59,7 @@ class CreatePlantViewModel(
     fun savePlant() {
         if (createPlantUiState.isValid) {
             launchCatching {
-                addPlantUseCase(createPlantUiState)
+                addPlantUseCase(createPlantUiState.transformToPlant())
                 _savePlantActionSharedFlow.emit(Unit)
             }
         } else {

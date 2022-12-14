@@ -14,7 +14,6 @@ import com.narvatov.planthelper.utils.forEachMonth
 import com.narvatov.planthelper.utils.monthDay
 import com.narvatov.planthelper.utils.toDate
 import com.narvatov.planthelper.utils.totalDaysInMonth
-import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Factory
 import java.util.*
 
@@ -25,13 +24,11 @@ class TaskRepository(
 ) : Repository() {
 
     fun taskFlow(plantId: Long?) = plantId?.let {
-        taskDao.flowByPlantId(plantId).map {
-            println("PRINT SHITTY TASK $it")
-            it
-        }
-    } ?: taskDao.flowAll().map {
-        println("PRINT SHITTY TASK $it")
-        it
+        taskDao.flowByPlantId(plantId)
+    } ?: taskDao.flowAll()
+
+    suspend fun getTask(taskId: Long) = IOOperation {
+        taskDao.get(taskId)
     }
 
     suspend fun completeTask(task: Task) {

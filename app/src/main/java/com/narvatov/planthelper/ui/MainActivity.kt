@@ -1,11 +1,15 @@
 package com.narvatov.planthelper.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -17,12 +21,25 @@ import com.narvatov.planthelper.ui.navigation.NavHostContent
 import com.narvatov.planthelper.ui.theme.PlanthelperTheme
 import kotlin.properties.Delegates.notNull
 
+
 class MainActivity : ComponentActivity() {
 
     private var firebaseAnalytics: FirebaseAnalytics by notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission(),
+                {},
+            ).launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
 
         firebaseAnalytics = Firebase.analytics
 

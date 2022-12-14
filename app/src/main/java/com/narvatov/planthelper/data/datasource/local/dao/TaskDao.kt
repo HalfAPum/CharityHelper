@@ -5,11 +5,12 @@ import androidx.room.Query
 import com.narvatov.planthelper.data.datasource.local.dao.base.combined.BaseDao
 import com.narvatov.planthelper.data.datasource.local.dao.base.flow.FlowAllDao
 import com.narvatov.planthelper.data.datasource.local.dao.base.flow.FlowByIdDao
+import com.narvatov.planthelper.data.datasource.local.dao.base.get.GetNullableByIdDao
 import com.narvatov.planthelper.models.data.local.task.Task
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task> {
+interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task>, GetNullableByIdDao<Task> {
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Task WHERE id = :id")
@@ -22,5 +23,9 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task> {
     @JvmSuppressWildcards
     @Query("SELECT * FROM Task")
     override fun flowAll(): Flow<List<Task>>
+
+    @JvmSuppressWildcards
+    @Query("SELECT * FROM Task WHERE id = :id")
+    override suspend fun get(id: Long): Task?
 
 }

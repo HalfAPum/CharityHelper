@@ -7,10 +7,12 @@ import com.narvatov.planthelper.di.networkModule
 import com.narvatov.planthelper.utils.plantTimberDebug
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.ksp.generated.defaultModule
 
-class PlantApplication : Application() {
+class PlantApplication : Application(), KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
@@ -20,6 +22,7 @@ class PlantApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PlantApplication)
+            workManagerFactory()
             modules(
                 defaultModule,
                 appModule,
@@ -27,6 +30,5 @@ class PlantApplication : Application() {
                 networkModule,
             )
         }
-
     }
 }
