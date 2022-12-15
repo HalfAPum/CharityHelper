@@ -19,11 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Planthelper">
 
-        <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            tools:node="remove" />
-
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"

@@ -3,6 +3,9 @@ package com.narvatov.planthelper.utils
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -13,13 +16,20 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.narvatov.planthelper.BuildConfig
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
+import com.narvatov.planthelper.models.data.local.task.Task
+import com.narvatov.planthelper.ui.MainActivity
+import com.narvatov.planthelper.ui.worker.NotificationWorker
 import kotlinx.coroutines.flow.Flow
 import org.koin.java.KoinJavaComponent.inject
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -63,11 +73,11 @@ fun NotificationManagerCompat.notify(
     notification: Notification
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = "${taskSchedule.scheduleType.name} ${taskSchedule.channelId}"
+        val name = "${taskSchedule.scheduleType.name} ${taskSchedule.notificationChannelId}"
         val descriptionText = taskSchedule.name
         val importance = NotificationManager.IMPORTANCE_DEFAULT
 
-        val channel = NotificationChannel(taskSchedule.channelId, name, importance).apply {
+        val channel = NotificationChannel(taskSchedule.notificationChannelId, name, importance).apply {
             description = descriptionText
         }
         // Register the channel with the system
@@ -75,4 +85,32 @@ fun NotificationManagerCompat.notify(
     }
 
     notify(id.toInt(), notification)
+}
+
+fun Context.scheduleNotificationWorker(task: Task) {
+    val workRequests = OneTimeWorkRequestBuilder<NotificationWorker>().run {
+        val inputData = Data.Builder().putLong(NotificationWorker.WORKER_TASK_ID, task.id).build()
+        setInputData(inputData)
+        val initialDelay = task.scheduledDate.time - System.currentTimeMillis()
+        println("WTF DELAY ${task.scheduledDate.time} VS ${task.scheduledDate.time} soo ${initialDelay}")
+        println("WTF DATE ${task.scheduledDate.toLocaleString()} VS ${Date().toLocaleString()}")
+        setInputData(inputData)
+        setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+        build()
+    }
+
+    WorkManager.getInstance(applicationContext).enqueue(workRequests)
+}
+
+fun Context.scheduleNotificationWorkers(task: List<Task>) {
+    task.forEach { scheduleNotificationWorker(it) }
+}
+
+fun Context.getSingleActivityPendingIntent(): PendingIntent {
+    val intent = Intent(this, MainActivity::class.java)
+    val pendingIntentFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        PendingIntent.FLAG_IMMUTABLE
+    else PendingIntent.FLAG_ONE_SHOT
+
+    return PendingIntent.getActivity(this, 1, intent, pendingIntentFlag)
 }

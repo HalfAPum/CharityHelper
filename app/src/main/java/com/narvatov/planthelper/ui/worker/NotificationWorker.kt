@@ -1,25 +1,27 @@
 package com.narvatov.planthelper.ui.worker
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.narvatov.planthelper.data.repository.PlantRepository
 import com.narvatov.planthelper.data.repository.ScheduleRepository
 import com.narvatov.planthelper.data.repository.TaskRepository
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
-import com.narvatov.planthelper.ui.MainActivity
+import com.narvatov.planthelper.utils.getSingleActivityPendingIntent
+import com.narvatov.planthelper.utils.inject
 import com.narvatov.planthelper.utils.notify
+import com.narvatov.planthelper.utils.scheduleNotificationWorker
 
 class NotificationWorker(
-    private val taskRepository: TaskRepository,
-    private val scheduleRepository: ScheduleRepository,
     context: Context,
     workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {
+
+    private val taskRepository: TaskRepository by inject()
+    private val scheduleRepository: ScheduleRepository by inject()
+    private val plantRepository: PlantRepository by inject()
 
     override suspend fun doWork(): Result {
         val taskId = inputData.getLong(WORKER_TASK_ID, 0L)
@@ -29,28 +31,24 @@ class NotificationWorker(
         //If task doesn't exist drop work.
         if (task == null) return Result.failure()
         //If task is completed or failed drop work.
-        if (task.status != TaskStatus.Completed) return Result.failure()
+        if (task.status != TaskStatus.Scheduled) return Result.failure()
 
         val taskSchedule = scheduleRepository.getSchedule(task.scheduleId)
+        val plant = plantRepository.getPlant(task.plantId)
 
-        //TODO CONFIGURE INTENT LATER
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        val pendingIntentFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            PendingIntent.FLAG_MUTABLE
-        else PendingIntent.FLAG_ONE_SHOT
-
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 1, intent, pendingIntentFlag)
-        //Configure end
-
+        val title = taskSchedule.scheduleType.action
+        val contentText = "${plant.plantName} (${plant.originName}) needs" +
+                " ${taskSchedule.scheduleType.action}. ${taskSchedule.name ?: ""}"
 
         val notification = NotificationCompat
-            .Builder(applicationContext, taskSchedule.channelId)
+            .Builder(applicationContext, taskSchedule.notificationChannelId)
             .run {
                 setSmallIcon(taskSchedule.scheduleType.icon)
-                setContentTitle(task.name)
-                setContentText("Some content text")
+                setContentTitle(title)
+                setContentText(contentText)
+
                 priority = NotificationCompat.PRIORITY_HIGH
-                setContentIntent(pendingIntent)
+                setContentIntent(applicationContext.getSingleActivityPendingIntent())
                 setAutoCancel(true)
                 build()
             }
@@ -59,7 +57,12 @@ class NotificationWorker(
         NotificationManagerCompat.from(applicationContext)
             .notify(taskSchedule, task.id, notification)
 
-        //TODO plan next notification
+
+        taskRepository.markTaskNotificationShown(taskId)
+        val nextTask = taskRepository.getNextNotificationTask(task.plantId, task.scheduleId)
+
+
+        applicationContext.scheduleNotificationWorker(nextTask)
 
         return Result.success()
     }
@@ -67,8 +70,5 @@ class NotificationWorker(
 
     companion object {
         const val WORKER_TASK_ID = "WORKER_TASK_ID_INPUT_DATA"
-        const val WATERING_CHANNEL_ID = "WATERING_CHANNEL_ID"
-        const val FERTILIZER_CHANNEL_ID = "FERTILIZER_CHANNEL_ID"
-        const val PRUNING_CHANNEL_ID = "PRUNING_CHANNEL_ID"
     }
 }

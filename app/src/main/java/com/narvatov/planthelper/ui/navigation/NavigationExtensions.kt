@@ -65,6 +65,11 @@ fun NavHostController.navigate(
     navigate(destination.route, navOptions, navigatorExtras)
 }
 
+fun NavHostController.popBackStack(
+    destination: Destination,
+    inclusive: Boolean,
+) = popBackStack(destination.route, inclusive)
+
 fun NavController.getBackStackEntry(
     destination: Destination
 ) = getBackStackEntry(destination.route)

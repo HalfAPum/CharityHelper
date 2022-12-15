@@ -37,6 +37,15 @@ class TaskRepository(
         taskDao.update(completedTask)
     }
 
+    suspend fun markTaskNotificationShown(taskId: Long) = IOOperation {
+        taskDao.markTaskNotificationShown(taskId)
+    }
+
+    suspend fun getNextNotificationTask(plantId: Long, scheduleId: Long) = IOOperation {
+        taskDao.getNextNotificationTasks(plantId, scheduleId)
+            .first { it.status == TaskStatus.Scheduled }
+    }
+
     suspend fun generateFirstTasksForPlant(plant: Plant) = IOOperation {
         val plantSchedules = scheduleDao.getSchedulesByPlantOriginName(plant.originName)
 

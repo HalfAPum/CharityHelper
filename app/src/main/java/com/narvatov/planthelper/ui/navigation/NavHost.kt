@@ -97,7 +97,7 @@ fun NavHostContent(
                     navigate(Calendar)
                 },
                 onPlantSaved = {
-                    popBackStack()
+                    popBackStack(BottomNavigation.Plants, inclusive = true)
                 },
             )
         }

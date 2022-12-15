@@ -28,4 +28,20 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task>, GetNulla
     @Query("SELECT * FROM Task WHERE id = :id")
     override suspend fun get(id: Long): Task?
 
+
+    @JvmSuppressWildcards
+    @Query("""
+        UPDATE Task 
+        SET is_notification_shown = 1
+        WHERE id = :id
+    """)
+    suspend fun markTaskNotificationShown(id: Long)
+
+    @JvmSuppressWildcards
+    @Query("""
+        SELECT * FROM Task
+        WHERE plant_id = :plantId AND schedule_id = :scheduleId AND is_notification_shown = 0
+    """)
+    suspend fun getNextNotificationTasks(plantId: Long, scheduleId: Long): List<Task>
+
 }
