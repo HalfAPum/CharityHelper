@@ -3,7 +3,7 @@ package com.narvatov.planthelper.data.repository
 import com.narvatov.planthelper.data.datasource.local.dao.ScheduleDao
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
 import com.narvatov.planthelper.data.repository.base.Repository
-import com.narvatov.planthelper.data.utils.monthRepetitionsAreAtLeastNotZero
+import com.narvatov.planthelper.data.utils.monthRepetitionsAreAtLeastOne
 import com.narvatov.planthelper.data.utils.scheduledMonthRepetitions
 import com.narvatov.planthelper.data.utils.throwIllegalMonthException
 import com.narvatov.planthelper.models.data.local.Plant
@@ -68,25 +68,23 @@ class TaskRepository(
     )
 
     private fun Schedule.generateFirstTaskDate(): Date {
-        var resultTaskDate: Date? = null
         forEachMonth {
             val periodBetweenTasksInMonth = totalDaysInMonth /
                     scheduledMonthRepetitions.plus(1)
 
-            if (monthRepetitionsAreAtLeastNotZero) {
+            if (monthRepetitionsAreAtLeastOne) {
                 var taskDay = periodBetweenTasksInMonth
 
                 while(true) {
                     if (taskDay > monthDay) {
-                        resultTaskDate = taskDay.toDate()
-                        break
+                        return taskDay.toDate()
                     }
                     taskDay += periodBetweenTasksInMonth
                 }
             }
         }
 
-        return resultTaskDate ?: throwIllegalMonthException()
+        throwIllegalMonthException()
     }
 
 }

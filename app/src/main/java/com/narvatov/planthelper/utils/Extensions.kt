@@ -92,8 +92,6 @@ fun Context.scheduleNotificationWorker(task: Task) {
         val inputData = Data.Builder().putLong(NotificationWorker.WORKER_TASK_ID, task.id).build()
         setInputData(inputData)
         val initialDelay = task.scheduledDate.time - System.currentTimeMillis()
-        println("WTF DELAY ${task.scheduledDate.time} VS ${task.scheduledDate.time} soo ${initialDelay}")
-        println("WTF DATE ${task.scheduledDate.toLocaleString()} VS ${Date().toLocaleString()}")
         setInputData(inputData)
         setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
         build()

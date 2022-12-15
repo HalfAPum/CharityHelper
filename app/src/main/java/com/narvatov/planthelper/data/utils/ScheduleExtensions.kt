@@ -1,17 +1,17 @@
 package com.narvatov.planthelper.data.utils
 
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
-import com.narvatov.planthelper.utils.Month
+import com.narvatov.planthelper.utils.MonthYear
 import com.narvatov.planthelper.utils.asString
 
 fun Schedule.throwIllegalMonthException(): Nothing = throw IllegalArgumentException(
     "Empty ${scheduleType.name} schedule for plant with id: $plantName"
 )
 
-context (Month)
+context (MonthYear)
 val Schedule.scheduledMonthRepetitions: Int
-    get() = monthSchedule[this@Month.asString] ?: 0
+    get() = monthSchedule[this@MonthYear.asString] ?: 0
 
-context (Month)
-val Schedule.monthRepetitionsAreAtLeastNotZero: Boolean
-    get() = scheduledMonthRepetitions > 0
+context (MonthYear)
+val Schedule.monthRepetitionsAreAtLeastOne: Boolean
+    get() = scheduledMonthRepetitions >= 1

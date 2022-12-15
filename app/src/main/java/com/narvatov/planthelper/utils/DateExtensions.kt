@@ -4,9 +4,9 @@ import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Month(val month: Int)
+data class MonthYear(val month: Int, val year: Int)
 
-val Month.asString: String
+val MonthYear.asString: String
     get() {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.MONTH, month)
@@ -14,14 +14,14 @@ val Month.asString: String
         return monthDate.format(calendar.time)
     }
 
-val currentMonth: Month by lazy {
+val currentMonth: MonthYear by lazy {
     val calendar = Calendar.getInstance()
-    Month(calendar[Calendar.MONTH])
+    MonthYear(calendar[Calendar.MONTH], calendar[Calendar.YEAR])
 }
 
-val Month.next: Month
+val MonthYear.next: MonthYear
     get() {
-        val nextMonth = if (this.month == Calendar.DECEMBER) Month(Calendar.JANUARY)
+        val nextMonth = if (this.month == Calendar.DECEMBER) MonthYear(Calendar.JANUARY, this.year.plus(1))
             else this.copy(month = this.month.plus(1))
 
         return nextMonth
@@ -33,11 +33,11 @@ fun Calendar(month: Int): Calendar {
     return calendar
 }
 
-context (Month)
+context (MonthYear)
 val Schedule.totalDaysInMonth: Double
     get() = Calendar(month).getActualMaximum(Calendar.DAY_OF_MONTH).toDouble()
 
-context (Month)
+context (MonthYear)
 val Schedule.monthDay: Int
     get() {
         val monthDay = if (currentMonth.month > month) 0
@@ -46,7 +46,7 @@ val Schedule.monthDay: Int
         return monthDay
     }
 
-fun forEachMonth(block: Month.() -> Unit) {
+inline fun forEachMonth(block: MonthYear.() -> Unit) {
     var month = currentMonth
     for (m in Calendar.JANUARY..Calendar.DECEMBER) {
         month.block()
@@ -55,12 +55,12 @@ fun forEachMonth(block: Month.() -> Unit) {
     }
 }
 
-context (Month, Schedule)
+context (MonthYear, Schedule)
 fun Double.toDate(): Date {
     val day = this.toInt()
-    val month = month
 
     val calendar = Calendar.getInstance().apply {
+        set(Calendar.YEAR, year)
         set(Calendar.MONTH, month)
         set(Calendar.DAY_OF_MONTH, day)
     }
