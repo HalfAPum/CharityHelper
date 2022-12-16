@@ -32,4 +32,8 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task>, GetNulla
     @Query("SELECT * FROM Task WHERE Task.plant_id = :id")
     fun getAllByPlantId(id: Long): List<Task>
 
+    @JvmSuppressWildcards
+    @Query("SELECT * FROM Task")
+    override suspend fun getAll(): List<Task>
+
 }
