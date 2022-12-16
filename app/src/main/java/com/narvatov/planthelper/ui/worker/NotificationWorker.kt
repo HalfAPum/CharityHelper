@@ -7,7 +7,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.narvatov.planthelper.data.repository.PlantRepository
 import com.narvatov.planthelper.data.repository.ScheduleRepository
-import com.narvatov.planthelper.data.repository.TaskRepository
+import com.narvatov.planthelper.data.repository.task.TaskRepository
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
 import com.narvatov.planthelper.utils.getSingleActivityPendingIntent
 import com.narvatov.planthelper.utils.inject

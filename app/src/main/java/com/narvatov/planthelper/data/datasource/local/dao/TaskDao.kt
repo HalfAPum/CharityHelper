@@ -32,12 +32,4 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task>, GetNulla
     @Query("SELECT * FROM Task WHERE Task.plant_id = :id")
     fun getAllByPlantId(id: Long): List<Task>
 
-
-    @JvmSuppressWildcards
-    @Query("""
-        SELECT * FROM Task
-        WHERE plant_id = :plantId AND schedule_id = :scheduleId AND is_notification_shown = 0
-    """)
-    suspend fun getNextNotificationTasks(plantId: Long, scheduleId: Long): List<Task>
-
 }

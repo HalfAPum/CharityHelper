@@ -22,7 +22,7 @@ import androidx.work.WorkManager
 import com.narvatov.planthelper.BuildConfig
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import com.narvatov.planthelper.models.data.local.task.Task
-import com.narvatov.planthelper.ui.MainActivity
+import com.narvatov.planthelper.ui.main.MainActivity
 import com.narvatov.planthelper.ui.worker.NotificationWorker
 import kotlinx.coroutines.flow.Flow
 import org.koin.java.KoinJavaComponent.inject
@@ -87,6 +87,10 @@ fun NotificationManagerCompat.notify(
     notify(id.toInt(), notification)
 }
 
+fun Context.scheduleNotificationWorkers(task: List<Task>) {
+    task.forEach { scheduleNotificationWorker(it) }
+}
+
 fun Context.scheduleNotificationWorker(task: Task) {
     val workRequests = OneTimeWorkRequestBuilder<NotificationWorker>().run {
         val inputData = Data.Builder().putLong(NotificationWorker.WORKER_TASK_ID, task.id).build()
@@ -98,10 +102,6 @@ fun Context.scheduleNotificationWorker(task: Task) {
     }
 
     WorkManager.getInstance(applicationContext).enqueue(workRequests)
-}
-
-fun Context.scheduleNotificationWorkers(task: List<Task>) {
-    task.forEach { scheduleNotificationWorker(it) }
 }
 
 fun Context.getSingleActivityPendingIntent(): PendingIntent {

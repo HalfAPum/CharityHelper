@@ -1,4 +1,4 @@
-package com.narvatov.planthelper.utils
+package com.narvatov.planthelper.data.utils
 
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import java.text.SimpleDateFormat

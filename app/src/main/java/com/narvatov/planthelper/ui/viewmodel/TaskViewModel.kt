@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halfapum.general.coroutines.launchCatching
-import com.narvatov.planthelper.data.repository.TaskRepository
+import com.narvatov.planthelper.data.repository.task.TaskRepository
 import com.narvatov.planthelper.domain.task.ActiveCompositeTaskFlowUseCase
 import com.narvatov.planthelper.domain.task.HistoryCompositeTaskFlowUseCase
 import com.narvatov.planthelper.models.data.local.task.Task

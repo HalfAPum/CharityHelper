@@ -3,7 +3,7 @@ package com.narvatov.planthelper.domain.plant
 import android.content.Context
 import com.narvatov.planthelper.data.repository.PlantRepository
 import com.narvatov.planthelper.data.repository.ScheduleRepository
-import com.narvatov.planthelper.data.repository.TaskRepository
+import com.narvatov.planthelper.data.repository.task.TaskRepository
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.utils.scheduleNotificationWorkers
 import org.koin.core.annotation.Factory
@@ -19,11 +19,13 @@ class AddPlantUseCase(
     suspend operator fun invoke(plant: Plant) {
         scheduleRepository.addSchedulesForPlant(plant)
 
+
         val plantId = plantRepository.addPlant(plant)
 
         val tasksIds = taskRepository.generateFirstTasksForPlant(plant.copy(id = plantId))
 
         val tasks = tasksIds.mapNotNull { taskRepository.getTask(it) }
+
 
         context.scheduleNotificationWorkers(tasks)
     }
