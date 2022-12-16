@@ -3,6 +3,7 @@ package com.narvatov.planthelper.utils
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.ceil
 
 data class MonthYear(val month: Int, val year: Int)
 
@@ -40,14 +41,18 @@ val Schedule.totalDaysInMonth: Double
 context (MonthYear)
 val Schedule.monthDay: Int
     get() {
-        val monthDay = if (currentMonth.month > month) 0
-            else Calendar(month)[Calendar.DAY_OF_MONTH]
+        val monthDay = if (currentMonth.month == this@MonthYear.month
+                && currentMonth.year == this@MonthYear.year
+        ) Calendar(this@MonthYear.month)[Calendar.DAY_OF_MONTH]
+        else 0
 
         return monthDay
     }
 
-inline fun forEachMonth(block: MonthYear.() -> Unit) {
-    var month = currentMonth
+inline fun forEachMonth(startPoint: Date, block: MonthYear.() -> Unit) {
+    val calendar = Calendar.Builder().setInstant(startPoint).build()
+    var month = MonthYear(calendar[Calendar.MONTH], calendar[Calendar.YEAR])
+
     for (m in Calendar.JANUARY..Calendar.DECEMBER) {
         month.block()
 
@@ -55,9 +60,25 @@ inline fun forEachMonth(block: MonthYear.() -> Unit) {
     }
 }
 
+context (Schedule, MonthYear)
+val Date.monthDay: Int
+    get() {
+        val calendar = Calendar.Builder().setInstant(this).build()
+        val dateDayOfMonth = calendar[Calendar.DAY_OF_MONTH]
+        val dateMonth = calendar[Calendar.MONTH]
+        val dateYear = calendar[Calendar.YEAR]
+
+        val monthDay = if (dateMonth == this@MonthYear.month
+            && dateYear == this@MonthYear.year
+        ) dateDayOfMonth
+        else 0
+
+        return monthDay
+    }
+
 context (MonthYear, Schedule)
 fun Double.toDate(): Date {
-    val day = this.toInt()
+    val day = ceil(this).toInt()
 
     val calendar = Calendar.getInstance().apply {
         set(Calendar.YEAR, year)

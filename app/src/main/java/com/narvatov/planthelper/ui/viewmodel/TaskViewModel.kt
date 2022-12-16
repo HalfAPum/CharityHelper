@@ -10,6 +10,7 @@ import com.narvatov.planthelper.data.repository.TaskRepository
 import com.narvatov.planthelper.domain.task.ActiveCompositeTaskFlowUseCase
 import com.narvatov.planthelper.domain.task.HistoryCompositeTaskFlowUseCase
 import com.narvatov.planthelper.models.data.local.task.Task
+import com.narvatov.planthelper.models.data.local.task.TaskStatus
 import com.narvatov.planthelper.models.ui.task.EmptyTasksUiState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -42,7 +43,7 @@ class TaskViewModel(
     }
 
     fun completeTask(task: Task) {
-        launchCatching { taskRepository.completeTask(task) }
+        launchCatching { taskRepository.updateTaskStatus(task, TaskStatus.Completed) }
     }
 
 }

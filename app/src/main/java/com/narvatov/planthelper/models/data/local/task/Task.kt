@@ -36,8 +36,6 @@ data class Task(
     val scheduledDate: Date,
     @ColumnInfo(name = "status")
     val status: TaskStatus = TaskStatus.Scheduled,
-    @ColumnInfo(name = "is_notification_shown")
-    val isNotificationShown: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long = 0,

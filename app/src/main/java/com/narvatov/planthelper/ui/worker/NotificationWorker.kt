@@ -30,7 +30,7 @@ class NotificationWorker(
 
         //If task doesn't exist drop work.
         if (task == null) return Result.failure()
-        //If task is completed or failed drop work.
+        //If task is not scheduled drop work.
         if (task.status != TaskStatus.Scheduled) return Result.failure()
 
         val taskSchedule = scheduleRepository.getSchedule(task.scheduleId)
@@ -58,7 +58,7 @@ class NotificationWorker(
             .notify(taskSchedule, task.id, notification)
 
 
-        taskRepository.markTaskNotificationShown(taskId)
+        taskRepository.updateTaskStatus(task, TaskStatus.Active)
         val nextTask = taskRepository.getNextNotificationTask(task.plantId, task.scheduleId)
 
 
