@@ -4,7 +4,6 @@ import androidx.activity.ComponentActivity
 
 interface IPermissionProvider {
 
-    context(ComponentActivity)
-    fun checkNotificationPermission()
+    fun ComponentActivity.checkNotificationPermission()
 
 }

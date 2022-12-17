@@ -8,8 +8,7 @@ import androidx.core.content.ContextCompat
 
 object PermissionProvider: IPermissionProvider {
 
-    context(ComponentActivity)
-    override fun checkNotificationPermission() {
+    override fun ComponentActivity.checkNotificationPermission() {
         if (ContextCompat.checkSelfPermission(
                 this@ComponentActivity,
                 Manifest.permission.POST_NOTIFICATIONS

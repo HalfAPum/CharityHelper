@@ -8,8 +8,7 @@ import com.halfapum.general.coroutines.exception.collectLatestException
 
 object CoroutineExceptionCollector: ICoroutineExceptionCollector {
 
-    context(ComponentActivity)
-    override fun initCoroutineExceptionCollector() {
+    override fun ComponentActivity.initCoroutineExceptionCollector() {
         collectLatestException {
             Firebase.crashlytics.recordException(it)
 

@@ -4,7 +4,6 @@ import androidx.activity.ComponentActivity
 
 interface ICoroutineExceptionCollector {
 
-    context(ComponentActivity)
-    fun initCoroutineExceptionCollector()
+    fun ComponentActivity.initCoroutineExceptionCollector()
 
 }

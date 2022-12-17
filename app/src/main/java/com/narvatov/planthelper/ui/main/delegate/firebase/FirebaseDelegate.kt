@@ -1,6 +1,6 @@
 package com.narvatov.planthelper.ui.main.delegate.firebase
 
-import android.content.Context
+import androidx.activity.ComponentActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
@@ -10,8 +10,7 @@ object FirebaseDelegate: IFirebaseDelegate {
 
     override var firebaseAnalytics: FirebaseAnalytics by Delegates.notNull()
 
-    context(Context)
-    override fun initFirebase() {
+    override fun ComponentActivity.initFirebase() {
         firebaseAnalytics = Firebase.analytics
     }
 
