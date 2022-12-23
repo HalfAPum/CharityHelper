@@ -77,6 +77,8 @@ fun NavController.getBackStackEntry(
 /**
  * [value] takes only primitives or [String] otherwise it won't work as expected.
  */
-fun Destination.withParam(param: String, value: Any): String {
-    return route.replace("{$param}", "{$value}")
+fun Destination.withParam(param: String, value: Any): PlantDetailsWithParam {
+    return PlantDetailsWithParam(route.replace("{$param}", "{$value}"))
 }
+
+val UiNavigator = UiNavigationEventPropagator

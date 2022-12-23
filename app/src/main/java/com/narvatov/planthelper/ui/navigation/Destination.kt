@@ -57,6 +57,10 @@ object PlantDetails : Destination("PlantDetails/{plantId}") {
 
 }
 
+//TODO TEMP NAVIGATION CRUTCH
+class PlantDetailsWithParam(route: String): Destination(route)
+
+
 object CreatePlant : HeaderDestination("CreatePlant", "Tell us about the plant")
 
 object SearchPlantType : HeaderDestination("SearchPlantType", "Search your plant")

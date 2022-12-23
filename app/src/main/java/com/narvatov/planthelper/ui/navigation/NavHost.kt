@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.ui.screen.plant.create.Calendar
 import com.narvatov.planthelper.ui.screen.plant.create.CreatePlant
 import com.narvatov.planthelper.ui.screen.plant.create.search.SearchPlantType
@@ -18,6 +20,7 @@ import com.narvatov.planthelper.ui.screen.purchase.Purchase
 import com.narvatov.planthelper.ui.screen.settings.SettingsScreen
 import com.narvatov.planthelper.ui.screen.task.TasksScreen
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -25,11 +28,18 @@ fun NavHostContent(
     navController: NavHostController,
     innerPadding: PaddingValues
 ) = with(navController) {
+    val scope = rememberCoroutineScope()
+
     NavHost(
         navController = navController,
         startDestination = BottomNavigation.Tasks,
         modifier = Modifier.padding(innerPadding),
     ) {
+        scope.launchCatching {
+            UiNavigator.navigationEvents.collectLatest { destination ->
+                navigate(destination)
+            }
+        }
 
         bottomNavigation {
             composable(BottomNavigation.Tasks) {
@@ -48,18 +58,7 @@ fun NavHostContent(
             }
 
             composable(BottomNavigation.Plants) {
-                PlantsScreen(
-                    onPlantClicked = {
-                        navigationPlantId = it.id
-                        navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, it.id))
-                    },
-                    onEmptySlotClicked = {
-                        navigate(CreatePlant)
-                    },
-                    onLockedSlotClicked = {
-                        navigate(Purchase)
-                    }
-                )
+                PlantsScreen()
             }
 
             composable(BottomNavigation.Settings) {
