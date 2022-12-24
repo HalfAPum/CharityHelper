@@ -17,23 +17,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.R
+import com.narvatov.planthelper.ui.navigation.BottomNavigation
+import com.narvatov.planthelper.ui.navigation.SearchPlantType
+import com.narvatov.planthelper.ui.navigation.Calendar
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.popBack
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.plant.create.CreatePlantViewModel
-import com.narvatov.planthelper.utils.UnitCallback
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun CreatePlant(
-    onPlantSaved: UnitCallback,
-    onPlantTypeSearchClicked: UnitCallback,
-    openCalendarClicked: UnitCallback,
     viewModel: CreatePlantViewModel = getViewModel()
 ) = with(viewModel) {
     val scope = rememberCoroutineScope()
     scope.launchCatching {
         savePlantActionSharedFlow.collectLatest {
-            onPlantSaved()
+            popBack(BottomNavigation.Plants, inclusive = true)
         }
     }
 
@@ -74,7 +75,7 @@ fun CreatePlant(
             enabled = false,
             error = createPlantUiState.isPlantTypeError,
             modifier = Modifier.padding(top = 20.dp),
-            onClick = { onPlantTypeSearchClicked() }
+            onClick = { navigate(SearchPlantType) }
         )
 
         val birthDate = createPlantUiState.shortPlantBirthDay
@@ -85,7 +86,7 @@ fun CreatePlant(
             singleLine = true,
             enabled = false,
             modifier = Modifier.padding(top = 20.dp),
-            onClick = { openCalendarClicked() }
+            onClick = { navigate(Calendar) }
         )
 
         Button(
@@ -109,9 +110,5 @@ fun CreatePlant(
 @Preview(showBackground = true)
 @Composable
 fun LockedSlotPreview() {
-    CreatePlant(
-        {},
-        {},
-        {}
-    )
+    CreatePlant()
 }

@@ -21,6 +21,9 @@ import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.ui.ListSpacer
+import com.narvatov.planthelper.ui.navigation.*
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigateToPlantDetails
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.TaskViewModel
 import com.narvatov.planthelper.utils.GenericCallback
@@ -30,7 +33,6 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TasksScreen(
-    onTaskClicked: GenericCallback<Plant>,
     viewModel: TaskViewModel = getViewModel(),
     modifier: Modifier = Modifier
 ) = with(viewModel) {
@@ -88,7 +90,7 @@ fun TasksScreen(
                 items(tasks) { item ->
                     TaskCard(
                         compositeTask = item,
-                        onTaskClicked = { onTaskClicked(it.plant) },
+                        onTaskClicked = { navigateToPlantDetails(it.plant) },
                         onAcceptClicked = { completeTask(it.task) },
                     )
                 }
@@ -108,5 +110,5 @@ internal val tabs = listOf("Active", "History")
 @Preview(showBackground = true)
 @Composable
 fun TasksScreenPreview() {
-    TasksScreen({})
+    TasksScreen()
 }

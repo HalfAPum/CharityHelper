@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.R
+import com.narvatov.planthelper.ui.navigation.Purchase
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.screen.plant.create.OutlinedPlantTextField
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.SettingsViewModel
@@ -23,8 +25,7 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SettingsScreen(
-    onPurchaseClicked: UnitCallback,
-    viewModel: SettingsViewModel = getViewModel()
+    viewModel: SettingsViewModel = getViewModel(),
 ) = with(viewModel) {
     Column(
         modifier = Modifier
@@ -73,12 +74,12 @@ fun SettingsScreen(
             text = settingsUiState.currentPlan,
             label = stringResource(R.string.current_pay_plan),
             enabled = false,
-            onClick = { onPurchaseClicked() },
+            onClick = { navigate(Purchase) },
             modifier = Modifier.padding(top = 20.dp),
         )
 
         Button(
-            onClick = { onPurchaseClicked() },
+            onClick = { navigate(Purchase) },
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .padding(top = 20.dp)
@@ -112,5 +113,5 @@ fun SettingsScreen(
 @Preview(showBackground = true)
 @Composable
 fun SettingScreenPreview() {
-    SettingsScreen({})
+    SettingsScreen()
 }

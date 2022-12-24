@@ -16,6 +16,18 @@ sealed class Destination(private val baseRoute: String) {
 
 }
 
+object Back : Destination("Back") {
+
+    fun withParam(destination: Destination, inclusive: Boolean): BackWithParam {
+        return BackWithParam(destination, inclusive)
+    }
+}
+
+class BackWithParam(
+    val back: Destination,
+    val inclusive: Boolean
+) : Destination("BackWithParam")
+
 sealed class HeaderDestination(route: String, val headerText: String) : Destination(route)
 
 sealed class BottomNavigation(

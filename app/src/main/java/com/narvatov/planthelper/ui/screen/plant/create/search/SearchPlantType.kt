@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.ui.ListSpacer
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.popBack
 import com.narvatov.planthelper.ui.screen.plant.create.OutlinedPlantTextField
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.plant.create.CreatePlantViewModel
@@ -27,7 +28,6 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SearchPlantType(
     viewModel: CreatePlantViewModel,
-    onPlantTypeSelected: () -> Unit,
     searchViewModel: SearchViewModel = getViewModel(),
 ) = with(searchViewModel) {
     LazyColumn(
@@ -69,7 +69,7 @@ fun SearchPlantType(
                 plant = plant,
                 onPlantClicked = {
                     viewModel.plantTypeSelected(plant)
-                    onPlantTypeSelected()
+                    popBack()
                 }
             )
         }

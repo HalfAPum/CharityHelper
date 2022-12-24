@@ -37,7 +37,17 @@ fun NavHostContent(
     ) {
         scope.launchCatching {
             UiNavigator.navigationEvents.collectLatest { destination ->
-                navigate(destination)
+                when(destination) {
+                    is BackWithParam -> {
+                        popBackStack(
+                            destination = destination.back,
+                            inclusive = destination.inclusive
+                        )
+                    }
+                    Back -> popBackStack()
+                    else -> navigate(destination)
+                }
+
             }
         }
 
@@ -48,12 +58,7 @@ fun NavHostContent(
                         .background(color = LightGreyBackground)
                         .padding(top = 8.dp)
                 ) {
-                    TasksScreen(
-                        onTaskClicked = {
-                            navigationPlantId = it.id
-                            navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, it.id))
-                        }
-                    )
+                    TasksScreen()
                 }
             }
 
@@ -62,11 +67,7 @@ fun NavHostContent(
             }
 
             composable(BottomNavigation.Settings) {
-                SettingsScreen(
-                    onPurchaseClicked = {
-                        navigate(Purchase)
-                    },
-                )
+                SettingsScreen()
             }
         }
 
@@ -75,30 +76,12 @@ fun NavHostContent(
 //            val plantId = navBackStackEntry.arguments?.getString(PlantDetails.PLANT_ID_NAV_PARAM)?.toLong()
 
 //            plantId?.let {
-                PlantDetails(
-                    plantId = navigationPlantId,
-                    onDeleteClicked = {
-                        popBackStack()
-                    },
-                    onEditClicked = {
-                        //TODO GO TO EDIT PAGE
-                    },
-                )
+                PlantDetails(plantId = navigationPlantId)
 //            }
         }
 
         composable(CreatePlant) {
-            CreatePlant(
-                onPlantTypeSearchClicked = {
-                    navigate(SearchPlantType)
-                },
-                openCalendarClicked = {
-                    navigate(Calendar)
-                },
-                onPlantSaved = {
-                    popBackStack(BottomNavigation.Plants, inclusive = true)
-                },
-            )
+            CreatePlant()
         }
 
         composable(SearchPlantType) {
@@ -106,10 +89,7 @@ fun NavHostContent(
                 navController.getBackStackEntry(CreatePlant)
             }
 
-            SearchPlantType(
-                onPlantTypeSelected = { popBackStack() },
-                viewModel = getViewModel(owner = viewModelStateOwner),
-            )
+            SearchPlantType(viewModel = getViewModel(owner = viewModelStateOwner))
         }
 
         composable(Calendar) {
@@ -117,10 +97,7 @@ fun NavHostContent(
                 navController.getBackStackEntry(CreatePlant)
             }
 
-            Calendar(
-                onDismiss = { popBackStack() },
-                viewModel = getViewModel(owner = viewModelStateOwner)
-            )
+            Calendar(viewModel = getViewModel(owner = viewModelStateOwner))
         }
 
         composable(Purchase) {

@@ -34,11 +34,7 @@ import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PlantDetails(
-    plantId: Long,
-    onDeleteClicked: UnitCallback,
-    onEditClicked: GenericCallback<Plant>,
-) {
+fun PlantDetails(plantId: Long) {
     val viewModel = getViewModel<PlantDetailsViewModel>(parameters = { parametersOf(plantId) })
     val taskViewModel = getViewModel<TaskViewModel>(
         parameters = { parametersOf(plantId) }
@@ -66,7 +62,9 @@ fun PlantDetails(
 
                         PlantAdditionalInfo(
                             plant = plantDetailsUiState.plant,
-                            onEditClicked = { onEditClicked(it) },
+                            onEditClicked = {
+                                //TODO provoide action
+                            },
                             modifier = Modifier
                                 .padding(top = 16.dp)
                                 .padding(horizontal = 16.dp),
