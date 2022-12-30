@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity(),
         initFirebase()
         checkNotificationPermission()
         initCoroutineExceptionCollector()
-        syncTasks()
+        syncFailedTasks()
 
         setContent {
             PlanthelperTheme {

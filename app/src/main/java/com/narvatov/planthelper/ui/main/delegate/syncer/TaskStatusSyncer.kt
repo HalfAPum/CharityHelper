@@ -9,9 +9,9 @@ object TaskStatusSyncer: ITaskStatusSyncer {
 
     private val taskStatusSyncerRepository: TaskStatusSyncerRepository by inject()
 
-    override fun LifecycleOwner.syncTasks() {
+    override fun LifecycleOwner.syncFailedTasks() {
         launchCatching {
-            taskStatusSyncerRepository.sync()
+            taskStatusSyncerRepository.syncFailedTasks()
         }
     }
 

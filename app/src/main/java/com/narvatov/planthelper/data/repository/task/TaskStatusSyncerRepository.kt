@@ -11,7 +11,7 @@ class TaskStatusSyncerRepository(
     private val taskDao: TaskDao,
 ) : Repository() {
 
-    suspend fun sync() = IOOperation {
+    suspend fun syncFailedTasks() = IOOperation {
         val failedTasks = taskDao.getAll()
             .filter { task ->
                 task.status == TaskStatus.Scheduled
@@ -19,7 +19,7 @@ class TaskStatusSyncerRepository(
             }
             .filter { task ->
                 val currentDate = Date()
-                task.scheduledDate.after(currentDate)
+                task.scheduledDate.before(currentDate)
             }
             .filter { task ->
                 val taskCalendar = Calendar.Builder().setInstant(task.scheduledDate).build()
@@ -30,6 +30,8 @@ class TaskStatusSyncerRepository(
             .map { it.copy(status = TaskStatus.Failed) }
 
         taskDao.update(failedTasks)
+
+        //TODO TRY GENERATE NEW TASKS
     }
 
 }

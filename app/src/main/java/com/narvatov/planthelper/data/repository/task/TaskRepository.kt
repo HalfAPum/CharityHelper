@@ -47,6 +47,8 @@ class TaskRepository(
             .filterByTaskScheduleType(oldTask.scheduleId)
             .count()
 
+        println("FUCK ME ${scheduledQueueSize}")
+
         if (scheduledQueueSize >= MINIMUM_AMOUNT_OF_ACTIVE_TASKS) return@IOOperation
 
         generateNextTask(oldTask = oldTask)
@@ -59,10 +61,13 @@ class TaskRepository(
 
         val taskSchedule = scheduleDao.get(oldTask.scheduleId)
 
-        taskSchedule.generateTask(
+
+        val generatedTask = taskSchedule.generateTask(
             plantId = oldTask.plantId,
             dateStartLimit = latestTask.scheduledDate,
         )
+
+        taskDao.insert(generatedTask)
     }
 
     private suspend inline fun List<Task>.filterByTaskScheduleType(

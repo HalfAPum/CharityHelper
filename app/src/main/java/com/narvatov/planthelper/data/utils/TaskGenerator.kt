@@ -34,7 +34,7 @@ object TaskGenerator {
                 while(true) {
                     taskDay += periodBetweenTasksInMonth
 
-                    if (taskDay < dateStartLimit.monthDay) continue
+                    if (taskDay <= dateStartLimit.monthDay) continue
 
                     if (taskDay > monthDay) return taskDay.toDate()
                 }

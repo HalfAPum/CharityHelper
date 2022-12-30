@@ -4,6 +4,6 @@ import androidx.lifecycle.LifecycleOwner
 
 interface ITaskStatusSyncer {
 
-    fun LifecycleOwner.syncTasks()
+    fun LifecycleOwner.syncFailedTasks()
 
 }
