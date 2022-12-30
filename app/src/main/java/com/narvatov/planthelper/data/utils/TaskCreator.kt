@@ -4,14 +4,14 @@ import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import com.narvatov.planthelper.models.data.local.task.Task
 import java.util.*
 
-object TaskGenerator {
+object TaskCreator {
 
     fun generateFirstPlantTasks(
         schedules: List<Schedule>,
         plantId: Long,
-    ) = schedules.map { it.generateTask(plantId) }
+    ) = schedules.map { it.createTask(plantId) }
 
-    fun Schedule.generateTask(
+    fun Schedule.createTask(
         plantId: Long,
         dateStartLimit: Date = Date(),
     ) = Task(
@@ -19,24 +19,27 @@ object TaskGenerator {
         scheduleId = id,
         name = name ?: scheduleType.action,
         healthImpact = scheduleType.healthImpact,
-        scheduledDate = generateTaskDate(dateStartLimit = dateStartLimit),
+        scheduledDate = createTaskDate(dateStartLimit = dateStartLimit),
     )
 
-    private fun Schedule.generateTaskDate(dateStartLimit: Date = Date()): Date {
+    private fun Schedule.createTaskDate(dateStartLimit: Date = Date()): Date {
         forEachMonth(startPoint = dateStartLimit) {
-            val periodBetweenTasksInMonth = totalDaysInMonth /
-                    scheduledMonthRepetitions.plus(1)
+            val periodBetweenTasksInMonth = totalDaysInMonth / scheduledMonthRepetitions
 
             if (monthRepetitionsAreAtLeastOne) {
-                var taskDay = 0.0
+                var taskDay = (periodBetweenTasksInMonth / 2) + 1
+
+                taskDay -= periodBetweenTasksInMonth
 
                 //TODO provide appropriate naming instead of monthDay
                 while(true) {
                     taskDay += periodBetweenTasksInMonth
 
-                    if (taskDay <= dateStartLimit.monthDay) continue
-
-                    if (taskDay > monthDay) return taskDay.toDate()
+                    when {
+                        taskDay <= dateStartLimit.monthDay -> continue
+                        taskDay > totalDaysInMonth -> break
+                        taskDay > monthDay -> taskDay.toDate()
+                    }
                 }
             }
         }

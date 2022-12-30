@@ -12,7 +12,7 @@ object UiNavigationEventPropagator {
     }
 
     fun navigate(destination: Destination) {
-        println("FUCK NAVIGATE TO ${destination.route}")
+        println("NAVIGATOR LOGGER NAVIGATE TO ${destination.route}")
         navigationEvents.navigate(destination)
     }
 

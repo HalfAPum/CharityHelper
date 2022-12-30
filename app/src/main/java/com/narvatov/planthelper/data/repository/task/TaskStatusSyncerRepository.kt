@@ -2,12 +2,14 @@ package com.narvatov.planthelper.data.repository.task
 
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
 import com.narvatov.planthelper.data.repository.base.Repository
+import com.narvatov.planthelper.models.data.local.task.Task
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
 import org.koin.core.annotation.Factory
 import java.util.*
 
 @Factory
 class TaskStatusSyncerRepository(
+    private val taskRepository: TaskRepository,
     private val taskDao: TaskDao,
 ) : Repository() {
 
@@ -31,7 +33,13 @@ class TaskStatusSyncerRepository(
 
         taskDao.update(failedTasks)
 
-        //TODO TRY GENERATE NEW TASKS
+        generateNewTasksForFailed(failedTasks)
+    }
+
+    private suspend fun generateNewTasksForFailed(failedTasks: List<Task>) {
+        failedTasks.forEach { failedTask ->
+            taskRepository.generateNextTask(failedTask)
+        }
     }
 
 }

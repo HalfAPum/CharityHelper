@@ -3,8 +3,8 @@ package com.narvatov.planthelper.data.repository.task
 import com.narvatov.planthelper.data.datasource.local.dao.ScheduleDao
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
 import com.narvatov.planthelper.data.repository.base.Repository
-import com.narvatov.planthelper.data.utils.TaskGenerator.generateFirstPlantTasks
-import com.narvatov.planthelper.data.utils.TaskGenerator.generateTask
+import com.narvatov.planthelper.data.utils.TaskCreator.generateFirstPlantTasks
+import com.narvatov.planthelper.data.utils.TaskCreator.createTask
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.models.data.local.task.Task
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
@@ -38,23 +38,21 @@ class TaskRepository(
 
         taskDao.update(updatedTask)
 
-        tryCreateNextTask(oldTask = updatedTask)
+        tryGenerateNextTask(oldTask = updatedTask)
     }
 
-    private suspend fun tryCreateNextTask(oldTask: Task) = IOOperation {
+    private suspend fun tryGenerateNextTask(oldTask: Task) = IOOperation {
         val scheduledQueueSize = taskDao.getAllByPlantId(oldTask.plantId)
             .filter { it.status == TaskStatus.Scheduled }
             .filterByTaskScheduleType(oldTask.scheduleId)
             .count()
 
-        println("FUCK ME ${scheduledQueueSize}")
-
-        if (scheduledQueueSize >= MINIMUM_AMOUNT_OF_ACTIVE_TASKS) return@IOOperation
+        if (scheduledQueueSize >= MINIMUM_ACTIVE_TASKS) return@IOOperation
 
         generateNextTask(oldTask = oldTask)
     }
 
-    private suspend fun generateNextTask(oldTask: Task) {
+    suspend fun generateNextTask(oldTask: Task) {
         val latestTask = taskDao.getAllByPlantId(oldTask.plantId)
             .filterByTaskScheduleType(oldTask.scheduleId)
             .maxBy { it.scheduledDate.time }
@@ -62,7 +60,7 @@ class TaskRepository(
         val taskSchedule = scheduleDao.get(oldTask.scheduleId)
 
 
-        val generatedTask = taskSchedule.generateTask(
+        val generatedTask = taskSchedule.createTask(
             plantId = oldTask.plantId,
             dateStartLimit = latestTask.scheduledDate,
         )
@@ -90,7 +88,7 @@ class TaskRepository(
 
 
     companion object {
-        private const val MINIMUM_AMOUNT_OF_ACTIVE_TASKS = 2
+        private const val MINIMUM_ACTIVE_TASKS = 2
     }
 
 }

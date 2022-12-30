@@ -10,7 +10,9 @@ data class MonthYear(val month: Int, val year: Int)
 val MonthYear.asString: String
     get() {
         val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
         calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.YEAR, year)
         val monthDate = SimpleDateFormat("MMMM")
         return monthDate.format(calendar.time)
     }
@@ -28,22 +30,23 @@ val MonthYear.next: MonthYear
         return nextMonth
     }
 
-fun Calendar(month: Int): Calendar {
+fun Calendar(month: Int, year: Int): Calendar {
     val calendar = Calendar.getInstance()
     calendar.set(Calendar.MONTH, month)
+    calendar.set(Calendar.YEAR, year)
     return calendar
 }
 
 context (MonthYear)
 val Schedule.totalDaysInMonth: Double
-    get() = Calendar(month).getActualMaximum(Calendar.DAY_OF_MONTH).toDouble()
+    get() = java.time.YearMonth.of(year, month.plus(1)).lengthOfMonth().toDouble()
 
 context (MonthYear)
 val Schedule.monthDay: Int
     get() {
         val monthDay = if (currentMonth.month == this@MonthYear.month
                 && currentMonth.year == this@MonthYear.year
-        ) Calendar(this@MonthYear.month)[Calendar.DAY_OF_MONTH]
+        ) Calendar(this@MonthYear.month, this@MonthYear.year)[Calendar.DAY_OF_MONTH]
         else 0
 
         return monthDay
