@@ -9,6 +9,7 @@ import com.narvatov.planthelper.data.utils.filterByTaskScheduleType
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.models.data.local.task.Task
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
+import com.narvatov.planthelper.models.data.local.task.isAtLeast
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -20,8 +21,8 @@ class TaskGeneratorRepository(
 
     suspend fun tryGenerateNextTask(oldTask: Task) = IOOperation {
         val scheduledQueueSize = taskDao.getAllByPlantId(oldTask.plantId)
-            .filter { it.status == TaskStatus.Scheduled }
-            .filterByTaskScheduleType(oldTask.scheduleId, scheduleDao)
+            .filter { it.status.isAtLeast(TaskStatus.Active) }
+            .filterByTaskScheduleType(oldTask)
             .count()
 
         if (scheduledQueueSize >= MINIMUM_ACTIVE_TASKS) return@IOOperation
@@ -43,21 +44,19 @@ class TaskGeneratorRepository(
         // Schedule notification because createFirstPlantTasks only create instances of tasks
         notificationRepository.scheduleNotifications(firstTasksIds)
 
-        // Since MINIMUM_ACTIVE_TASKS is equal to 1 do it only one time
+        // Since MINIMUM_ACTIVE_TASKS is equal to 2 do it only one time
         generateNextTasks(tasks)
         // We don't schedule notification here because generateNextTasks do it by yourself
     }
 
-    suspend fun generateNextTasks(
+    private suspend fun generateNextTasks(
         oldTasks: List<Task>
     ) = oldTasks.map { oldTask ->
         generateNextTask(oldTask)
     }
 
-    private suspend fun generateNextTask(oldTask: Task) {
-        val latestTask = taskDao.getAllByPlantId(oldTask.plantId)
-            .filterByTaskScheduleType(oldTask.scheduleId, scheduleDao)
-            .maxBy { it.scheduledDate.time }
+    suspend fun generateNextTask(oldTask: Task) {
+        val latestTask = getLatestScheduledTask(oldTask)
 
         val taskSchedule = scheduleDao.get(oldTask.scheduleId)
 
@@ -70,6 +69,12 @@ class TaskGeneratorRepository(
         val taskId = taskDao.insert(generatedTask)
 
         notificationRepository.scheduleNotification(taskId)
+    }
+
+    private suspend fun getLatestScheduledTask(oldTask: Task) = IOOperation {
+        taskDao.getAllByPlantId(oldTask.plantId)
+            .filterByTaskScheduleType(oldTask.scheduleId)
+            .maxBy { it.scheduledDate.time }
     }
 
 

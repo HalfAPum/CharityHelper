@@ -16,12 +16,14 @@ context (MonthYear)
 val Schedule.monthRepetitionsAreAtLeastOne: Boolean
     get() = scheduledMonthRepetitions >= 1
 
-suspend inline fun List<Task>.filterByTaskScheduleType(
+fun List<Task>.filterByTaskScheduleType(
     oldTaskScheduleId: Long,
-    scheduleDao: ScheduleDao,
 ) = filter { newTask ->
-    val newSchedule = scheduleDao.get(newTask.scheduleId)
-    val oldSchedule = scheduleDao.get(oldTaskScheduleId)
+    newTask.scheduleId == oldTaskScheduleId
+}
 
-    newSchedule.scheduleType == oldSchedule.scheduleType
+fun List<Task>.filterByTaskScheduleType(
+    oldTask: Task,
+) = filter { newTask ->
+    newTask.scheduleId == oldTask.scheduleId
 }

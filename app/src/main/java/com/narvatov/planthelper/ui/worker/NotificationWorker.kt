@@ -8,6 +8,7 @@ import androidx.work.WorkerParameters
 import com.narvatov.planthelper.data.repository.NotificationRepository
 import com.narvatov.planthelper.data.repository.PlantRepository
 import com.narvatov.planthelper.data.repository.ScheduleRepository
+import com.narvatov.planthelper.data.repository.task.TaskGeneratorRepository
 import com.narvatov.planthelper.data.repository.task.TaskRepository
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
 import com.narvatov.planthelper.utils.*
@@ -20,7 +21,7 @@ class NotificationWorker(
     private val taskRepository: TaskRepository by inject()
     private val scheduleRepository: ScheduleRepository by inject()
     private val plantRepository: PlantRepository by inject()
-    private val notificationRepository: NotificationRepository by inject()
+    private val taskGeneratorRepository: TaskGeneratorRepository by inject()
 
     override suspend fun doWork(): Result {
         val taskId = inputData.getLong(WORKER_TASK_ID, 0L)
@@ -58,10 +59,8 @@ class NotificationWorker(
 
 
         taskRepository.updateTaskStatus(task, TaskStatus.Active)
-        val nextTask = taskRepository.getNextNotificationTask(task.plantId, task.scheduleId)
 
-
-        notificationRepository.scheduleNotification(nextTask)
+        taskGeneratorRepository.generateNextTask(task)
 
         return Result.success()
     }

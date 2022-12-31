@@ -16,7 +16,6 @@ import org.koin.core.annotation.Factory
 class TaskRepository(
     private val context: Context,
     private val taskDao: TaskDao,
-    private val scheduleDao: ScheduleDao,
     private val taskGeneratorRepository: TaskGeneratorRepository,
 ) : Repository() {
 
@@ -29,13 +28,6 @@ class TaskRepository(
 
     suspend fun getTask(taskId: Long) = IOOperation {
         taskDao.get(taskId)
-    }
-
-    suspend fun getNextNotificationTask(plantId: Long, scheduleId: Long) = IOOperation {
-        taskDao.getAllByPlantId(plantId)
-            .filter { it.status == TaskStatus.Scheduled }
-            .filterByTaskScheduleType(scheduleId, scheduleDao)
-            .minBy { it.scheduledDate.time }
     }
 
 
