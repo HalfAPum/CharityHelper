@@ -32,8 +32,10 @@ data class Task(
     val name: String,
     @ColumnInfo(name = "health_impact")
     val healthImpact: Double,
-    @ColumnInfo(name = "task_date")
+    @ColumnInfo(name = "scheduled_date")
     val scheduledDate: Date,
+    @ColumnInfo(name = "completed_date")
+    val completedDate: Date? = null,
     @ColumnInfo(name = "status")
     val status: TaskStatus = TaskStatus.Scheduled,
     @PrimaryKey(autoGenerate = true)
@@ -46,5 +48,14 @@ data class Task(
             val sdf = SimpleDateFormat("MMM, dd")
             return sdf.format(scheduledDate)
         }
+
+    fun updateStatus(newStatus: TaskStatus): Task {
+        val newCompletedDate = when {
+            completedDate == null && newStatus.isAtMost(TaskStatus.Failed) -> Date()
+            else -> completedDate
+        }
+
+        return copy(completedDate = newCompletedDate, status = newStatus)
+    }
 
 }
