@@ -1,10 +1,13 @@
-package com.narvatov.planthelper.data.utils
+package com.narvatov.planthelper.data.repository.task
 
+import com.narvatov.planthelper.data.repository.base.Repository
+import com.narvatov.planthelper.data.utils.*
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import com.narvatov.planthelper.models.data.local.task.Task
+import org.koin.core.annotation.Single
 import java.util.*
 
-object TaskCreator {
+object TaskCreatorRepository : Repository() {
 
     fun generateFirstPlantTasks(
         schedules: List<Schedule>,
@@ -27,18 +30,17 @@ object TaskCreator {
             val periodBetweenTasksInMonth = totalDaysInMonth / scheduledMonthRepetitions
 
             if (monthRepetitionsAreAtLeastOne) {
-                var taskDay = (periodBetweenTasksInMonth / 2) + 1
+                var taskDay = periodBetweenTasksInMonth / 2
 
                 taskDay -= periodBetweenTasksInMonth
 
-                //TODO provide appropriate naming instead of monthDay
                 while(true) {
                     taskDay += periodBetweenTasksInMonth
 
                     when {
                         taskDay <= dateStartLimit.monthDay -> continue
                         taskDay > totalDaysInMonth -> break
-                        taskDay > monthDay -> taskDay.toDate()
+                        taskDay > monthDay -> return taskDay.toDate()
                     }
                 }
             }

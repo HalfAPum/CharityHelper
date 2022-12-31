@@ -9,7 +9,7 @@ import java.util.*
 
 @Factory
 class TaskStatusSyncerRepository(
-    private val taskRepository: TaskRepository,
+    private val taskGeneratorRepository: TaskGeneratorRepository,
     private val taskDao: TaskDao,
 ) : Repository() {
 
@@ -33,13 +33,7 @@ class TaskStatusSyncerRepository(
 
         taskDao.update(failedTasks)
 
-        generateNewTasksForFailed(failedTasks)
-    }
-
-    private suspend fun generateNewTasksForFailed(failedTasks: List<Task>) {
-        failedTasks.forEach { failedTask ->
-            taskRepository.generateNextTask(failedTask)
-        }
+        taskGeneratorRepository.generateNextTasks(failedTasks)
     }
 
 }
