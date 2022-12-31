@@ -87,21 +87,25 @@ fun NotificationManagerCompat.notify(
     notify(id.toInt(), notification)
 }
 
-fun Context.scheduleNotificationWorkers(task: List<Task>) {
-    task.forEach { scheduleNotificationWorker(it) }
-}
-
-fun Context.scheduleNotificationWorker(task: Task) {
+fun Task.scheduleNotification(context: Context): Task {
     val workRequests = OneTimeWorkRequestBuilder<NotificationWorker>().run {
-        val inputData = Data.Builder().putLong(NotificationWorker.WORKER_TASK_ID, task.id).build()
+        val inputData = Data.Builder().putLong(NotificationWorker.WORKER_TASK_ID, id).build()
         setInputData(inputData)
-        val initialDelay = task.scheduledDate.time - System.currentTimeMillis()
+        val initialDelay = scheduledDate.time - System.currentTimeMillis()
         setInputData(inputData)
         setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
         build()
     }
 
-    WorkManager.getInstance(applicationContext).enqueue(workRequests)
+    WorkManager.getInstance(context).enqueue(workRequests)
+
+    return copy(notificationId = workRequests.id)
+}
+
+fun Task.cancelScheduledNotification(context: Context) {
+    notificationId?.let {
+        WorkManager.getInstance(context).cancelWorkById(notificationId)
+    }
 }
 
 fun Context.getSingleActivityPendingIntent(): PendingIntent {

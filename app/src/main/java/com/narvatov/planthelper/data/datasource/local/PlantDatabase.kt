@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import androidx.room.withTransaction
 import com.narvatov.planthelper.data.datasource.local.converter.DateConverter
 import com.narvatov.planthelper.data.datasource.local.converter.IntMapConverter
+import com.narvatov.planthelper.data.datasource.local.converter.UUIDConverter
 import com.narvatov.planthelper.data.datasource.local.dao.PlantDao
 import com.narvatov.planthelper.data.datasource.local.dao.ScheduleDao
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
@@ -21,7 +22,7 @@ import com.narvatov.planthelper.models.data.local.task.Task
     ],
     version = DB_VERSION,
 )
-@TypeConverters(IntMapConverter::class, DateConverter::class)
+@TypeConverters(IntMapConverter::class, DateConverter::class, UUIDConverter::class)
 abstract class PlantDatabase : RoomDatabase(), TransactionManager {
 
     override suspend fun <R> withTransaction(block: suspend () -> R): R {
@@ -36,4 +37,4 @@ abstract class PlantDatabase : RoomDatabase(), TransactionManager {
 
 }
 
-private const val DB_VERSION = 7
+private const val DB_VERSION = 8

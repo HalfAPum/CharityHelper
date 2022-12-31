@@ -2,6 +2,7 @@ package com.narvatov.planthelper.data.repository.task
 
 import com.narvatov.planthelper.data.datasource.local.dao.ScheduleDao
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
+import com.narvatov.planthelper.data.repository.NotificationRepository
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.data.repository.task.TaskCreatorRepository.createTask
 import com.narvatov.planthelper.data.utils.filterByTaskScheduleType
@@ -14,6 +15,7 @@ import org.koin.core.annotation.Factory
 class TaskGeneratorRepository(
     private val taskDao: TaskDao,
     private val scheduleDao: ScheduleDao,
+    private val notificationRepository: NotificationRepository,
 ) : Repository() {
 
     suspend fun tryGenerateNextTask(oldTask: Task) = IOOperation {
@@ -25,6 +27,31 @@ class TaskGeneratorRepository(
         if (scheduledQueueSize >= MINIMUM_ACTIVE_TASKS) return@IOOperation
 
         generateNextTask(oldTask = oldTask)
+    }
+
+
+    suspend fun generateFirstTasksForPlant(plant: Plant) = IOOperation {
+        val plantSchedules = scheduleDao.getSchedulesByPlantOriginName(plant.originName)
+
+        val tasks = TaskCreatorRepository.createFirstPlantTasks(
+            schedules = plantSchedules,
+            plantId = plant.id
+        )
+
+        val firstTasksIds = taskDao.insert(tasks)
+
+        // Schedule notification because createFirstPlantTasks only create instances of tasks
+        notificationRepository.scheduleNotifications(firstTasksIds)
+
+        // Since MINIMUM_ACTIVE_TASKS is equal to 1 do it only one time
+        generateNextTasks(tasks)
+        // We don't schedule notification here because generateNextTasks do it by yourself
+    }
+
+    suspend fun generateNextTasks(
+        oldTasks: List<Task>
+    ) = oldTasks.map { oldTask ->
+        generateNextTask(oldTask)
     }
 
     private suspend fun generateNextTask(oldTask: Task) {
@@ -40,28 +67,9 @@ class TaskGeneratorRepository(
             dateStartLimit = latestTask.scheduledDate,
         )
 
-        taskDao.insert(generatedTask)
-    }
+        val taskId = taskDao.insert(generatedTask)
 
-
-    suspend fun generateFirstTasksForPlant(plant: Plant) = IOOperation {
-        val plantSchedules = scheduleDao.getSchedulesByPlantOriginName(plant.originName)
-
-        val tasks = TaskCreatorRepository.generateFirstPlantTasks(
-            schedules = plantSchedules,
-            plantId = plant.id
-        )
-
-        taskDao.insert(tasks)
-
-        // Since MINIMUM_ACTIVE_TASKS is equal to 1 do it only one time
-        generateNextTasks(tasks)
-    }
-
-    suspend fun generateNextTasks(oldTasks: List<Task>) {
-        oldTasks.forEach { oldTask ->
-            generateNextTask(oldTask)
-        }
+        notificationRepository.scheduleNotification(taskId)
     }
 
 

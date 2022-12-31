@@ -5,14 +5,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.narvatov.planthelper.data.repository.NotificationRepository
 import com.narvatov.planthelper.data.repository.PlantRepository
 import com.narvatov.planthelper.data.repository.ScheduleRepository
 import com.narvatov.planthelper.data.repository.task.TaskRepository
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
-import com.narvatov.planthelper.utils.getSingleActivityPendingIntent
-import com.narvatov.planthelper.utils.inject
-import com.narvatov.planthelper.utils.notify
-import com.narvatov.planthelper.utils.scheduleNotificationWorker
+import com.narvatov.planthelper.utils.*
 
 class NotificationWorker(
     context: Context,
@@ -22,6 +20,7 @@ class NotificationWorker(
     private val taskRepository: TaskRepository by inject()
     private val scheduleRepository: ScheduleRepository by inject()
     private val plantRepository: PlantRepository by inject()
+    private val notificationRepository: NotificationRepository by inject()
 
     override suspend fun doWork(): Result {
         val taskId = inputData.getLong(WORKER_TASK_ID, 0L)
@@ -62,7 +61,7 @@ class NotificationWorker(
         val nextTask = taskRepository.getNextNotificationTask(task.plantId, task.scheduleId)
 
 
-        applicationContext.scheduleNotificationWorker(nextTask)
+        notificationRepository.scheduleNotification(nextTask)
 
         return Result.success()
     }

@@ -36,6 +36,8 @@ data class Task(
     val scheduledDate: Date,
     @ColumnInfo(name = "completed_date")
     val completedDate: Date? = null,
+    @ColumnInfo(name = "notification_id")
+    val notificationId: UUID? = null,
     @ColumnInfo(name = "status")
     val status: TaskStatus = TaskStatus.Scheduled,
     @PrimaryKey(autoGenerate = true)

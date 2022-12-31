@@ -9,12 +9,12 @@ import java.util.*
 
 @Factory
 class TaskStatusSyncerRepository(
+    private val taskRepository: TaskRepository,
     private val taskGeneratorRepository: TaskGeneratorRepository,
-    private val taskDao: TaskDao,
 ) : Repository() {
 
     suspend fun syncFailedTasks() = IOOperation {
-        val failedTasks = taskDao.getAll()
+        val failedTasks = taskRepository.getAllTasks()
             .filter { task ->
                 task.status == TaskStatus.Scheduled
                         || task.status == TaskStatus.Active
@@ -29,11 +29,8 @@ class TaskStatusSyncerRepository(
 
                 taskCalendar[Calendar.DAY_OF_YEAR] != currentCalendar[Calendar.DAY_OF_YEAR]
             }
-            .map { it.copy(status = TaskStatus.Failed) }
 
-        taskDao.update(failedTasks)
-
-        taskGeneratorRepository.generateNextTasks(failedTasks)
+        taskRepository.updateTasksStatuses(failedTasks, TaskStatus.Failed)
     }
 
 }

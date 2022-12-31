@@ -9,7 +9,7 @@ import java.util.*
 
 object TaskCreatorRepository : Repository() {
 
-    fun generateFirstPlantTasks(
+    fun createFirstPlantTasks(
         schedules: List<Schedule>,
         plantId: Long,
     ) = schedules.map { it.createTask(plantId) }

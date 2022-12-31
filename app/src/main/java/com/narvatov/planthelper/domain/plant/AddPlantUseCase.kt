@@ -25,7 +25,6 @@ class AddPlantUseCase(
         val plantId = plantRepository.addPlant(plant)
 
         taskGeneratorRepository.generateFirstTasksForPlant(plant.copy(id = plantId))
-//
 //        val tasks = tasksIds.mapNotNull { taskRepository.getTask(it) }
 //
 //
