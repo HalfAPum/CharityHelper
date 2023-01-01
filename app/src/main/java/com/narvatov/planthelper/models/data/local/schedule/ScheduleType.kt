@@ -35,4 +35,4 @@ private const val FERTILIZER_CHANNEL_ID = "FERTILIZER_CHANNEL_ID"
 private const val PRUNING_CHANNEL_ID = "PRUNING_CHANNEL_ID"
 
 val ScheduleType.healthPlusPercentage: String
-    get() = "+${healthImpact * 100}%"
+    get() = "+${(healthImpact * 100).toInt()} %"

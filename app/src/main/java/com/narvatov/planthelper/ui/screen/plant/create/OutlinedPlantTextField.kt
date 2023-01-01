@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.narvatov.planthelper.ui.theme.RegularGrey
 import com.narvatov.planthelper.utils.UnitCallback
 
 @Composable
@@ -85,7 +86,7 @@ fun OutlinedPlantTextField(
                     Text(
                         text = if (error) errorLabel else label,
                         fontSize = 14.sp,
-                        color = if (error) Color(0xFFCC1111) else Color(0xFF535353),
+                        color = if (error) Color(0xFFCC1111) else RegularGrey,
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
 

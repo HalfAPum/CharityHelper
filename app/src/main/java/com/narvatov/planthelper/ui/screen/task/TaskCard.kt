@@ -25,6 +25,8 @@ import coil.request.ImageRequest
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.data.local.schedule.healthPlusPercentage
 import com.narvatov.planthelper.models.ui.task.CompositeTask
+import com.narvatov.planthelper.ui.getColor
+import com.narvatov.planthelper.ui.theme.healthColorMap
 
 @Composable
 fun TaskCard(
@@ -64,7 +66,7 @@ fun TaskCard(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 4.dp),
-                    color = Color(0xFFF2AE00)
+                    color = healthColorMap.getColor(plant.health)
                 )
 
                 Spacer(modifier = modifier.weight(1f))

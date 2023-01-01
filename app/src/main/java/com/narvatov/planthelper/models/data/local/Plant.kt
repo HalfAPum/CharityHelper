@@ -69,6 +69,6 @@ data class Plant(
     }
 
     val healthPercents: String
-        get() = "${health * 100}%"
+        get() = "${(health * 100).toInt()} %"
 
 }

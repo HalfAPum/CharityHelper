@@ -19,8 +19,11 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.dt.composedatepicker.*
+import com.narvatov.planthelper.ui.theme.healthAverage
+import com.narvatov.planthelper.ui.theme.healthBad
 import java.text.DateFormatSymbols
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.math.roundToInt
 
 @Composable
@@ -249,3 +252,9 @@ fun Arrangement.spaceBetween(space: Dp): Arrangement.HorizontalOrVertical {
         override fun toString() = "Arrangement#SpaceBetween"
     }
 }
+
+fun HashMap<ClosedFloatingPointRange<Double>, Color>.getColor(
+    health: Double,
+) = getOrDefault(keys.first { healthRange ->
+    health in healthRange
+}, healthAverage)
