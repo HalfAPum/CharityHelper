@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.narvatov.planthelper.models.ui.task.TaskUIElement
 import com.narvatov.planthelper.models.ui.task.tabs
 import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.screen.plant.common.PlantAgeHealth
@@ -112,15 +113,24 @@ fun PlantDetails(plantId: Long) {
                     else -> emptyList()
                 }
 
+                ListSpacer()
+
                 items(tasks) { item ->
                     Box(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
-                        TaskCard(
-                            compositeTask = item,
-                            onTaskClicked = {},
-                            onAcceptClicked = { taskViewModel.completeTask(it.task) },
-                        )
+                        when(item) {
+                            is TaskUIElement.CompositeTask -> {
+                                TaskCard(
+                                    compositeTask = item,
+                                    onTaskClicked = {},
+                                    onAcceptClicked = { taskViewModel.completeTask(it.task) },
+                                )
+                            }
+                            is TaskUIElement.Header -> {
+                                TaskHeader(header = item)
+                            }
+                        }
                     }
                 }
 

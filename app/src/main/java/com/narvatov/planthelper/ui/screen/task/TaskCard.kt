@@ -24,15 +24,16 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.data.local.schedule.healthPlusPercentage
-import com.narvatov.planthelper.models.ui.task.CompositeTask
+import com.narvatov.planthelper.models.ui.task.TaskUIElement
 import com.narvatov.planthelper.ui.getColor
 import com.narvatov.planthelper.ui.theme.healthColorMap
+import com.narvatov.planthelper.ui.theme.healthGood
 
 @Composable
 fun TaskCard(
-    compositeTask: CompositeTask,
-    onTaskClicked: (CompositeTask) -> Unit,
-    onAcceptClicked: (CompositeTask) -> Unit,
+    compositeTask: TaskUIElement.CompositeTask,
+    onTaskClicked: (TaskUIElement.CompositeTask) -> Unit,
+    onAcceptClicked: (TaskUIElement.CompositeTask) -> Unit,
     modifier: Modifier = Modifier
 ) = with(compositeTask) {
     Card(modifier = Modifier
@@ -125,7 +126,7 @@ fun TaskCard(
                         Text(
                             text = schedule.scheduleType.healthPlusPercentage,
                             fontSize = 16.sp,
-                            color = Color(0xFF006911),
+                            color = healthGood,
                             modifier = Modifier.padding(start = 6.dp),
                         )
                     }

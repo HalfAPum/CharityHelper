@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.data.repository.task.TaskRepository
-import com.narvatov.planthelper.domain.task.ActiveCompositeTaskFlowUseCase
+import com.narvatov.planthelper.domain.task.HeaderActiveCompositeTaskFlowUseCase
 import com.narvatov.planthelper.domain.task.HistoryCompositeTaskFlowUseCase
 import com.narvatov.planthelper.models.data.local.task.Task
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.onEach
 
 class TaskViewModel(
     private val plantId: Long?,
-    private val activeCompositeTaskFlowUseCase: ActiveCompositeTaskFlowUseCase,
+    private val headerActiveCompositeTaskFlowUseCase: HeaderActiveCompositeTaskFlowUseCase,
     private val historyCompositeTaskFlowUseCase: HistoryCompositeTaskFlowUseCase,
     private val taskRepository: TaskRepository,
 ) : ViewModel() {
@@ -26,12 +26,12 @@ class TaskViewModel(
         private set
 
     init {
-        collectActiveTasksFlow()
+        collectActiveTaskUIElementsFlow()
         collectHistoryTasksFlow()
     }
 
-    private fun collectActiveTasksFlow() {
-        activeCompositeTaskFlowUseCase(plantId)
+    private fun collectActiveTaskUIElementsFlow() {
+        headerActiveCompositeTaskFlowUseCase(plantId)
             .onEach { tasksUiState = tasksUiState.copy(activeTasks = it) }
             .launchIn(viewModelScope)
     }

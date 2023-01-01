@@ -5,7 +5,7 @@ import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import com.narvatov.planthelper.models.data.local.schedule.ScheduleType
 import com.narvatov.planthelper.models.data.local.task.Task
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
-import com.narvatov.planthelper.models.ui.task.CompositeTask
+import com.narvatov.planthelper.models.ui.task.TaskUIElement.CompositeTask
 import java.util.*
 
 val previewPlant = Plant(

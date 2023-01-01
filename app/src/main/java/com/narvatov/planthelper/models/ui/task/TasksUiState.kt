@@ -4,8 +4,8 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class TasksUiState(
-    val activeTasks: List<CompositeTask>,
-    val historyTasks: List<CompositeTask>,
+    val activeTasks: List<TaskUIElement>,
+    val historyTasks: List<TaskUIElement.CompositeTask>,
 )
 
 fun EmptyTasksUiState() = TasksUiState(emptyList(), emptyList())

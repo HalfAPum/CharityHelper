@@ -22,6 +22,7 @@ import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.naviga
 import com.narvatov.planthelper.ui.screen.task.tab.TabContent
 import com.narvatov.planthelper.ui.screen.task.tab.TaskTab
 import com.narvatov.planthelper.models.ui.task.Tab.History
+import com.narvatov.planthelper.models.ui.task.TaskUIElement
 import com.narvatov.planthelper.ui.screen.task.tab.TaskTabRow
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.TaskViewModel
@@ -91,12 +92,21 @@ fun TasksScreen(
                     else -> emptyList()
                 }
 
+                ListSpacer()
+
                 items(tasks) { item ->
-                    TaskCard(
-                        compositeTask = item,
-                        onTaskClicked = { navigateToPlantDetails(it.plant) },
-                        onAcceptClicked = { completeTask(it.task) },
-                    )
+                    when(item) {
+                        is TaskUIElement.CompositeTask -> {
+                            TaskCard(
+                                compositeTask = item,
+                                onTaskClicked = { navigateToPlantDetails(it.plant) },
+                                onAcceptClicked = { completeTask(it.task) },
+                            )
+                        }
+                        is TaskUIElement.Header -> {
+                            TaskHeader(header = item)
+                        }
+                    }
                 }
 
                 ListSpacer()

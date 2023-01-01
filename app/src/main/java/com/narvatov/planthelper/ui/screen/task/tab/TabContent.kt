@@ -19,8 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
-import com.narvatov.planthelper.models.ui.task.CompositeTask
 import com.narvatov.planthelper.models.ui.task.Tab
+import com.narvatov.planthelper.models.ui.task.TaskUIElement
 import com.narvatov.planthelper.ui.theme.LightRed
 import com.narvatov.planthelper.ui.theme.RegularBlack
 import com.narvatov.planthelper.ui.theme.RegularGrey
@@ -28,7 +28,7 @@ import com.narvatov.planthelper.ui.theme.RegularGrey
 @Composable
 fun TabContent(
     selected: Boolean,
-    historyTasks: List<CompositeTask>,
+    historyTasks: List<TaskUIElement.CompositeTask>,
     tab: Tab,
     modifier: Modifier = Modifier,
 ) {
