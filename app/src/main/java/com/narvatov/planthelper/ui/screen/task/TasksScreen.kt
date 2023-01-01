@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,14 +16,13 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import com.narvatov.planthelper.models.data.local.Plant
+import com.narvatov.planthelper.models.ui.task.tabs
 import com.narvatov.planthelper.ui.ListSpacer
-import com.narvatov.planthelper.ui.navigation.*
-import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigateToPlantDetails
+import com.narvatov.planthelper.ui.screen.task.tab.TabContent
+import com.narvatov.planthelper.ui.screen.task.tab.TaskTabRow
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.TaskViewModel
-import com.narvatov.planthelper.utils.GenericCallback
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -42,7 +38,7 @@ fun TasksScreen(
     val pagerState = rememberPagerState()
 
     Column(modifier = modifier) {
-        TabRow(
+        TaskTabRow(
             selectedTabIndex = tabIndex,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
@@ -52,20 +48,24 @@ fun TasksScreen(
                     )
                 )
             },
-        ) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        tabIndex = index
+        ) { index, tab ->
+            Tab(
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    tabIndex = index
 
-                        scope.launch {
-                            pagerState.animateScrollToPage(tabIndex)
-                        }
-                    },
-                    text = { Text(text = title) }
-                )
-            }
+                    scope.launch {
+                        pagerState.animateScrollToPage(tabIndex)
+                    }
+                },
+                text = {
+                    TabContent(
+                        selected = pagerState.currentPage == index,
+                        historyTasks = tasksUiState.historyTasks,
+                        tab = tab,
+                    )
+                }
+            )
         }
 
         HorizontalPager(
@@ -103,8 +103,6 @@ fun TasksScreen(
 
 internal const val ACTIVE_TASKS_INDEX = 0
 internal const val HISTORY_TASKS_INDEX = 1
-
-internal val tabs = listOf("Active", "History")
 
 
 @Preview(showBackground = true)

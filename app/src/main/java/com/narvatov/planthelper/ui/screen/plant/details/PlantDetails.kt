@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,19 +14,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.screen.plant.common.PlantAgeHealth
+import com.narvatov.planthelper.ui.screen.task.*
 import com.narvatov.planthelper.ui.screen.task.ACTIVE_TASKS_INDEX
 import com.narvatov.planthelper.ui.screen.task.HISTORY_TASKS_INDEX
-import com.narvatov.planthelper.ui.screen.task.TaskCard
-import com.narvatov.planthelper.ui.screen.task.tabs
+import com.narvatov.planthelper.ui.screen.task.tab.TabContent
+import com.narvatov.planthelper.ui.screen.task.tab.TaskTabRow
 import com.narvatov.planthelper.ui.spaceBetween
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.TaskViewModel
 import com.narvatov.planthelper.ui.viewmodel.plant.details.PlantDetailsViewModel
-import com.narvatov.planthelper.utils.GenericCallback
-import com.narvatov.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -87,14 +83,20 @@ fun PlantDetails(plantId: Long) {
                                 .background(color = LightGreyBackground)
                         )
 
-                        TabRow(selectedTabIndex = tabIndex) {
-                            tabs.forEachIndexed { index, title ->
-                                Tab(
-                                    selected = tabIndex == index,
-                                    onClick = { tabIndex = index },
-                                    text = { Text(text = title) }
-                                )
-                            }
+                        TaskTabRow(
+                            selectedTabIndex = tabIndex,
+                        ) { index, tab ->
+                            Tab(
+                                selected = tabIndex == index,
+                                onClick = { tabIndex = index },
+                                text = {
+                                    TabContent(
+                                        selected = tabIndex == index,
+                                        historyTasks = taskViewModel.tasksUiState.historyTasks,
+                                        tab = tab,
+                                    )
+                                }
+                            )
                         }
                     }
                 }
