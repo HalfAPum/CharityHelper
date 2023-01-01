@@ -2,6 +2,7 @@ package com.narvatov.planthelper.data.repository
 
 import com.narvatov.planthelper.data.datasource.local.dao.ScheduleDao
 import com.narvatov.planthelper.data.repository.base.Repository
+import com.narvatov.planthelper.data.repository.plant.PlantInfoRepository
 import com.narvatov.planthelper.models.data.local.Plant
 import org.koin.core.annotation.Factory
 

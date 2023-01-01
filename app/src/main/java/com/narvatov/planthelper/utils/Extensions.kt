@@ -92,7 +92,6 @@ fun Task.scheduleNotification(context: Context): Task {
         val inputData = Data.Builder().putLong(NotificationWorker.WORKER_TASK_ID, id).build()
         setInputData(inputData)
         val initialDelay = scheduledDate.time - System.currentTimeMillis()
-        setInputData(inputData)
         setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
         build()
     }

@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.data.repository.PhotoRepository
-import com.narvatov.planthelper.data.repository.PlantInfoRepository
+import com.narvatov.planthelper.data.repository.plant.PlantInfoRepository
 import com.narvatov.planthelper.domain.plant.AddPlantUseCase
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.models.ui.plant.create.EmptyCreatePlantUiState

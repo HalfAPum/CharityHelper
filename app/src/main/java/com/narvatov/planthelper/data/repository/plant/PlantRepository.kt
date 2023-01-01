@@ -1,4 +1,4 @@
-package com.narvatov.planthelper.data.repository
+package com.narvatov.planthelper.data.repository.plant
 
 import com.narvatov.planthelper.data.datasource.local.dao.PlantDao
 import com.narvatov.planthelper.data.repository.base.Repository
@@ -29,9 +29,4 @@ class PlantRepository(
 
     fun plantFlow(plantId: Long) = plantDao.flow(plantId)
 
-    private val testData = listOf(
-        previewPlant,
-        previewPlant,
-        previewPlant,
-    )
 }

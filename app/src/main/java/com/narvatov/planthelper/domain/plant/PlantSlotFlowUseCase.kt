@@ -1,6 +1,6 @@
 package com.narvatov.planthelper.domain.plant
 
-import com.narvatov.planthelper.data.repository.PlantRepository
+import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import com.narvatov.planthelper.data.repository.SettingsRepository
 import com.narvatov.planthelper.models.ui.plants.slot.EmptyPlantSlot
 import com.narvatov.planthelper.models.ui.plants.slot.FilledPlantSlot

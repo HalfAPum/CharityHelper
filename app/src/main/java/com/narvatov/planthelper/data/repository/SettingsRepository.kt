@@ -1,5 +1,6 @@
 package com.narvatov.planthelper.data.repository
 
+import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import kotlinx.coroutines.flow.first
 import org.koin.core.annotation.Factory
 

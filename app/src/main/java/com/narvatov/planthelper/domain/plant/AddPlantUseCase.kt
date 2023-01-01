@@ -1,6 +1,6 @@
 package com.narvatov.planthelper.domain.plant
 
-import com.narvatov.planthelper.data.repository.PlantRepository
+import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import com.narvatov.planthelper.data.repository.ScheduleRepository
 import com.narvatov.planthelper.data.repository.task.TaskGeneratorRepository
 import com.narvatov.planthelper.models.data.local.Plant

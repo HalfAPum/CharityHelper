@@ -5,8 +5,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.narvatov.planthelper.data.repository.NotificationRepository
-import com.narvatov.planthelper.data.repository.PlantRepository
+import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import com.narvatov.planthelper.data.repository.ScheduleRepository
 import com.narvatov.planthelper.data.repository.task.TaskGeneratorRepository
 import com.narvatov.planthelper.data.repository.task.TaskRepository

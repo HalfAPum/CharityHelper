@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.narvatov.planthelper.data.repository.PlantRepository
+import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import com.narvatov.planthelper.models.ui.plant.details.EmptyPlantDetailsUiState
 import com.narvatov.planthelper.models.ui.plant.details.PlantDetailsUiState
 import kotlinx.coroutines.flow.launchIn

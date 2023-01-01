@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.halfapum.general.coroutines.launchCatching
-import com.narvatov.planthelper.data.repository.PlantInfoRepository
-import com.narvatov.planthelper.data.repository.PlantInfoRepository.Companion.SEARCH_ALL_PLANTS_QUERY
+import com.narvatov.planthelper.data.repository.plant.PlantInfoRepository
+import com.narvatov.planthelper.data.repository.plant.PlantInfoRepository.Companion.SEARCH_ALL_PLANTS_QUERY
 import com.narvatov.planthelper.models.ui.plant.search.EmptySearchUiState
 import org.koin.android.annotation.KoinViewModel
 

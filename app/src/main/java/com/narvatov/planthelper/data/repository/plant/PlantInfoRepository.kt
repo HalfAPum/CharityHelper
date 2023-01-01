@@ -1,4 +1,4 @@
-package com.narvatov.planthelper.data.repository
+package com.narvatov.planthelper.data.repository.plant
 
 import com.narvatov.planthelper.data.datasource.remote.helper.PlantInfoApiHelper
 import com.narvatov.planthelper.data.repository.base.Repository
