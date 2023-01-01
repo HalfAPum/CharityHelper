@@ -20,6 +20,8 @@ import com.narvatov.planthelper.models.ui.task.tabs
 import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigateToPlantDetails
 import com.narvatov.planthelper.ui.screen.task.tab.TabContent
+import com.narvatov.planthelper.ui.screen.task.tab.TaskTab
+import com.narvatov.planthelper.models.ui.task.Tab.History
 import com.narvatov.planthelper.ui.screen.task.tab.TaskTabRow
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.viewmodel.TaskViewModel
@@ -49,8 +51,9 @@ fun TasksScreen(
                 )
             },
         ) { index, tab ->
-            Tab(
+            TaskTab(
                 selected = pagerState.currentPage == index,
+                historyTab = index == tabs.indexOf(History),
                 onClick = {
                     tabIndex = index
 
@@ -58,6 +61,7 @@ fun TasksScreen(
                         pagerState.animateScrollToPage(tabIndex)
                     }
                 },
+                onHistoryTabOpened = { completeFailedTasks() },
                 text = {
                     TabContent(
                         selected = pagerState.currentPage == index,

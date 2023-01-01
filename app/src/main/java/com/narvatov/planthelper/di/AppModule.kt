@@ -10,7 +10,7 @@ val appModule = module {
 
     single { Dispatcher() }
 
-    viewModel { params -> PlantDetailsViewModel(params.get(), get()) }
+    viewModel { params -> PlantDetailsViewModel(params.get(), get(), get()) }
 
     viewModel { params -> TaskViewModel(params.getOrNull(), get(), get(), get()) }
 

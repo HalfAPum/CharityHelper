@@ -46,4 +46,9 @@ class TaskViewModel(
         launchCatching { taskRepository.updateTaskStatus(task, TaskStatus.Completed) }
     }
 
+    fun completeFailedTasks() {
+        launchCatching { taskRepository.completeFailedTasks() }
+    }
+
+
 }

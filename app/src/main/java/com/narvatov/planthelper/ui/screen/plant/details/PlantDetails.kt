@@ -9,17 +9,20 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Tab
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import com.narvatov.planthelper.models.ui.task.Tab.History
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.narvatov.planthelper.models.ui.task.tabs
 import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.screen.plant.common.PlantAgeHealth
 import com.narvatov.planthelper.ui.screen.task.*
 import com.narvatov.planthelper.ui.screen.task.ACTIVE_TASKS_INDEX
 import com.narvatov.planthelper.ui.screen.task.HISTORY_TASKS_INDEX
 import com.narvatov.planthelper.ui.screen.task.tab.TabContent
+import com.narvatov.planthelper.ui.screen.task.tab.TaskTab
 import com.narvatov.planthelper.ui.screen.task.tab.TaskTabRow
 import com.narvatov.planthelper.ui.spaceBetween
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
@@ -86,9 +89,11 @@ fun PlantDetails(plantId: Long) {
                         TaskTabRow(
                             selectedTabIndex = tabIndex,
                         ) { index, tab ->
-                            Tab(
+                            TaskTab(
                                 selected = tabIndex == index,
+                                historyTab = index == tabs.indexOf(History),
                                 onClick = { tabIndex = index },
+                                onHistoryTabOpened = { completeFailedTasks() },
                                 text = {
                                     TabContent(
                                         selected = tabIndex == index,

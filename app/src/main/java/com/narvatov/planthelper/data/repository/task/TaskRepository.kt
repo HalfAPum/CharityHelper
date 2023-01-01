@@ -46,4 +46,10 @@ class TaskRepository(
         tasks.forEach { task -> updateTaskStatus(task, status) }
     }
 
+    suspend fun completeFailedTasks() = IOOperation {
+        val failedTasks = getAllTasks().filter { it.status == TaskStatus.Failed }
+
+        updateTasksStatuses(failedTasks, TaskStatus.Completed)
+    }
+
 }
