@@ -31,8 +31,8 @@ class PlantDetailsViewModel(
             }.launchIn(viewModelScope)
     }
 
-    fun completeFailedTasks() {
-        launchCatching { taskRepository.completeFailedTasks() }
+    fun completePlantFailedTasks(plantId: Long) {
+        launchCatching { taskRepository.completePlantFailedTasks(plantId) }
     }
 
 }

@@ -62,7 +62,7 @@ fun TasksScreen(
                         pagerState.animateScrollToPage(tabIndex)
                     }
                 },
-                onHistoryTabOpened = { completeFailedTasks() },
+                onHistoryTabOpened = { completeAllFailedTasks() },
                 text = {
                     TabContent(
                         selected = pagerState.currentPage == index,

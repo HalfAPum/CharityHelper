@@ -16,7 +16,7 @@ class TaskStatusSyncerRepository(
             .filter { task -> task.status.isAtLeast(TaskStatus.Active) }
             .filter { task ->
                 val currentDate = Date()
-                task.scheduledDate.before(currentDate)
+                task.scheduledDate.after(currentDate)
             }
             .filter { task ->
                 val taskCalendar = Calendar.Builder().setInstant(task.scheduledDate).build()

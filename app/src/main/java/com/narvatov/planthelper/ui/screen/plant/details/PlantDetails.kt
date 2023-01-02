@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Tab
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.narvatov.planthelper.models.ui.task.Tab.History
@@ -64,7 +63,10 @@ fun PlantDetails(plantId: Long) {
                                     .data(plantDetailsUiState.plant.imageUrl)
                                     .build(),
                                 contentDescription = null,
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .defaultMinSize(minHeight = 200.dp)
+                                    .background(color = LightGreyBackground),
                             )
 
                             PlantAdditionalInfo(
@@ -99,7 +101,7 @@ fun PlantDetails(plantId: Long) {
                                 selected = tabIndex == index,
                                 historyTab = index == tabs.indexOf(History),
                                 onClick = { tabIndex = index },
-                                onHistoryTabOpened = { completeFailedTasks() },
+                                onHistoryTabOpened = { completePlantFailedTasks(plantId) },
                                 text = {
                                     TabContent(
                                         selected = tabIndex == index,
