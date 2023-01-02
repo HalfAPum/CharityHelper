@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +20,8 @@ import com.narvatov.planthelper.ui.navigation.Purchase
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.screen.plant.create.OutlinedPlantTextField
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
+import com.narvatov.planthelper.ui.theme.RegularBlack
+import com.narvatov.planthelper.ui.theme.SecondaryColor
 import com.narvatov.planthelper.ui.viewmodel.SettingsViewModel
 import com.narvatov.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
@@ -84,12 +87,13 @@ fun SettingsScreen(
             modifier = Modifier
                 .padding(top = 20.dp)
                 .align(Alignment.CenterHorizontally),
+            colors = ButtonDefaults.buttonColors(backgroundColor = SecondaryColor)
         ) {
             Text(
                 text = stringResource(R.string.get_premium),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = RegularBlack,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         }

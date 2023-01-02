@@ -19,6 +19,7 @@ import coil.request.ImageRequest
 import com.narvatov.planthelper.models.ui.task.TaskUIElement
 import com.narvatov.planthelper.models.ui.task.tabs
 import com.narvatov.planthelper.ui.ListSpacer
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigateToEditPlant
 import com.narvatov.planthelper.ui.screen.plant.common.PlantAgeHealth
 import com.narvatov.planthelper.ui.screen.task.*
 import com.narvatov.planthelper.ui.screen.task.ACTIVE_TASKS_INDEX
@@ -68,8 +69,8 @@ fun PlantDetails(plantId: Long) {
 
                             PlantAdditionalInfo(
                                 plant = plantDetailsUiState.plant,
-                                onEditClicked = {
-                                    //TODO provoide action
+                                onEditClicked = { plant ->
+                                    navigateToEditPlant(plant)
                                 },
                                 modifier = Modifier
                                     .padding(top = 16.dp)

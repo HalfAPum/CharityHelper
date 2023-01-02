@@ -7,6 +7,7 @@ import com.narvatov.planthelper.ui.navigation.CreatePlant
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.navigation.navigationEditPlantId
 import com.narvatov.planthelper.ui.screen.plant.list.slot.ShimmerSlot
+import com.narvatov.planthelper.ui.theme.PrimaryColor
 
 object EmptyPlantSlot : PlantSlot {
 
@@ -14,6 +15,7 @@ object EmptyPlantSlot : PlantSlot {
     override fun renderSlotUi() {
         ShimmerSlot(
             drawableId = R.drawable.ic_add,
+            drawableTint = PrimaryColor,
             backgroundColor = Color.White,
             shimmerColor = Color.Gray,
             onSlotClicked = ::navigateToCreatePlant,

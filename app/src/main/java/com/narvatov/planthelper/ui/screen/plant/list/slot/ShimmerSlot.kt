@@ -2,6 +2,7 @@ package com.narvatov.planthelper.ui.screen.plant.list.slot
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,6 +23,7 @@ import com.valentinilk.shimmer.shimmer
 @Composable
 fun ShimmerSlot(
     @DrawableRes drawableId: Int,
+    drawableTint: Color,
     backgroundColor: Color,
     shimmerColor: Color,
     onSlotClicked: UnitCallback,
@@ -35,7 +38,11 @@ fun ShimmerSlot(
             painter = painterResource(drawableId),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(48.dp).clip(CircleShape),
+            colorFilter = ColorFilter.tint(color = drawableTint),
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(color = Color.White),
         )
 
         Row(modifier = Modifier.padding(start = 8.dp)) {
