@@ -13,6 +13,7 @@ import com.narvatov.planthelper.models.ui.task.Tab.History
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.narvatov.planthelper.models.ui.task.TaskUIElement
@@ -40,53 +41,56 @@ fun PlantDetails(plantId: Long) {
         parameters = { parametersOf(plantId) }
     )
     with(viewModel) {
-        var tabIndex by remember { mutableStateOf(0) }
-
-        CompositionLocalProvider(
-            LocalOverscrollConfiguration provides null
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = LightGreyBackground)
         ) {
-            LazyColumn(
-                modifier = Modifier.background(color = LightGreyBackground),
-                verticalArrangement = Arrangement.spaceBetween(20.dp)
+            var tabIndex by remember { mutableStateOf(0) }
+
+            CompositionLocalProvider(
+                LocalOverscrollConfiguration provides null
             ) {
-                item {
-                    Column(modifier = Modifier.background(color = Color.White)) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(context = LocalContext.current)
-                                .crossfade(true)
-                                .data(plantDetailsUiState.plant.imageUrl)
-                                .build(),
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
+                LazyColumn(
+                    modifier = Modifier.background(color = LightGreyBackground),
+                    verticalArrangement = Arrangement.spaceBetween(20.dp)
+                ) {
+                    item {
+                        Column(modifier = Modifier.background(color = Color.White)) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(context = LocalContext.current)
+                                    .crossfade(true)
+                                    .data(plantDetailsUiState.plant.imageUrl)
+                                    .build(),
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxWidth(),
+                            )
 
-                        PlantAdditionalInfo(
-                            plant = plantDetailsUiState.plant,
-                            onEditClicked = {
-                                //TODO provoide action
-                            },
-                            modifier = Modifier
-                                .padding(top = 16.dp)
-                                .padding(horizontal = 16.dp),
-                        )
+                            PlantAdditionalInfo(
+                                plant = plantDetailsUiState.plant,
+                                onEditClicked = {
+                                    //TODO provoide action
+                                },
+                                modifier = Modifier
+                                    .padding(top = 16.dp)
+                                    .padding(horizontal = 16.dp),
+                            )
 
-                        PlantAgeHealth(
-                            plant = plantDetailsUiState.plant,
-                            modifier = Modifier.padding(
-                                start = 16.dp,
-                                end = 40.dp,
-                                top = 20.dp,
-                            ),
-                        )
+                            PlantAgeHealth(
+                                plant = plantDetailsUiState.plant,
+                                ageSize = 18.sp,
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    end = 40.dp,
+                                    top = 20.dp,
+                                ),
+                            )
 
-                        Spacer(modifier = Modifier.height(40.dp))
+                            Spacer(modifier = Modifier.height(40.dp))
+                        }
+                    }
 
-                        Spacer(
-                            modifier = Modifier
-                                .height(32.dp)
-                                .background(color = LightGreyBackground)
-                        )
-
+                    item {
                         TaskTabRow(
                             selectedTabIndex = tabIndex,
                         ) { index, tab ->
@@ -105,36 +109,36 @@ fun PlantDetails(plantId: Long) {
                             )
                         }
                     }
-                }
 
-                val tasks = when (tabIndex) {
-                    ACTIVE_TASKS_INDEX -> taskViewModel.tasksUiState.activeTasks
-                    HISTORY_TASKS_INDEX -> taskViewModel.tasksUiState.historyTasks
-                    else -> emptyList()
-                }
+                    val tasks = when (tabIndex) {
+                        ACTIVE_TASKS_INDEX -> taskViewModel.tasksUiState.activeTasks
+                        HISTORY_TASKS_INDEX -> taskViewModel.tasksUiState.historyTasks
+                        else -> emptyList()
+                    }
 
-                ListSpacer()
+                    ListSpacer()
 
-                items(tasks) { item ->
-                    Box(
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    ) {
-                        when(item) {
-                            is TaskUIElement.CompositeTask -> {
-                                TaskCard(
-                                    compositeTask = item,
-                                    onTaskClicked = {},
-                                    onAcceptClicked = { taskViewModel.completeTask(it.task) },
-                                )
-                            }
-                            is TaskUIElement.Header -> {
-                                TaskHeader(header = item)
+                    items(tasks) { item ->
+                        Box(
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        ) {
+                            when (item) {
+                                is TaskUIElement.CompositeTask -> {
+                                    TaskCard(
+                                        compositeTask = item,
+                                        onTaskClicked = {},
+                                        onAcceptClicked = { taskViewModel.completeTask(it.task) },
+                                    )
+                                }
+                                is TaskUIElement.Header -> {
+                                    TaskHeader(header = item)
+                                }
                             }
                         }
                     }
-                }
 
-                ListSpacer()
+                    ListSpacer()
+                }
             }
         }
     }

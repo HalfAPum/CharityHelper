@@ -1,5 +1,8 @@
 package com.narvatov.planthelper.ui.screen.task.tab
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -16,6 +19,7 @@ import com.narvatov.planthelper.ui.theme.PrimaryColor
 @Composable
 fun TaskTabRow(
     selectedTabIndex: Int,
+    modifier: Modifier = Modifier,
     indicator: @Composable @UiComposable
         (tabPositions: List<TabPosition>) -> Unit = @Composable { tabPositions ->
         TabRowDefaults.Indicator(
@@ -24,20 +28,26 @@ fun TaskTabRow(
     },
     tabsComposable: @Composable @UiComposable (Int, Tab) -> Unit,
 ) {
-    TabRow(
-        selectedTabIndex = selectedTabIndex,
-        backgroundColor = Color.Transparent,
-        contentColor = PrimaryColor,
-        divider = {
-            TabRowDefaults.Divider(
-                thickness = 2.dp,
-                color = Color.White
-            )
-        },
-        indicator = indicator,
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
-        tabs.forEachIndexed { index, tab ->
-            tabsComposable(index, tab)
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            backgroundColor = Color.Transparent,
+            contentColor = PrimaryColor,
+            divider = {
+                TabRowDefaults.Divider(
+                    thickness = 2.dp,
+                    color = Color.White
+                )
+            },
+            indicator = indicator,
+        ) {
+            tabs.forEachIndexed { index, tab ->
+                tabsComposable(index, tab)
+            }
         }
     }
 }

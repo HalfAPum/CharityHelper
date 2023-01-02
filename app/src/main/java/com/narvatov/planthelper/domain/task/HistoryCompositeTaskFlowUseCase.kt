@@ -16,7 +16,7 @@ class HistoryCompositeTaskFlowUseCase(
         return compositeTaskFlowUseCase.invoke(plantId).map { compositeTasks ->
             compositeTasks.filter {
                 it.task.status.isAtMost(TaskStatus.Failed)
-            }.sortedByDescending { it.task.completedDate }
+            }.sortedByDescending { it.task.completedDate ?: it.task.scheduledDate }
         }
     }
 

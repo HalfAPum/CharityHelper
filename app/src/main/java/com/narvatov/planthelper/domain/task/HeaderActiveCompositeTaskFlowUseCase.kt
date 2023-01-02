@@ -30,7 +30,7 @@ class HeaderActiveCompositeTaskFlowUseCase(
 
     private fun addTodayActivityHeader(
         compositeTask: TaskUIElement.CompositeTask,
-        resultActiveTaskUIElements: MutableList<TaskUIElement>,
+        resultActiveTaskUIElements: MutableCollection<TaskUIElement>,
     ) {
         val taskCalendar = Calendar.Builder().setInstant(compositeTask.task.scheduledDate).build()
         val currentCalendar = Calendar.getInstance()
@@ -45,7 +45,7 @@ class HeaderActiveCompositeTaskFlowUseCase(
 
     private fun addFutureActivityHeader(
         compositeTask: TaskUIElement.CompositeTask,
-        resultActiveTaskUIElements: MutableList<TaskUIElement>,
+        resultActiveTaskUIElements: MutableCollection<TaskUIElement>,
     ) {
         val taskCalendar = Calendar.Builder().setInstant(compositeTask.task.scheduledDate).build()
         val currentCalendar = Calendar.getInstance()
