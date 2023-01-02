@@ -8,9 +8,15 @@ import androidx.lifecycle.ViewModel
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.data.repository.PhotoRepository
 import com.narvatov.planthelper.data.repository.plant.PlantInfoRepository
+import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import com.narvatov.planthelper.domain.plant.AddPlantUseCase
+import com.narvatov.planthelper.domain.plant.GetPlantUiStateUseCase
+import com.narvatov.planthelper.domain.plant.SavePlantUseCase
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.models.ui.plant.create.EmptyCreatePlantUiState
+import com.narvatov.planthelper.ui.navigation.BottomNavigation
+import com.narvatov.planthelper.ui.navigation.Destination
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.popBack
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import org.koin.android.annotation.KoinViewModel
@@ -18,13 +24,13 @@ import java.util.*
 
 @KoinViewModel
 class CreatePlantViewModel(
+    private val plantId: Long?,
+    private val plantRepository: PlantRepository,
     private val photoRepository: PhotoRepository,
     private val plantInfoRepository: PlantInfoRepository,
-    private val addPlantUseCase: AddPlantUseCase,
+    private val savePlantUseCase: SavePlantUseCase,
+    private val getPlantUiStateUseCase: GetPlantUiStateUseCase,
 ) : ViewModel() {
-
-    private val _savePlantActionSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
-    val savePlantActionSharedFlow = _savePlantActionSharedFlow.asSharedFlow()
 
     var createPlantUiState by mutableStateOf(EmptyCreatePlantUiState())
         private set
@@ -32,6 +38,12 @@ class CreatePlantViewModel(
     init {
         //Preload plant types
         launchCatching { plantInfoRepository.loadPlantTypes() }
+
+        launchCatching {
+            plantId?.let {
+                createPlantUiState = getPlantUiStateUseCase(plantId)
+            }
+        }
     }
 
     fun saveBitmap(bitmap: Bitmap?) = bitmap?.let {
@@ -44,7 +56,7 @@ class CreatePlantViewModel(
     }
 
     fun updatePlantBirthDay(date: Date) {
-        if (date.time < Date().time) return
+        if (date.time > Date().time) return
 
         createPlantUiState = createPlantUiState.copy(plantBirthDay = date)
     }
@@ -57,13 +69,20 @@ class CreatePlantViewModel(
     }
 
     fun savePlant() {
-        if (createPlantUiState.isValid) {
-            launchCatching {
-                addPlantUseCase(createPlantUiState.transformToPlant())
-                _savePlantActionSharedFlow.emit(Unit)
+        launchCatching {
+            if (createPlantUiState.isValid) {
+                savePlantUseCase(createPlantUiState)
+                popBack()
+            } else {
+                createPlantUiState = createPlantUiState.copyWithErrors()
             }
-        } else {
-            createPlantUiState = createPlantUiState.copyWithErrors()
+        }
+    }
+
+    fun deletePlant() {
+        launchCatching {
+            plantId?.let { plantRepository.deletePlant(plantId) }
+            popBack(destination = BottomNavigation.Plants, inclusive = false)
         }
     }
 

@@ -101,10 +101,14 @@ fun Task.scheduleNotification(context: Context): Task {
     return copy(notificationId = workRequests.id)
 }
 
-fun Task.cancelScheduledNotification(context: Context) {
+fun Task.cancelScheduledNotifications(context: Context) {
     notificationId?.let {
         WorkManager.getInstance(context).cancelWorkById(notificationId)
     }
+}
+
+fun List<Task>.cancelScheduledNotifications(context: Context) {
+    forEach { it.cancelScheduledNotifications(context) }
 }
 
 fun Context.getSingleActivityPendingIntent(): PendingIntent {

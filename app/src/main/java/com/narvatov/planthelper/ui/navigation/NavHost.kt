@@ -22,6 +22,7 @@ import com.narvatov.planthelper.ui.screen.task.TasksScreen
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun NavHostContent(
@@ -39,9 +40,16 @@ fun NavHostContent(
             UiNavigator.navigationEvents.collectLatest { destination ->
                 when(destination) {
                     is BackWithParam -> {
-                        popBackStack(
+                        val poppedBackSuccessfully = popBackStack(
                             destination = destination.back,
-                            inclusive = destination.inclusive
+                            inclusive = destination.inclusive,
+                        )
+
+                        if (poppedBackSuccessfully) return@collectLatest
+
+                        popBackStack(
+                            destination = BottomNavigation.Tasks,
+                            inclusive = false,
                         )
                     }
                     Back -> popBackStack()
@@ -90,7 +98,7 @@ fun NavHostContent(
         }
 
         composable(CreatePlant) {
-            CreatePlant()
+            CreatePlant(plantId = navigationEditPlantId)
         }
 
         composable(SearchPlantType) {
@@ -98,7 +106,10 @@ fun NavHostContent(
                 navController.getBackStackEntry(CreatePlant)
             }
 
-            SearchPlantType(viewModel = getViewModel(owner = viewModelStateOwner))
+            SearchPlantType(viewModel = getViewModel(
+                owner = viewModelStateOwner,
+                parameters = { parametersOf(navigationEditPlantId) }
+            ))
         }
 
         composable(Calendar) {
@@ -106,7 +117,10 @@ fun NavHostContent(
                 navController.getBackStackEntry(CreatePlant)
             }
 
-            Calendar(viewModel = getViewModel(owner = viewModelStateOwner))
+            Calendar(viewModel = getViewModel(
+                owner = viewModelStateOwner,
+                parameters = { parametersOf(navigationEditPlantId) }
+            ))
         }
 
         composable(Purchase) {
@@ -118,3 +132,4 @@ fun NavHostContent(
 
 //TODO REALLY TEMP FIX NAVIGATION SHIT LATER
 var navigationPlantId = 0L
+var navigationEditPlantId: Long? = null

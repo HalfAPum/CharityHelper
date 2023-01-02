@@ -18,10 +18,13 @@ interface PlantDao : BaseDao<Plant>, FlowByIdDao<Plant>, FlowAllDao<Plant>, GetB
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Plant WHERE id = :id")
-    override fun flow(id: Long): Flow<Plant>
+    override fun flow(id: Long): Flow<Plant?>
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Plant")
     override fun flowAll(): Flow<List<Plant>>
+
+    @Query("DELETE FROM Plant WHERE id = :plantId")
+    fun delete(plantId: Long)
 
 }

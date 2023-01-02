@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 interface FlowByIdDao<T> {
 
     @JvmSuppressWildcards
-    fun flow(id: Long): Flow<T>
+    fun flow(id: Long): Flow<T?>
 
 }

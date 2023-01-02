@@ -21,6 +21,11 @@ object UiNavigationEventPropagator {
         navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, plant.id))
     }
 
+    fun navigateToEditPlant(plant: Plant) {
+        navigationEditPlantId = plant.id
+        navigate(CreatePlant)
+    }
+
     fun popBack(destination: Destination, inclusive: Boolean = false) {
         navigationEvents.navigate(Back.withParam(destination, inclusive))
     }

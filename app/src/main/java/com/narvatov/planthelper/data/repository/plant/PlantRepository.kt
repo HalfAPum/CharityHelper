@@ -2,6 +2,7 @@ package com.narvatov.planthelper.data.repository.plant
 
 import com.narvatov.planthelper.data.datasource.local.dao.PlantDao
 import com.narvatov.planthelper.data.repository.base.Repository
+import com.narvatov.planthelper.data.repository.task.TaskRepository
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.utils.previewPlant
 import org.koin.core.annotation.Factory
@@ -9,6 +10,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class PlantRepository(
     private val plantDao: PlantDao,
+    private val taskRepository: TaskRepository,
 ) : Repository() {
 
     suspend fun addPlant(plant: Plant): Long = IOOperation {
@@ -19,8 +21,10 @@ class PlantRepository(
         plantDao.update(plant)
     }
 
-    suspend fun deletePlant(plant: Plant) = IOOperation {
-        plantDao.delete(plant)
+    suspend fun deletePlant(plantId: Long) = IOOperation {
+        plantDao.delete(plantId)
+
+        taskRepository.deleteTasks(plantId)
     }
 
     suspend fun getPlant(id: Long) = plantDao.get(id)

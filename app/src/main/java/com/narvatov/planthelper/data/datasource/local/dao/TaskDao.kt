@@ -16,7 +16,7 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task>, GetNulla
 
     @JvmSuppressWildcards
     @Query("SELECT * FROM Task WHERE id = :id")
-    override fun flow(id: Long): Flow<Task>
+    override fun flow(id: Long): Flow<Task?>
 
     @Query("SELECT * FROM Task WHERE Task.plant_id = :id")
     fun flowByPlantId(id: Long): Flow<List<Task>>
@@ -35,5 +35,8 @@ interface TaskDao : BaseDao<Task>, FlowByIdDao<Task>, FlowAllDao<Task>, GetNulla
     @JvmSuppressWildcards
     @Query("SELECT * FROM Task")
     override suspend fun getAll(): List<Task>
+
+    @Query("DELETE FROM Task WHERE plant_id = :plantId")
+    suspend fun delete(plantId: Long)
 
 }

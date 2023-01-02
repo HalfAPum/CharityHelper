@@ -39,25 +39,11 @@ fun PlantImageEditable(
         )
 
         when {
-            createPlantUiState.imageUrl.isNotBlank() -> {
+            createPlantUiState.imageUrl.isNotBlank()
+                || createPlantUiState.defaultImageUrl.isNotBlank() -> {
                 AsyncImage(
-                    model = createPlantUiState.imageUrl,
+                    model = createPlantUiState.imageUrl ?: createPlantUiState.defaultImageUrl,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape)
-                        .clickable { takePhotoAction.launch() },
-                )
-            }
-            createPlantUiState.defaultImageUrl.isNotBlank() -> {
-                AsyncImage(
-                    //TODO MAKE SHORTER
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .crossfade(true)
-                        .data(createPlantUiState.defaultImageUrl)
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(120.dp)
                         .clip(CircleShape)

@@ -16,6 +16,8 @@ data class CreatePlantUiState(
 
     val isPlantNameError: Boolean = false,
     val isPlantTypeError: Boolean = false,
+
+    val isCreateMode: Boolean = true
 ) {
 
     val shortPlantBirthDay: String

@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.ui.navigation.CreatePlant
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
+import com.narvatov.planthelper.ui.navigation.navigationEditPlantId
 import com.narvatov.planthelper.ui.screen.plant.list.slot.ShimmerSlot
 
 object EmptyPlantSlot : PlantSlot {
@@ -20,6 +21,7 @@ object EmptyPlantSlot : PlantSlot {
     }
 
     private fun navigateToCreatePlant() {
+        navigationEditPlantId = null
         navigate(CreatePlant)
     }
 

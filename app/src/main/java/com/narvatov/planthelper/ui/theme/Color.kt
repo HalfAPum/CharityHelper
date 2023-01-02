@@ -11,9 +11,12 @@ val LightGreyBackground = Color(0xFFF0F0F0)
 val LightRed = Color(0xFFFF5252)
 
 val PrimaryColor = Color(0xFF4CBBA1)
+val SecondaryColor = Color(0xFFFFC529)
 
 val RegularBlack = Color(0xFF0F0F0F)
 val RegularGrey = Color(0xFF535353)
+val AnotherGrey = Color(0xFF161616)
+val SoftGrey = Color(0xFFCDCDCD)
 
 val healthGood = Color(0xFF006911)
 val healthAverage = Color(0xFFF2AE00)

@@ -1,15 +1,12 @@
 package com.narvatov.planthelper.data.repository.task
 
 import android.content.Context
-import com.narvatov.planthelper.data.datasource.local.dao.ScheduleDao
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
-import com.narvatov.planthelper.data.repository.NotificationRepository
 import com.narvatov.planthelper.data.repository.base.Repository
-import com.narvatov.planthelper.data.utils.filterByTaskScheduleType
 import com.narvatov.planthelper.models.data.local.task.Task
 import com.narvatov.planthelper.models.data.local.task.TaskStatus
 import com.narvatov.planthelper.models.data.local.task.isAtMost
-import com.narvatov.planthelper.utils.cancelScheduledNotification
+import com.narvatov.planthelper.utils.cancelScheduledNotifications
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -36,7 +33,7 @@ class TaskRepository(
         taskDao.update(updatedTask)
 
         if (status.isAtMost(TaskStatus.Failed)) {
-            task.cancelScheduledNotification(context)
+            task.cancelScheduledNotifications(context)
         }
 
         taskGeneratorRepository.tryGenerateNextTask(oldTask = updatedTask)
@@ -50,6 +47,14 @@ class TaskRepository(
         val failedTasks = getAllTasks().filter { it.status == TaskStatus.Failed }
 
         updateTasksStatuses(failedTasks, TaskStatus.Completed)
+    }
+
+    suspend fun deleteTasks(plantId: Long) = IOOperation {
+        val plantTasks = taskDao.getAllByPlantId(plantId)
+
+        plantTasks.cancelScheduledNotifications(context)
+
+        taskDao.delete(plantId)
     }
 
 }

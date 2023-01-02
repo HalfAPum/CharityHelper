@@ -26,8 +26,9 @@ class PlantDetailsViewModel(
 
     private fun collectLoadPlantFlow() {
         plantRepository.plantFlow(plantId)
-            .onEach { plantDetailsUiState = PlantDetailsUiState(it) }
-            .launchIn(viewModelScope)
+            .onEach { plant ->
+                plant?.let { plantDetailsUiState = PlantDetailsUiState(it) }
+            }.launchIn(viewModelScope)
     }
 
     fun completeFailedTasks() {
