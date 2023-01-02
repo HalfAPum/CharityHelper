@@ -59,10 +59,11 @@ fun NavHost(
 
 fun NavHostController.navigate(
     destination: Destination,
-    navOptions: NavOptions? = null,
-    navigatorExtras: Navigator.Extras? = null
 ) {
-    navigate(destination.route, navOptions, navigatorExtras)
+    navigate(destination.route) {
+        launchSingleTop = true
+        restoreState = true
+    }
 }
 
 fun NavHostController.popBackStack(

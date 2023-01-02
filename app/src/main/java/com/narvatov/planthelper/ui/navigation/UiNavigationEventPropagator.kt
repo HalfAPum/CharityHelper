@@ -7,12 +7,12 @@ object UiNavigationEventPropagator {
 
     val navigationEvents = MutableSharedFlow<Destination>(extraBufferCapacity = 1)
 
-    fun MutableSharedFlow<Destination>.navigate(destination: Destination) {
+    private fun MutableSharedFlow<Destination>.navigate(destination: Destination) {
+        println("NAVIGATOR LOGGER NAVIGATE TO ${destination.route}")
         tryEmit(destination)
     }
 
     fun navigate(destination: Destination) {
-        println("NAVIGATOR LOGGER NAVIGATE TO ${destination.route}")
         navigationEvents.navigate(destination)
     }
 
@@ -21,7 +21,7 @@ object UiNavigationEventPropagator {
         navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, plant.id))
     }
 
-    fun popBack(destination: Destination, inclusive: Boolean) {
+    fun popBack(destination: Destination, inclusive: Boolean = false) {
         navigationEvents.navigate(Back.withParam(destination, inclusive))
     }
 

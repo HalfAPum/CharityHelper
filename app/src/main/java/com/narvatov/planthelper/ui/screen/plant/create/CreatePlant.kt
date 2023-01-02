@@ -34,7 +34,7 @@ fun CreatePlant(
     val scope = rememberCoroutineScope()
     scope.launchCatching {
         savePlantActionSharedFlow.collectLatest {
-            popBack(BottomNavigation.Plants, inclusive = true)
+            popBack(BottomNavigation.Plants, inclusive = false)
         }
     }
 

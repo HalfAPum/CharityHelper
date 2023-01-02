@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 
 @Composable
 fun BottomBar(navController: NavHostController) = BottomNavigation {
@@ -26,7 +27,7 @@ fun BottomBar(navController: NavHostController) = BottomNavigation {
 
     bottomNavigationItems.forEach { destination ->
         //Crutch part2 start
-        println("Current top destination is ${backStack.value?.destination?.route}")
+        println("NAVIGATOR LOGGER Current top destination is ${backStack.value?.destination?.route}")
         //Crutch part2 end
 
         BottomNavigationItem(
@@ -34,10 +35,30 @@ fun BottomBar(navController: NavHostController) = BottomNavigation {
             label = { Text(destination.text) },
             selected = destination.route == selectedRoute,
             onClick = {
-                navController.navigate(destination.route) {
-                    launchSingleTop = true
-                    restoreState = true
+                // First navigation strategy
+                // Pop back to destination if it exists in stack
+                // Each bottom nav destination have its mini back stack
+//                val poppedSuccessfully = navController.popBackStack(destination, inclusive = false)
+//
+//                if (poppedSuccessfully) return@BottomNavigationItem
+//
+//                navigate(destination)
+
+
+                // Second navigation strategy
+                // no mini back stack for tabs is left
+                // when you navigate to next bottom nav item
+                var popNextDestination = false
+                bottomNavigationItems.reversed().forEach {
+                    if (it.route == destination.route) {
+                        popNextDestination = true
+                    } else if (popNextDestination) {
+                        navController.popBackStack(destination = it, inclusive = false)
+                        popNextDestination = false
+                    }
                 }
+
+                navigate(destination)
             }
         )
     }

@@ -21,6 +21,6 @@ object LockedPlantSlot : PlantSlot {
     }
 
     private fun navigateToPurchase() {
-        UiNavigator.navigationEvents.navigate(Purchase)
+        navigate(Purchase)
     }
 }

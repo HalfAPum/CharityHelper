@@ -45,7 +45,16 @@ fun NavHostContent(
                         )
                     }
                     Back -> popBackStack()
-                    else -> navigate(destination)
+                    else -> {
+                        val poppedSuccessfully = popBackStack(
+                            destination = destination,
+                            inclusive = false,
+                        )
+
+                        if (poppedSuccessfully) return@collectLatest
+
+                        navigate(destination)
+                    }
                 }
 
             }
