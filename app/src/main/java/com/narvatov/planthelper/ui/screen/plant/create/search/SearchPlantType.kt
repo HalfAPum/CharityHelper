@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.ui.ListSpacer
+import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.popBack
 import com.narvatov.planthelper.ui.screen.plant.create.OutlinedPlantTextField
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
@@ -49,7 +50,7 @@ fun SearchPlantType(
                 Row {
                     innerTextField()
 
-                    Spacer(modifier = Modifier.weight(1F).background(color = LightGreyBackground))
+                    WeightedSpacer(modifier = Modifier.background(color = LightGreyBackground))
 
                     Image(
                         imageVector = Icons.Rounded.Cancel,

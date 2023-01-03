@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.narvatov.planthelper.ui.theme.Shapes
 
 @Composable
 fun SlotTemplate(
@@ -24,8 +25,8 @@ fun SlotTemplate(
     Card(
         modifier = Modifier
             .height(110.dp).fillMaxWidth()
-            .shadow(elevation = 10.dp, shape = RoundedCornerShape(20.dp))
-            .clip(RoundedCornerShape(20.dp))
+            .shadow(elevation = 10.dp, shape = Shapes.large)
+            .clip(Shapes.large)
             .then(modifier),
         backgroundColor = backgroundColor,
     ) {

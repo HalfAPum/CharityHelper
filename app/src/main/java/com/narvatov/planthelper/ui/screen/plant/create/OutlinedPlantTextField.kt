@@ -19,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.ui.theme.RegularGrey
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.utils.UnitCallback
 
 @Composable
@@ -60,7 +61,7 @@ fun OutlinedPlantTextField(
     content: (@Composable ColumnScope.(@Composable () -> Unit) -> Unit)? = null,
 ) {
     Card(
-        shape = RoundedCornerShape(20.dp),
+        shape = Shapes.large,
         border = BorderStroke(
             1.dp,
             if (error) Color(0xFFCC1111) else Color(0xFFCDCDCD)

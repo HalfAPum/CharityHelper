@@ -17,13 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.R
+import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.navigation.SearchPlantType
 import com.narvatov.planthelper.ui.navigation.Calendar
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
-import com.narvatov.planthelper.ui.theme.LightGreyBackground
-import com.narvatov.planthelper.ui.theme.AnotherGrey
-import com.narvatov.planthelper.ui.theme.RegularBlack
-import com.narvatov.planthelper.ui.theme.SecondaryColor
+import com.narvatov.planthelper.ui.theme.*
 import com.narvatov.planthelper.ui.viewmodel.plant.create.CreatePlantViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -103,7 +101,7 @@ fun CreatePlant(
                             else this
                         }
                         .size(width = 160.dp, height = 40.dp)
-                        .clip(shape = RoundedCornerShape(20.dp))
+                        .clip(shape = Shapes.large)
                         .clickable { savePlant() }
                 ) {
                     Box {
@@ -122,12 +120,12 @@ fun CreatePlant(
                 Row(modifier = Modifier.padding(top = 20.dp)) {
                     saveButtonComposable()
 
-                    Spacer(modifier = Modifier.weight(1F))
+                    WeightedSpacer()
 
                     Card(
                         backgroundColor = AnotherGrey,
                         modifier = Modifier.size(width = 140.dp, height = 40.dp)
-                            .clip(shape = RoundedCornerShape(20.dp))
+                            .clip(shape = Shapes.large)
                             .clickable { deletePlant() }
                     ) {
                         Box {

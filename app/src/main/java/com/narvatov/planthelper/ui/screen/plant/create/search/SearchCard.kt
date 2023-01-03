@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.narvatov.planthelper.models.data.local.Plant
+import com.narvatov.planthelper.ui.theme.Shapes
 
 @Composable
 fun SearchCard(
@@ -27,8 +28,8 @@ fun SearchCard(
     Card(
         modifier = Modifier
             .height(110.dp).fillMaxWidth()
-            .shadow(elevation = 10.dp, shape = RoundedCornerShape(20.dp))
-            .clip(RoundedCornerShape(20.dp))
+            .shadow(elevation = 10.dp, shape = Shapes.large)
+            .clip(Shapes.large)
             .then(modifier.clickable { onPlantClicked(plant) }),
         backgroundColor = Color.White,
     ) {
@@ -43,7 +44,7 @@ fun SearchCard(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .clip(RoundedCornerShape(16.dp)),
+                    .clip(Shapes.medium),
             )
 
             Text(

@@ -1,7 +1,6 @@
 package com.narvatov.planthelper.ui.screen.plant.details
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -15,7 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.data.local.Plant
+import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.theme.AnotherGrey
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.utils.GenericCallback
 
 @Composable
@@ -32,11 +33,11 @@ fun PlantAdditionalInfo(
                 fontWeight = FontWeight.Bold,
             )
 
-            Spacer(modifier = Modifier.weight(1F))
+            WeightedSpacer()
 
             Button(
                 onClick = { onEditClicked(plant) },
-                shape = RoundedCornerShape(20.dp),
+                shape = Shapes.large,
                 colors = ButtonDefaults.buttonColors(backgroundColor = AnotherGrey)
             ) {
                 Text(

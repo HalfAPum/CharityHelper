@@ -25,7 +25,9 @@ import coil.request.ImageRequest
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.data.local.schedule.healthPlusPercentage
 import com.narvatov.planthelper.models.ui.task.TaskUIElement
+import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.getColor
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.theme.healthColorMap
 import com.narvatov.planthelper.ui.theme.healthGood
 
@@ -38,8 +40,8 @@ fun TaskCard(
 ) = with(compositeTask) {
     Card(modifier = Modifier
             .height(120.dp).fillMaxWidth()
-            .shadow(elevation = 10.dp, shape = RoundedCornerShape(20.dp))
-            .clip(RoundedCornerShape(20.dp))
+            .shadow(elevation = 10.dp, shape = Shapes.large)
+            .clip(Shapes.large)
             .then(modifier.clickable { onTaskClicked(compositeTask) })
             .background(color = Color.White),
     ) {
@@ -70,7 +72,7 @@ fun TaskCard(
                     color = healthColorMap.getColor(plant.health)
                 )
 
-                Spacer(modifier = modifier.weight(1f))
+                WeightedSpacer()
 
                 Text(
                     text = task.scheduledDateString,
@@ -132,7 +134,7 @@ fun TaskCard(
                     }
                 }
 
-                Spacer(modifier = Modifier.weight(1F))
+                WeightedSpacer()
 
                 Image(
                     painter = painterResource(R.drawable.ic_complete),

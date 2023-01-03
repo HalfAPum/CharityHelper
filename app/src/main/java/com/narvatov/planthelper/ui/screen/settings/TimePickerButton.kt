@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
@@ -15,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.narvatov.planthelper.ui.theme.Shapes
 import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -58,7 +58,7 @@ fun TimePickerButton(
                     show()
                 }
             },
-            shape = RoundedCornerShape(20.dp),
+            shape = Shapes.large,
             contentPadding = PaddingValues(),
             modifier = modifier.defaultMinSize(1.dp, 1.dp),
         ) {

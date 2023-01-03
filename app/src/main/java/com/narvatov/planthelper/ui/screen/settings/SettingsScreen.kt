@@ -22,6 +22,7 @@ import com.narvatov.planthelper.ui.screen.plant.create.OutlinedPlantTextField
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.theme.RegularBlack
 import com.narvatov.planthelper.ui.theme.SecondaryColor
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.viewmodel.SettingsViewModel
 import com.narvatov.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
@@ -83,7 +84,7 @@ fun SettingsScreen(
 
         Button(
             onClick = { navigate(Purchase) },
-            shape = RoundedCornerShape(20.dp),
+            shape = Shapes.large,
             modifier = Modifier
                 .padding(top = 20.dp)
                 .align(Alignment.CenterHorizontally),
@@ -102,7 +103,7 @@ fun SettingsScreen(
 
 //        Button(
 //            onClick = { onPurchaseClicked() },
-//            shape = RoundedCornerShape(20.dp),
+//            shape = Shapes.large,
 //            modifier = Modifier.padding(vertical = 24.dp),
 //            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray)
 //        ) {

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.ui.getColor
 import com.narvatov.planthelper.ui.theme.RegularGrey
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.theme.healthColorMap
 import com.narvatov.planthelper.ui.theme.healthTextColorMap
 import com.narvatov.planthelper.utils.previewPlant
@@ -35,11 +36,11 @@ fun LinearTextProgressIdicator(
             backgroundColor = Color.White,
             modifier = Modifier.width(125.dp)
                 .height(16.dp)
-                .clip(RoundedCornerShape(20.dp))
+                .clip(Shapes.large)
                 .border(
                     width = 1.dp,
                     color = RegularGrey,
-                    shape = RoundedCornerShape(20.dp)
+                    shape = Shapes.large
                 )
         )
 

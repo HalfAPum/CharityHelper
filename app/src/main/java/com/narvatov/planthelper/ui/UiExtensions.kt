@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.dt.composedatepicker.*
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.theme.healthAverage
-import com.narvatov.planthelper.ui.theme.healthBad
 import java.text.DateFormatSymbols
 import java.util.*
 import kotlin.collections.HashMap
@@ -49,18 +49,15 @@ fun LazyListScope.ListSpacer(modifier: Modifier = Modifier) {
 
 @Composable
 fun Shimmer(
-    roundedCorner: Dp = 10.dp,
     shimmerColor: Color = Color.Gray,
     modifier: Modifier = Modifier,
 ) {
     Spacer(modifier = modifier
-        .clip(RoundedCornerShape(roundedCorner))
+        .clip(Shapes.small)
         .background(shimmerColor)
     )
 }
 
-@Composable
-fun rememberSaveableString(string: String = "") = rememberSaveable { mutableStateOf(string) }
 
 @Composable
 fun BoxScope.ComposeCalendar(
@@ -152,7 +149,7 @@ fun BoxScope.ComposeCalendar(
         }
 
         Card(
-            shape = RoundedCornerShape(20.dp),
+            shape = Shapes.large,
             elevation = 10.dp,
             modifier = Modifier
                 .fillMaxWidth(0.92f)
@@ -258,3 +255,8 @@ fun HashMap<ClosedFloatingPointRange<Double>, Color>.getColor(
 ) = getOrDefault(keys.first { healthRange ->
     health in healthRange
 }, healthAverage)
+
+@Composable
+fun RowScope.WeightedSpacer(modifier: Modifier = Modifier) {
+    Spacer(modifier = modifier.weight(1F))
+}
