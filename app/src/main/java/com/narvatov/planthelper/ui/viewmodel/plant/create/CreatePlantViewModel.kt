@@ -47,6 +47,7 @@ class CreatePlantViewModel(
     }
 
     fun saveBitmap(bitmap: Bitmap?) = bitmap?.let {
+        //TODO REFACTOR FLOW SAVE BITMAP ONLY BEFORE SAVING PLANT
         val imagePath = photoRepository.saveBitmap(
             oldBitmapPath = createPlantUiState.imageUrl,
             newBitmap = bitmap,

@@ -113,6 +113,9 @@ dependencies {
     //Work manager
     implementation("androidx.work:work-runtime-ktx:2.7.1")
 
+    //Billing
+    implementation("com.android.billingclient:billing-ktx:5.1.0")
+
     //Test dependencies
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:2.4.3")
