@@ -16,8 +16,8 @@ android {
         applicationId = "com.narvatov.planthelper"
         minSdkVersion(21)
         targetSdkVersion(33)
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.0.2"
     }
 
     kotlin {
