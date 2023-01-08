@@ -49,34 +49,6 @@ fun BillingClient.startConnection(
     })
 }
 
-val purchasesUpdatedListener by lazy {
-    PurchasesUpdatedListener { billingResult, purchases ->
-        // TODO provide propper analytics here
-
-        logSeparator()
-
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-            logBilling("User has just bought following products:")
-
-            for (purchase in purchases) {
-                logBilling("Bought product = $purchase")
-            }
-        } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-            logBilling("User cancelled billing.")
-
-            if (purchases != null) {
-                for (purchase in purchases) {
-                    logBilling("Cancelled product = $purchase")
-                }
-            }
-        } else {
-            logBilling("Unexpected billing response code: ${billingResult.responseCode} for products $purchases")
-        }
-
-        logSeparator()
-    }
-}
-
 fun logBilling(message: String) {
     Timber.d("Billing | $message")
 }
@@ -100,3 +72,22 @@ val ProductDetails.billingFlowParams: BillingFlowParams
             .setProductDetailsParamsList(productDetailsParamsList)
             .build()
     }
+
+val acknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener { billingResult ->
+    logBilling("Acknowledge result $billingResult")
+}
+
+val Purchase.requireAcknowledge: Boolean
+    get() = purchaseState == Purchase.PurchaseState.PURCHASED && !isAcknowledged
+
+
+fun BillingClient.acknowledgePurchase(purchase: Purchase) {
+    val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+        .setPurchaseToken(purchase.purchaseToken)
+        .build()
+
+    acknowledgePurchase(
+        acknowledgePurchaseParams,
+        acknowledgePurchaseResponseListener,
+    )
+}

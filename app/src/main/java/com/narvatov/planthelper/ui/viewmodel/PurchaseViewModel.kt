@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.BillingFlowParams
 import com.narvatov.planthelper.data.repository.BillingRepository
+import com.narvatov.planthelper.data.utils.logBilling
 import com.narvatov.planthelper.models.ui.purchase.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,6 +24,8 @@ class PurchaseViewModel(private val billingRepository: BillingRepository) : View
         billingRepository.connectToBilling()
 
         collectBillingProductsFlow()
+
+        collectPurchasedProductsFlow()
     }
 
     private fun collectBillingProductsFlow() {
@@ -34,6 +37,13 @@ class PurchaseViewModel(private val billingRepository: BillingRepository) : View
                     BillingState.Error -> ErrorPurchaseUiState()
                     else -> purchaseUiState
                 }
+            }.launchIn(viewModelScope)
+    }
+
+    private fun collectPurchasedProductsFlow() {
+        billingRepository.purchasedProductsFlow
+            .onEach { purchasedList ->
+                purchaseUiState = purchaseUiState.copy(purchasedList = purchasedList)
             }.launchIn(viewModelScope)
     }
 

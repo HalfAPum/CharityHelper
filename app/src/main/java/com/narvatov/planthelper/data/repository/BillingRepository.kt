@@ -1,17 +1,18 @@
 package com.narvatov.planthelper.data.repository
 
 import android.app.Activity
-import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.BillingClient.ProductType
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.data.utils.*
 import com.narvatov.planthelper.models.ui.purchase.BillingState
+import com.narvatov.planthelper.utils.logSeparator
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import org.koin.core.annotation.Single
+
 
 @Single
 class BillingRepository: Repository() {
@@ -22,8 +23,18 @@ class BillingRepository: Repository() {
     )
     val billingProductsFlow = _billingProductsFlow.asSharedFlow()
 
+    private val _purchasedProductsFlow = MutableSharedFlow<List<Purchase>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+    val purchasedProductsFlow = _purchasedProductsFlow.asSharedFlow()
+
 
     private val productDetailsList = mutableListOf<ProductDetails>()
+
+    private val purchasedProductsList = mutableListOf<Purchase>()
+
+    private val purchasesUpdatedListener = BillingPurchaseListener(::handlePurchases)
 
     private val billingClient by lazy {
         BillingClient.newBuilder(applicationContext).run {
@@ -50,9 +61,9 @@ class BillingRepository: Repository() {
                 if (billingResult.responseCode == BillingResponseCode.OK) {
                     logBilling("Connected to billing successfully")
 
-                    processPurchases()
+                    processUnhandledPurchases()
 
-                    _billingProductsFlow.tryEmit(BillingState.Success(productDetailsList))
+                    processPurchases()
                 } else {
                     logBilling("Connected to billing unsuccessfully. $billingResult")
                 }
@@ -76,11 +87,53 @@ class BillingRepository: Repository() {
             }
 
             productDetailsList.addAll(sortedProductDetailsList)
+
+            _billingProductsFlow.tryEmit(BillingState.Success(productDetailsList))
         }
     }
 
+    private fun processUnhandledPurchases() {
+        logBilling("Process unhandled purchases")
+
+        billingClient.queryPurchasesAsync(
+            QueryPurchasesParams.newBuilder()
+                .setProductType(ProductType.SUBS)
+                .build()
+        ) { _, purchases -> handlePurchases(purchases) }
+    }
+
+
     fun launchBillingFlow(activity: Activity, billingFlowParams: BillingFlowParams) {
+        logBilling("Launch purchase flow")
+
         billingClient.launchBillingFlow(activity, billingFlowParams)
+    }
+
+    private fun handlePurchases(purchases: List<Purchase>) {
+        purchases.map(::handlePurchase)
+
+        _purchasedProductsFlow.tryEmit(purchasedProductsList)
+    }
+
+    private fun handlePurchase(purchase: Purchase) {
+        logSeparator()
+
+        logBilling("Try to acknowledge purchase $purchase")
+
+        if (purchase.requireAcknowledge) {
+            logBilling("Purchase is not acknowledged. Acknowledging...")
+
+            billingClient.acknowledgePurchase(purchase)
+        } else {
+            logBilling("Purchase is already acknowledged")
+        }
+
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED
+            || purchase.purchaseState == Purchase.PurchaseState.PENDING) {
+            purchasedProductsList.add(purchase)
+        }
+
+        logSeparator()
     }
 
 }

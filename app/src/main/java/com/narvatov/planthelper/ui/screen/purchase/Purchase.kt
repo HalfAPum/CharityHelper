@@ -46,12 +46,18 @@ fun Purchase(
         else -> {
             LazyColumn {
                 items(purchaseUiState.productDetailsList) { productDetails ->
-                    Button(onClick = {
+                    Button(
+                        enabled = !purchaseUiState.purchasedList.any { it.products.contains(productDetails.productId) },
+                        onClick = {
                         val billingFlowParams = productDetails.billingFlowParams
 
                         launchBillingFlow(activity, billingFlowParams)
                     }) {
-                        Text(productDetails.name, fontSize = 50.sp)
+                        Text(
+                            text = "${productDetails.name} ${productDetails.subscriptionOfferDetails
+                                ?.first()?.pricingPhases?.pricingPhaseList?.first()?.formattedPrice}",
+                            fontSize = 50.sp
+                        )
                     }
                 }
             }
