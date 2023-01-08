@@ -4,7 +4,6 @@ import com.narvatov.planthelper.data.datasource.local.dao.PlantDao
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.data.repository.task.TaskRepository
 import com.narvatov.planthelper.models.data.local.Plant
-import com.narvatov.planthelper.utils.previewPlant
 import org.koin.core.annotation.Factory
 
 @Factory

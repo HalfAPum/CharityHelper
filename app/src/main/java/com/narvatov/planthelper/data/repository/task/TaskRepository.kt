@@ -1,6 +1,5 @@
 package com.narvatov.planthelper.data.repository.task
 
-import android.content.Context
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.models.data.local.task.Task
@@ -11,7 +10,6 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class TaskRepository(
-    private val context: Context,
     private val taskDao: TaskDao,
     private val taskGeneratorRepository: TaskGeneratorRepository,
 ) : Repository() {
@@ -33,7 +31,7 @@ class TaskRepository(
         taskDao.update(updatedTask)
 
         if (status.isAtMost(TaskStatus.Failed)) {
-            task.cancelScheduledNotifications(context)
+            task.cancelScheduledNotifications()
         }
 
         taskGeneratorRepository.tryGenerateNextTask(oldTask = updatedTask)
@@ -60,7 +58,7 @@ class TaskRepository(
     suspend fun deleteTasks(plantId: Long) = IOOperation {
         val plantTasks = taskDao.getAllByPlantId(plantId)
 
-        plantTasks.cancelScheduledNotifications(context)
+        plantTasks.cancelScheduledNotifications()
 
         taskDao.delete(plantId)
     }

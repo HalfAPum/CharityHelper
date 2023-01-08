@@ -20,6 +20,7 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.narvatov.planthelper.BuildConfig
+import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import com.narvatov.planthelper.models.data.local.task.Task
 import com.narvatov.planthelper.ui.main.MainActivity
@@ -87,7 +88,8 @@ fun NotificationManagerCompat.notify(
     notify(id.toInt(), notification)
 }
 
-fun Task.scheduleNotification(context: Context): Task {
+context (Repository)
+fun Task.scheduleNotification(): Task {
     val workRequests = OneTimeWorkRequestBuilder<NotificationWorker>().run {
         val inputData = Data.Builder().putLong(NotificationWorker.WORKER_TASK_ID, id).build()
         setInputData(inputData)
@@ -96,19 +98,21 @@ fun Task.scheduleNotification(context: Context): Task {
         build()
     }
 
-    WorkManager.getInstance(context).enqueue(workRequests)
+    WorkManager.getInstance(applicationContext).enqueue(workRequests)
 
     return copy(notificationId = workRequests.id)
 }
 
-fun Task.cancelScheduledNotifications(context: Context) {
+context (Repository)
+fun Task.cancelScheduledNotifications() {
     notificationId?.let {
-        WorkManager.getInstance(context).cancelWorkById(notificationId)
+        WorkManager.getInstance(applicationContext).cancelWorkById(notificationId)
     }
 }
 
-fun List<Task>.cancelScheduledNotifications(context: Context) {
-    forEach { it.cancelScheduledNotifications(context) }
+context (Repository)
+fun List<Task>.cancelScheduledNotifications() {
+    forEach { it.cancelScheduledNotifications() }
 }
 
 fun Context.getSingleActivityPendingIntent(): PendingIntent {
@@ -119,3 +123,5 @@ fun Context.getSingleActivityPendingIntent(): PendingIntent {
 
     return PendingIntent.getActivity(this, 1, intent, pendingIntentFlag)
 }
+
+fun logSeparator() = Timber.d("------------------")

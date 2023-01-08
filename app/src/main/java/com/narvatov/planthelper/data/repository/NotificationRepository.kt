@@ -1,6 +1,5 @@
 package com.narvatov.planthelper.data.repository
 
-import android.content.Context
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.models.data.local.task.Task
@@ -10,11 +9,10 @@ import org.koin.core.annotation.Factory
 @Factory
 class NotificationRepository(
     private val taskDao: TaskDao,
-    private val context: Context
 ) : Repository() {
 
     suspend fun scheduleNotification(task: Task) = IOOperation {
-        val scheduledTask = task.scheduleNotification(context)
+        val scheduledTask = task.scheduleNotification()
 
         taskDao.update(scheduledTask)
     }
