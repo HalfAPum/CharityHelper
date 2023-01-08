@@ -1,10 +1,12 @@
 package com.narvatov.planthelper.ui.viewmodel
 
+import android.app.Activity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.billingclient.api.BillingFlowParams
 import com.narvatov.planthelper.data.repository.BillingRepository
 import com.narvatov.planthelper.models.ui.purchase.*
 import kotlinx.coroutines.flow.launchIn
@@ -33,6 +35,10 @@ class PurchaseViewModel(private val billingRepository: BillingRepository) : View
                     else -> purchaseUiState
                 }
             }.launchIn(viewModelScope)
+    }
+
+    fun launchBillingFlow(activity: Activity, billingFlowParams: BillingFlowParams) {
+        billingRepository.launchBillingFlow(activity, billingFlowParams)
     }
 
 }

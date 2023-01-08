@@ -1,10 +1,6 @@
 package com.narvatov.planthelper.data.utils
 
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.PurchasesUpdatedListener
-import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.*
 import com.narvatov.planthelper.utils.logSeparator
 import timber.log.Timber
 
@@ -21,11 +17,16 @@ private fun subscriptionProduct(productId: String): QueryProductDetailsParams.Pr
     }
 }
 
-private val subscriptionProductList = listOf(
-    subscriptionProduct(SIMPLE_SLOT_SUBSCRIPTION),
-    subscriptionProduct(BASE_SLOT_SUBSCRIPTION),
-    subscriptionProduct(UNLIMITED_SLOT_SUBSCRIPTION),
+val productIdList = listOf(
+    SIMPLE_SLOT_SUBSCRIPTION,
+    BASE_SLOT_SUBSCRIPTION,
+    UNLIMITED_SLOT_SUBSCRIPTION,
 )
+
+private val subscriptionProductList = productIdList.map {
+    subscriptionProduct(it)
+}
+
 
 val billingProductsDetailsParams = QueryProductDetailsParams.newBuilder().run {
     setProductList(subscriptionProductList)
@@ -82,3 +83,20 @@ fun logBilling(message: String) {
 
 val BillingClient.isConnected: Boolean
     get() = connectionState == BillingClient.ConnectionState.CONNECTED
+
+val ProductDetails.billingFlowParams: BillingFlowParams
+    get() {
+        val productDetailsParamsList = listOf(
+            BillingFlowParams.ProductDetailsParams.newBuilder()
+                .setProductDetails(this)
+                // to get an offer token, call ProductDetails.subscriptionOfferDetails()
+                // for a list of offers that are available to the user
+                .setOfferToken(this.subscriptionOfferDetails!!.first().offerToken)
+                .build()
+        )
+
+
+        return BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(productDetailsParamsList)
+            .build()
+    }

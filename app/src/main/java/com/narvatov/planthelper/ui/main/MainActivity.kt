@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity(),
     IPermissionProvider by PermissionProvider,
     ICoroutineExceptionCollector by CoroutineExceptionCollector,
     ITaskStatusSyncer by TaskStatusSyncer,
-    IBillingDelegate by BillingDelegate()
+    IBillingDelegate by BillingDelegate
 {
 
     override fun onCreate(savedInstanceState: Bundle?) {

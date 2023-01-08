@@ -1,7 +1,9 @@
 package com.narvatov.planthelper.data.repository
 
+import android.app.Activity
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingResponseCode
+import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.ProductDetails
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.data.utils.*
@@ -69,8 +71,16 @@ class BillingRepository: Repository() {
         billingClient.queryProductDetailsAsync(billingProductsDetailsParams) { _, queriedProductDetailsList ->
             logBilling("Queried products ${queriedProductDetailsList.map { it.name }}")
 
-            productDetailsList.addAll(queriedProductDetailsList)
+            val sortedProductDetailsList = queriedProductDetailsList.sortedBy {
+                productIdList.indexOf(it.productId)
+            }
+
+            productDetailsList.addAll(sortedProductDetailsList)
         }
+    }
+
+    fun launchBillingFlow(activity: Activity, billingFlowParams: BillingFlowParams) {
+        billingClient.launchBillingFlow(activity, billingFlowParams)
     }
 
 }

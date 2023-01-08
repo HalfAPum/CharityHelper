@@ -79,7 +79,7 @@ object SearchPlantType : HeaderDestination("SearchPlantType", "Search your plant
 
 object Calendar : Destination("Calendar")
 
-object Purchase : Destination("Purchase")
+object Purchase : HeaderDestination("Purchase", "Subscription plan")
 
 val bottomNavigationItems = listOf(
     BottomNavigation.Tasks,
