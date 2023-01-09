@@ -1,13 +1,10 @@
 package com.narvatov.planthelper.data.repository
 
-import androidx.lifecycle.viewModelScope
-import com.android.billingclient.api.Purchase
-import com.narvatov.planthelper.data.datasource.local.dao.BillingDao
 import com.narvatov.planthelper.data.repository.base.Repository
+import com.narvatov.planthelper.data.repository.billing.BillingRepository
 import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import com.narvatov.planthelper.data.utils.subscriptionIdsToSlotsMap
 import com.narvatov.planthelper.models.data.local.BillingSubscription
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.Factory

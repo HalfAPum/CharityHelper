@@ -1,6 +1,8 @@
 package com.narvatov.planthelper.data.utils
 
+import androidx.lifecycle.Transformations.map
 import com.android.billingclient.api.*
+import com.narvatov.planthelper.models.data.local.BillingSubscription
 import com.narvatov.planthelper.utils.logSeparator
 import timber.log.Timber
 
@@ -96,4 +98,8 @@ fun BillingClient.acknowledgePurchase(purchase: Purchase) {
         acknowledgePurchaseParams,
         acknowledgePurchaseResponseListener,
     )
+}
+
+fun List<Purchase>.toBillingSubscriptions() = map {
+    BillingSubscription(it.products.first())
 }

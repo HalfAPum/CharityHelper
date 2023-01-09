@@ -5,10 +5,19 @@ import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.narvatov.planthelper.utils.logSeparator
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
-class BillingPurchaseListener(
-    private val purchaseSuccessfulAction: (List<Purchase>) -> Unit = {}
-) : PurchasesUpdatedListener {
+object BillingPurchaseListener : PurchasesUpdatedListener {
+
+    private val _successfulPurchasesUpdateFlow = MutableSharedFlow<List<Purchase>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+
+    val successfulPurchasesUpdateFlow = _successfulPurchasesUpdateFlow.asSharedFlow()
+
 
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
         // TODO provide propper analytics here
@@ -22,7 +31,7 @@ class BillingPurchaseListener(
                 logBilling("Purchased product = $purchase")
             }
 
-            purchaseSuccessfulAction(purchases)
+            _successfulPurchasesUpdateFlow.tryEmit(purchases)
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             logBilling("User cancelled billing.")
 

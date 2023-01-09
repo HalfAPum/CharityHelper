@@ -2,10 +2,12 @@ package com.narvatov.planthelper.data.repository.base
 
 import android.content.Context
 import com.halfapum.general.coroutines.Dispatcher
+import com.halfapum.general.coroutines.exception.generalCoroutineExceptionHandler
+import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.utils.inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 open class Repository {
 
@@ -22,5 +24,11 @@ open class Repository {
     ) = withContext(IODispatcher) { block() }
 
     val repositoryScope = CoroutineScope(IODispatcher + SupervisorJob())
+
+    fun Repository.launchCatching(
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job = repositoryScope.launchCatching(context, start, block)
 
 }
