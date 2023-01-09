@@ -35,6 +35,8 @@ fun BottomBar(navController: NavHostController) = Box(modifier = Modifier.border
         }?.destination?.route
 
         bottomNavigationItems.forEach { destination ->
+            val selected = destination.route == selectedRoute
+
             //Crutch part2 start
             println("NAVIGATOR LOGGER Current top destination is ${backStack.value?.destination?.route}")
             //Crutch part2 end
@@ -51,6 +53,8 @@ fun BottomBar(navController: NavHostController) = Box(modifier = Modifier.border
                 label = { Text(destination.text) },
                 selected = destination.route == selectedRoute,
                 onClick = {
+                    if (selected) return@BottomNavigationItem
+
                     // First navigation strategy
                     // Pop back to destination if it exists in stack
                     // Each bottom nav destination have its mini back stack
