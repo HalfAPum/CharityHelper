@@ -49,9 +49,10 @@ class BillingRepository: Repository() {
         logBilling("Try to connect to billing")
 
         if (billingClient.isConnected) {
-            logBilling("Billing is already connected")
-            return
+            logBilling("Billing is already connected. Reusing current connection...")
         }
+
+        logBilling("Connecting...")
 
         _billingProductsFlow.tryEmit(BillingState.Loading)
 
@@ -66,6 +67,8 @@ class BillingRepository: Repository() {
                     processPurchases()
                 } else {
                     logBilling("Connected to billing unsuccessfully. $billingResult")
+
+                    _billingProductsFlow.tryEmit(BillingState.Error)
                 }
             },
             onDisconnected = {
@@ -77,7 +80,13 @@ class BillingRepository: Repository() {
     }
 
     private fun processPurchases() {
-        if (productDetailsList.isNotEmpty()) return
+        if (productDetailsList.isNotEmpty()) {
+            logBilling("Purchases has already been queried. Reusing loaded products.")
+
+            _billingProductsFlow.tryEmit(BillingState.Success(productDetailsList))
+
+            return
+        }
 
         billingClient.queryProductDetailsAsync(billingProductsDetailsParams) { _, queriedProductDetailsList ->
             logBilling("Queried products ${queriedProductDetailsList.map { it.name }}")
@@ -110,6 +119,9 @@ class BillingRepository: Repository() {
     }
 
     private fun handlePurchases(purchases: List<Purchase>) {
+        purchasedProductsList.clear()
+        _purchasedProductsFlow.tryEmit(emptyList())
+
         purchases.map(::handlePurchase)
 
         _purchasedProductsFlow.tryEmit(purchasedProductsList)

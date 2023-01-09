@@ -23,6 +23,12 @@ val productIdList = listOf(
     UNLIMITED_SLOT_SUBSCRIPTION,
 )
 
+val subscriptionIdsToSlotsMap = mapOf(
+    SIMPLE_SLOT_SUBSCRIPTION to 4,
+    BASE_SLOT_SUBSCRIPTION to 6,
+    UNLIMITED_SLOT_SUBSCRIPTION to Int.MAX_VALUE,
+)
+
 private val subscriptionProductList = productIdList.map {
     subscriptionProduct(it)
 }

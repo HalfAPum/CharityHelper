@@ -32,4 +32,6 @@ class PlantRepository(
 
     fun plantFlow(plantId: Long) = plantDao.flow(plantId)
 
+    suspend fun getAllPlants() = plantDao.getAll()
+
 }
