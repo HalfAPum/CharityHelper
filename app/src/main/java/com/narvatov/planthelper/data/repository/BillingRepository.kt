@@ -4,8 +4,11 @@ import android.app.Activity
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.BillingClient.ProductType
+import com.halfapum.general.coroutines.launchCatching
+import com.narvatov.planthelper.data.datasource.local.dao.BillingDao
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.data.utils.*
+import com.narvatov.planthelper.models.data.local.BillingSubscription
 import com.narvatov.planthelper.models.ui.purchase.BillingState
 import com.narvatov.planthelper.utils.logSeparator
 import kotlinx.coroutines.channels.BufferOverflow
@@ -15,7 +18,9 @@ import org.koin.core.annotation.Single
 
 
 @Single
-class BillingRepository: Repository() {
+class BillingRepository(
+    private val billingDao: BillingDao,
+): Repository() {
 
     private val _billingProductsFlow = MutableSharedFlow<BillingState>(
         replay = 1,
@@ -23,11 +28,7 @@ class BillingRepository: Repository() {
     )
     val billingProductsFlow = _billingProductsFlow.asSharedFlow()
 
-    private val _purchasedProductsFlow = MutableSharedFlow<List<Purchase>>(
-        replay = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-    )
-    val purchasedProductsFlow = _purchasedProductsFlow.asSharedFlow()
+    fun flowPurchasedProducts() = billingDao.flowAll()
 
 
     private val productDetailsList = mutableListOf<ProductDetails>()
@@ -119,12 +120,19 @@ class BillingRepository: Repository() {
     }
 
     private fun handlePurchases(purchases: List<Purchase>) {
-        purchasedProductsList.clear()
-        _purchasedProductsFlow.tryEmit(emptyList())
+        repositoryScope.launchCatching {
+            purchasedProductsList.clear()
+            billingDao.clear()
+        }
 
         purchases.map(::handlePurchase)
 
-        _purchasedProductsFlow.tryEmit(purchasedProductsList)
+        repositoryScope.launchCatching {
+            val billingSubscription = purchasedProductsList.map {
+                BillingSubscription(it.products.first())
+            }
+            billingDao.insert(billingSubscription)
+        }
     }
 
     private fun handlePurchase(purchase: Purchase) {

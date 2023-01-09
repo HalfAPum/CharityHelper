@@ -47,7 +47,7 @@ fun Purchase(
             LazyColumn {
                 items(purchaseUiState.productDetailsList) { productDetails ->
                     Button(
-                        enabled = !purchaseUiState.purchasedList.any { it.products.contains(productDetails.productId) },
+                        enabled = !purchaseUiState.purchasedList.any { it.productId == productDetails.productId },
                         onClick = {
                         val billingFlowParams = productDetails.billingFlowParams
 

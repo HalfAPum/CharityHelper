@@ -7,9 +7,11 @@ import androidx.room.withTransaction
 import com.narvatov.planthelper.data.datasource.local.converter.DateConverter
 import com.narvatov.planthelper.data.datasource.local.converter.IntMapConverter
 import com.narvatov.planthelper.data.datasource.local.converter.UUIDConverter
+import com.narvatov.planthelper.data.datasource.local.dao.BillingDao
 import com.narvatov.planthelper.data.datasource.local.dao.PlantDao
 import com.narvatov.planthelper.data.datasource.local.dao.ScheduleDao
 import com.narvatov.planthelper.data.datasource.local.dao.TaskDao
+import com.narvatov.planthelper.models.data.local.BillingSubscription
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.models.data.local.schedule.Schedule
 import com.narvatov.planthelper.models.data.local.task.Task
@@ -19,6 +21,7 @@ import com.narvatov.planthelper.models.data.local.task.Task
         Plant::class,
         Task::class,
         Schedule::class,
+        BillingSubscription::class,
     ],
     version = DB_VERSION,
 )
@@ -35,6 +38,8 @@ abstract class PlantDatabase : RoomDatabase(), TransactionManager {
 
     abstract fun getScheduleDao(): ScheduleDao
 
+    abstract fun getBillingDao(): BillingDao
+
 }
 
-private const val DB_VERSION = 8
+private const val DB_VERSION = 9

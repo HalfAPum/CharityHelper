@@ -35,6 +35,10 @@ val databaseModule = module {
 
     factory { provideScheduleDao(get()) }
 
+    fun provideBillingDao(database: PlantDatabase) = database.getBillingDao()
+
+    factory { provideBillingDao(get()) }
+
 }
 
 private const val PLANT_DATABASE = "PLANT_DATABASE"

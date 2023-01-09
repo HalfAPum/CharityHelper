@@ -2,9 +2,11 @@ package com.narvatov.planthelper.data.repository
 
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.Purchase
+import com.narvatov.planthelper.data.datasource.local.dao.BillingDao
 import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.data.repository.plant.PlantRepository
 import com.narvatov.planthelper.data.utils.subscriptionIdsToSlotsMap
+import com.narvatov.planthelper.models.data.local.BillingSubscription
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,15 +24,15 @@ class SettingsRepository(
     init { collectPurchasedProductsFlow() }
 
     private fun collectPurchasedProductsFlow() {
-        billingRepository.purchasedProductsFlow
+        billingRepository.flowPurchasedProducts()
             .onEach(::handlePurchases)
             .launchIn(repositoryScope)
     }
 
-    private fun handlePurchases(purchasedList: List<Purchase>) {
-        if (purchasedList.isEmpty()) return
+    private fun handlePurchases(billingSubscriptions: List<BillingSubscription>) {
+        if (billingSubscriptions.isEmpty()) return
 
-        val lastProductId = purchasedList.last().products.first()
+        val lastProductId = billingSubscriptions.first().productId
 
         availableSlots = subscriptionIdsToSlotsMap.getOrDefault(lastProductId, DEFAULT_AVAILABLE_SLOT_COUNT)
     }
@@ -40,7 +42,13 @@ class SettingsRepository(
 
     suspend fun getEmptySlotsCount() = when (availableSlots) {
         Int.MAX_VALUE -> {
-            getOccupiedSlotsCount() + DEFAULT_AVAILABLE_SLOT_COUNT
+            val occupiedSlots = getOccupiedSlotsCount()
+
+            if (occupiedSlots < DEFAULT_LOCKED_SLOTS_AMOUNT) {
+                DEFAULT_LOCKED_SLOTS_AMOUNT - occupiedSlots + DEFAULT_AVAILABLE_SLOT_COUNT
+            } else {
+                getOccupiedSlotsCount() + DEFAULT_AVAILABLE_SLOT_COUNT
+            }
         }
         else -> {
             val emptySlots = availableSlots - getOccupiedSlotsCount()

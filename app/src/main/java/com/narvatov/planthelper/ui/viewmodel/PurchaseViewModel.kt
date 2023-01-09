@@ -41,7 +41,7 @@ class PurchaseViewModel(private val billingRepository: BillingRepository) : View
     }
 
     private fun collectPurchasedProductsFlow() {
-        billingRepository.purchasedProductsFlow
+        billingRepository.flowPurchasedProducts()
             .onEach { purchasedList ->
                 purchaseUiState = purchaseUiState.copy(purchasedList = purchasedList)
             }.launchIn(viewModelScope)
