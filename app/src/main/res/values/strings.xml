@@ -18,4 +18,5 @@
     <string name="get_premium">Get premium</string>
     <string name="plant_type_hint">Plant type:</string>
     <string name="edit">Edit</string>
+    <string name="choose_plan">Choose your subscription plan:</string>
 </resources>

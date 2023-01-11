@@ -32,8 +32,13 @@ class BillingPurchaseProcessor(
         billingClient.queryProductDetailsAsync(billingProductsDetailsParams) { _, queriedProductDetailsList ->
             logBilling("Queried products ${queriedProductDetailsList.map { it.name }}")
 
+            //todo refactor
             val sortedProductDetailsList = queriedProductDetailsList.sortedBy {
                 productIdList.indexOf(it.productId)
+            }.mapNotNull {
+                val subscriptionDetails = subscriptionIdsToSubscriptionDetails[it.productId]
+                subscriptionDetails?.productDetails = it
+                subscriptionDetails
             }
 
             billingConnectionFlow.tryEmit(BillingState.Success(sortedProductDetailsList))

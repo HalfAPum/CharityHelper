@@ -1,12 +1,10 @@
 package com.narvatov.planthelper.models.ui.purchase
 
-import com.android.billingclient.api.ProductDetails
-
 interface BillingState {
 
     object Loading : BillingState
 
-    class Success(val productDetailsList: List<ProductDetails>) : BillingState
+    class Success(val subscriptionDetailsList: List<SubscriptionDetails>) : BillingState
 
     object Error : BillingState
 

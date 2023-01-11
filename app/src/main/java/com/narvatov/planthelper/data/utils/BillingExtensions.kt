@@ -1,8 +1,10 @@
 package com.narvatov.planthelper.data.utils
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.Transformations.map
 import com.android.billingclient.api.*
 import com.narvatov.planthelper.models.data.local.BillingSubscription
+import com.narvatov.planthelper.models.ui.purchase.SubscriptionDetails
 import com.narvatov.planthelper.utils.logSeparator
 import timber.log.Timber
 
@@ -29,6 +31,35 @@ val subscriptionIdsToSlotsMap = mapOf(
     SIMPLE_SLOT_SUBSCRIPTION to 4,
     BASE_SLOT_SUBSCRIPTION to 6,
     UNLIMITED_SLOT_SUBSCRIPTION to Int.MAX_VALUE,
+)
+
+val lightSubscriptionDetails = SubscriptionDetails(
+    "Light",
+    "2 extra slots for plants",
+    "no ads",
+    "10 tasks daily"
+)
+
+val mediumSubscriptionDetails = SubscriptionDetails(
+    name = "Medium",
+    newSlotsText = "6 extra slots for plants",
+    noAds = "no ads",
+    dailyTasksText = "50 tasks daily",
+    headerText = "BEST CHOICE",
+    backgroundColor = Color(0xFFCEFFCA)
+)
+
+val unlimitedSubscriptionDetails = SubscriptionDetails(
+    "Unlimited",
+    "Unlimited slots for plants",
+    "no ads",
+    "Unlimited tasks daily"
+)
+
+val subscriptionIdsToSubscriptionDetails = mapOf(
+    SIMPLE_SLOT_SUBSCRIPTION to lightSubscriptionDetails,
+    BASE_SLOT_SUBSCRIPTION to mediumSubscriptionDetails,
+    UNLIMITED_SLOT_SUBSCRIPTION to unlimitedSubscriptionDetails,
 )
 
 private val subscriptionProductList = productIdList.map {

@@ -36,7 +36,7 @@ class PurchaseViewModel(
             .onEach { billingState ->
                 purchaseUiState = when(billingState) {
                     BillingState.Loading -> LoadingPurchaseUiState()
-                    is BillingState.Success -> SuccessfulPurchaseUiState(billingState.productDetailsList)
+                    is BillingState.Success -> SuccessfulPurchaseUiState(billingState.subscriptionDetailsList)
                     BillingState.Error -> ErrorPurchaseUiState()
                     else -> purchaseUiState
                 }
@@ -50,8 +50,8 @@ class PurchaseViewModel(
             }.launchIn(viewModelScope)
     }
 
-    fun launchBillingFlow(activity: Activity, billingFlowParams: BillingFlowParams) {
-        billingRepository.launchBillingFlow(activity, billingFlowParams)
+    fun launchBillingFlow(activity: Activity, billingFlowParams: BillingFlowParams?) {
+        billingFlowParams?.let { billingRepository.launchBillingFlow(activity, it) }
     }
 
 }
