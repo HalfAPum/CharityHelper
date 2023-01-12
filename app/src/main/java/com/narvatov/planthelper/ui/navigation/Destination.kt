@@ -28,7 +28,11 @@ class BackWithParam(
     val inclusive: Boolean
 ) : Destination("BackWithParam")
 
-sealed class HeaderDestination(route: String, val headerText: String) : Destination(route)
+sealed class HeaderDestination(
+    route: String,
+    val headerText: String,
+    val canGoBack: Boolean = true
+) : Destination(route)
 
 sealed class BottomNavigation(
     name: String,
@@ -36,7 +40,11 @@ sealed class BottomNavigation(
     @DrawableRes val icon: Int,
     //TODO CHANGE TO STRING RESOURCE
     val text: String,
-): HeaderDestination(name, headerText) {
+): HeaderDestination(
+    route = name,
+    headerText = headerText,
+    canGoBack = false
+) {
 
     object Tasks : BottomNavigation(
         name = "Tasks",
