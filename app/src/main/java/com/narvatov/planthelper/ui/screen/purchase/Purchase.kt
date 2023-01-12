@@ -1,7 +1,6 @@
 package com.narvatov.planthelper.ui.screen.purchase
 
 import android.app.Activity
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -60,19 +58,21 @@ fun Purchase(
             Text("ERROR")
         }
         else -> {
-            Text(
-                text = stringResource(R.string.choose_plan),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier.padding(top = 20.dp, start = 16.dp)
-            )
-
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(top = 20.dp),
             ) {
+                item {
+                    Text(
+                        text = stringResource(R.string.choose_plan),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(top = 20.dp, start = 16.dp)
+                    )
+                }
+
                 items(purchaseUiState.subscriptionDetailsList) { subscriptionDetails ->
                     Card(
                         backgroundColor = subscriptionDetails.backgroundColor,
@@ -132,13 +132,20 @@ fun Purchase(
                             )
 
                             PurchaseAdvantageItem(
-                                text = subscriptionDetails.newSlotsText,
+                                boldStartText = subscriptionDetails.newSlotsBoldText,
+                                normalText = subscriptionDetails.newSlotsText,
                                 modifier = Modifier.padding(top = 16.dp)
                             )
 
-                            PurchaseAdvantageItem(text = subscriptionDetails.noAds)
+                            if (subscriptionDetails.noAds != null) {
+                                PurchaseAdvantageItem(normalText = subscriptionDetails.noAds)
+                            }
 
-                            PurchaseAdvantageItem(text = subscriptionDetails.dailyTasksText)
+                            PurchaseAdvantageItem(
+                                boldStartText = subscriptionDetails.
+                                dailyTasksBoldText,
+                                normalText = subscriptionDetails.dailyTasksText
+                            )
                         }
                     }
                 }

@@ -3,6 +3,7 @@ package com.narvatov.planthelper.models.ui.purchase
 import androidx.compose.runtime.Immutable
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
+import com.narvatov.planthelper.data.utils.toSubscriptionDetailsList
 import com.narvatov.planthelper.models.data.local.BillingSubscription
 
 @Immutable
@@ -14,8 +15,15 @@ data class PurchaseUiState(
 )
 
 fun EmptyPurchaseUiState() = PurchaseUiState(false, emptyList(), false)
+
 fun LoadingPurchaseUiState() = PurchaseUiState(true, emptyList(), false)
+
 fun SuccessfulPurchaseUiState(
-    subscriptionDetailsList: List<SubscriptionDetails>
-) = PurchaseUiState(false, subscriptionDetailsList, false)
-fun ErrorPurchaseUiState() = PurchaseUiState(true, emptyList(), true)
+    billingState: BillingState.Success,
+) = PurchaseUiState(
+    false,
+    billingState.productDetailsList.toSubscriptionDetailsList(),
+    false,
+)
+
+fun ErrorPurchaseUiState() = PurchaseUiState(false, emptyList(), true)

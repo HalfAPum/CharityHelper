@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.BillingFlowParams
 import com.narvatov.planthelper.data.repository.billing.BillingConnector
 import com.narvatov.planthelper.data.repository.billing.BillingRepository
+import com.narvatov.planthelper.domain.purchase.PurchaseStateFlowUseCase
 import com.narvatov.planthelper.models.ui.purchase.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,6 +18,7 @@ import org.koin.android.annotation.KoinViewModel
 @KoinViewModel
 class PurchaseViewModel(
     private val billingConnector: BillingConnector,
+    private val purchaseStateFlowUseCase: PurchaseStateFlowUseCase,
     private val billingRepository: BillingRepository,
 ) : ViewModel() {
 
@@ -32,15 +34,9 @@ class PurchaseViewModel(
     }
 
     private fun collectBillingConnectionFlow() {
-        billingConnector.billingConnectionFlow
-            .onEach { billingState ->
-                purchaseUiState = when(billingState) {
-                    BillingState.Loading -> LoadingPurchaseUiState()
-                    is BillingState.Success -> SuccessfulPurchaseUiState(billingState.subscriptionDetailsList)
-                    BillingState.Error -> ErrorPurchaseUiState()
-                    else -> purchaseUiState
-                }
-            }.launchIn(viewModelScope)
+        purchaseStateFlowUseCase().onEach {
+            purchaseUiState = it
+        }.launchIn(viewModelScope)
     }
 
     private fun collectPurchasedProductsFlow() {
