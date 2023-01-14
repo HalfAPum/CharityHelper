@@ -3,7 +3,6 @@ package com.narvatov.planthelper.ui.screen.plant.create
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -36,19 +35,12 @@ fun CreatePlant(
     val viewModel = getViewModel<CreatePlantViewModel>(parameters = { parametersOf(plantId) })
 
     with(viewModel) {
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(10.dp)
-                .background(LightGreyBackground)
-        )
-
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             PlantImageEditable(
                 createPlantUiState = createPlantUiState,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(top = 20.dp),
+                    .padding(top = 30.dp),
                 onPhotoPicked = { saveBitmap(it) }
             )
 
@@ -90,7 +82,7 @@ fun CreatePlant(
 
             val saveButtonComposable = @Composable {
                 Card(
-                    backgroundColor = SecondaryColor,
+                    backgroundColor = PrimaryColor,
                     modifier = Modifier
                         .run {
                             if (createMode) {
@@ -106,8 +98,8 @@ fun CreatePlant(
                 ) {
                     Box {
                         Text(
-                            text = stringResource(R.string.save),
-                            color = RegularBlack,
+                            text = stringResource(R.string.add_plant),
+                            color = Color.White,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.align(Alignment.Center)

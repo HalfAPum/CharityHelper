@@ -6,7 +6,7 @@
     <string name="name">Name:</string>
     <string name="plant_type">Plant type:</string>
     <string name="plant_birthday">Plant birthday (approx.):</string>
-    <string name="save">SAVE</string>
+    <string name="add_plant">Add plant</string>
     <string name="delete_plant">delete plant</string>
     <string name="empty_plant_type">Empty plant type</string>
     <string name="empty_name">Empty name</string>
