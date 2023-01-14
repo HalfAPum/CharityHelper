@@ -4,6 +4,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
@@ -25,6 +26,8 @@ import java.text.DateFormatSymbols
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.roundToInt
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 @Composable
 fun Scaffold(
@@ -45,6 +48,10 @@ fun Scaffold(
  */
 fun LazyListScope.ListSpacer(modifier: Modifier = Modifier) {
     item { Spacer(modifier = modifier) }
+}
+
+fun LazyGridScope.GridSpacer(columns: Int, modifier: Modifier = Modifier) {
+    items(columns) { Spacer(modifier = modifier)}
 }
 
 @Composable
@@ -260,3 +267,5 @@ fun HashMap<ClosedFloatingPointRange<Double>, Color>.getColor(
 fun RowScope.WeightedSpacer(modifier: Modifier = Modifier) {
     Spacer(modifier = modifier.weight(1F))
 }
+
+fun generateWidth(intRange: IntRange): Float = Random.nextInt(intRange).toFloat() / 10

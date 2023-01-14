@@ -19,4 +19,5 @@
     <string name="plant_type_hint">Plant type:</string>
     <string name="edit">Edit</string>
     <string name="choose_plan">Choose your subscription plan:</string>
+    <string name="unlock_space">Unlock space</string>
 </resources>
