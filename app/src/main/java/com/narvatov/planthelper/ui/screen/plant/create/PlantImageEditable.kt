@@ -9,28 +9,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.ui.plant.create.CreatePlantUiState
 import com.narvatov.planthelper.ui.theme.PrimaryColor
@@ -54,7 +48,7 @@ fun PlantImageEditable(
             .aspectRatio(0.66F, true),
         contentAlignment = Alignment.Center
     ) {
-        val isPhotoTaken = createPlantUiState.imageUrl.isNotBlank()
+        val isPhotoTaken = createPlantUiState.imageBitmap != null
                 || createPlantUiState.defaultImageUrl.isNotBlank()
 
         if (!isPhotoTaken) {
@@ -75,7 +69,7 @@ fun PlantImageEditable(
         when {
             isPhotoTaken -> {
                 AsyncImage(
-                    model = createPlantUiState.imageUrl ?: createPlantUiState.defaultImageUrl,
+                    model = createPlantUiState.imageBitmap ?: createPlantUiState.defaultImageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

@@ -1,5 +1,6 @@
 package com.narvatov.planthelper.models.ui.plant.create
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.Immutable
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.utils.isNotBlank
@@ -10,7 +11,7 @@ import java.util.*
 data class CreatePlantUiState(
     val plantName: String = "",
     val plantType: String = "",
-    val imageUrl: String? = null,
+    val imageBitmap: Bitmap? = null,
     val defaultImageUrl: String = "",
     val plantBirthDay: Date = Date(),
 
@@ -31,11 +32,12 @@ data class CreatePlantUiState(
         isPlantTypeError = plantType.isBlank(),
     )
 
-    fun transformToPlant() = Plant(
+    fun transformToPlant(id: Long?, imagePath: String) = Plant(
         name = plantName,
         originName = plantType,
-        imageUrl = imageUrl ?: defaultImageUrl,
-        birthdayDate = plantBirthDay
+        imageUrl = imagePath,
+        birthdayDate = plantBirthDay,
+        id = id ?: 0
     )
 
 }

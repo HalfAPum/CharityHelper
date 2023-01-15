@@ -42,7 +42,7 @@ fun CreatePlant(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 30.dp),
-                onPhotoPicked = { saveBitmap(it) }
+                onPhotoPicked = { updatePlantImage(it) }
             )
 
             val plantName = createPlantUiState.plantName

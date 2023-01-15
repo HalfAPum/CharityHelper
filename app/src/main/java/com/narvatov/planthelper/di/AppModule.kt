@@ -17,7 +17,7 @@ val appModule = module {
 
     viewModel { params -> PlantDetailsViewModel(params.get(), get(), get()) }
 
-    viewModel { params -> CreatePlantViewModel(params.getOrNull(), get(), get(), get(), get(), get()) }
+    viewModel { params -> CreatePlantViewModel(params.getOrNull(), get(), get(), get(), get()) }
 
     viewModel { params -> TaskViewModel(params.getOrNull(), get(), get(), get()) }
 

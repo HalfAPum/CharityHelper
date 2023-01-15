@@ -15,7 +15,7 @@ class GetPlantUiStateUseCase(
         return CreatePlantUiState(
             plantName = plant.name ?: "",
             plantType = plant.originName,
-            imageUrl = plant.imageUrl,
+            defaultImageUrl = plant.imageUrl,
             plantBirthDay = plant.birthdayDate,
             isCreateMode = false,
         )

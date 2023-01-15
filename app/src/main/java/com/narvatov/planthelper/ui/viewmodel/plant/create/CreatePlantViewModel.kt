@@ -9,16 +9,12 @@ import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.data.repository.PhotoRepository
 import com.narvatov.planthelper.data.repository.plant.PlantInfoRepository
 import com.narvatov.planthelper.data.repository.plant.PlantRepository
-import com.narvatov.planthelper.domain.plant.AddPlantUseCase
 import com.narvatov.planthelper.domain.plant.GetPlantUiStateUseCase
 import com.narvatov.planthelper.domain.plant.SavePlantUseCase
 import com.narvatov.planthelper.models.data.local.Plant
 import com.narvatov.planthelper.models.ui.plant.create.EmptyCreatePlantUiState
 import com.narvatov.planthelper.ui.navigation.BottomNavigation
-import com.narvatov.planthelper.ui.navigation.Destination
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.popBack
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import org.koin.android.annotation.KoinViewModel
 import java.util.*
 
@@ -26,7 +22,6 @@ import java.util.*
 class CreatePlantViewModel(
     private val plantId: Long?,
     private val plantRepository: PlantRepository,
-    private val photoRepository: PhotoRepository,
     private val plantInfoRepository: PlantInfoRepository,
     private val savePlantUseCase: SavePlantUseCase,
     private val getPlantUiStateUseCase: GetPlantUiStateUseCase,
@@ -46,14 +41,8 @@ class CreatePlantViewModel(
         }
     }
 
-    fun saveBitmap(bitmap: Bitmap?) = bitmap?.let {
-        //TODO REFACTOR FLOW SAVE BITMAP ONLY BEFORE SAVING PLANT
-        val imagePath = photoRepository.saveBitmap(
-            oldBitmapPath = createPlantUiState.imageUrl,
-            newBitmap = bitmap,
-        )
-
-        createPlantUiState = createPlantUiState.copy(imageUrl = imagePath)
+    fun updatePlantImage(bitmap: Bitmap?) = bitmap?.let {
+        createPlantUiState = createPlantUiState.copy(imageBitmap = bitmap)
     }
 
     fun updatePlantBirthDay(date: Date) {
@@ -72,7 +61,7 @@ class CreatePlantViewModel(
     fun savePlant() {
         launchCatching {
             if (createPlantUiState.isValid) {
-                savePlantUseCase(createPlantUiState)
+                savePlantUseCase(createPlantUiState, plantId)
                 popBack()
             } else {
                 createPlantUiState = createPlantUiState.copyWithErrors()
