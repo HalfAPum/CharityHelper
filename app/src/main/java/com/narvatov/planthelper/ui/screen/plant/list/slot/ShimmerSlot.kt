@@ -56,10 +56,11 @@ fun ShimmerSlot(
 
         Column(
             modifier = Modifier
-                .padding(top = 64.dp)
                 .padding(horizontal = 16.dp)
                 .align(Alignment.TopCenter)
         ) {
+            Spacer(modifier = Modifier.weight(0.3F))
+
             Image(
                 painter = painterResource(drawableId),
                 contentDescription = null,
@@ -79,6 +80,8 @@ fun ShimmerSlot(
                 fontSize = 16.sp,
                 color = titleColor,
             )
+
+            Spacer(modifier = Modifier.weight(0.35F))
         }
 
         SlotGradient(gradientColors = gradientColors)

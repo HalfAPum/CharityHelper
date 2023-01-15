@@ -5,11 +5,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.ui.navigation.Purchase
+import com.narvatov.planthelper.ui.navigation.PurchaseDialog
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.screen.plant.list.slot.ShimmerSlot
 import com.narvatov.planthelper.ui.theme.SecondaryColor
 import com.narvatov.planthelper.ui.theme.plantLightGreyVerticalGradientColors
-import com.narvatov.planthelper.ui.theme.plantWhiteVerticalGradientColors
 
 object LockedPlantSlot : PlantSlot {
 
@@ -23,11 +23,11 @@ object LockedPlantSlot : PlantSlot {
             backgroundColor = Color(0xFF8E8E8E),
             gradientColors = plantLightGreyVerticalGradientColors,
             shimmerColor = Color.White,
-            onSlotClicked = ::navigateToPurchase,
+            onSlotClicked = ::navigateToPurchaseDialog,
         )
     }
 
-    private fun navigateToPurchase() {
-        navigate(Purchase)
+    private fun navigateToPurchaseDialog() {
+        navigate(PurchaseDialog)
     }
 }

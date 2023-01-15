@@ -5,11 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +22,6 @@ import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.theme.healthAverage
 import java.text.DateFormatSymbols
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.math.roundToInt
 import kotlin.random.Random
 import kotlin.random.nextInt

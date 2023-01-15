@@ -3,9 +3,11 @@ package com.narvatov.planthelper.ui.navigation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 
 fun NavGraphBuilder.bottomNavigation(builder: NavGraphBuilder.() -> Unit) {
     builder()
@@ -39,6 +41,20 @@ fun NavGraphBuilder.composable(
                 content(it)
             }
         },
+    )
+}
+
+fun NavGraphBuilder.dialog(
+    destination: DialogDestination,
+    content: @Composable (NavBackStackEntry) -> Unit
+) {
+    dialog(
+        route = destination.route,
+        dialogProperties = DialogProperties(
+            dismissOnBackPress = destination.dismissOnBackPress,
+            dismissOnClickOutside = destination.dismissOnClickOutside,
+        ),
+        content = content,
     )
 }
 

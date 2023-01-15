@@ -7,6 +7,7 @@
     <string name="plant_type">Plant type:</string>
     <string name="plant_birthday">Plant birthday (approx.):</string>
     <string name="add_plant">Add plant</string>
+    <string name="update_plant">Update plant</string>
     <string name="delete_plant">delete plant</string>
     <string name="empty_plant_type">Empty plant type</string>
     <string name="empty_name">Empty name</string>
@@ -20,4 +21,6 @@
     <string name="edit">Edit</string>
     <string name="choose_plan">Choose your subscription plan:</string>
     <string name="unlock_space">Unlock space</string>
+    <string name="upgrade_premium">Upgrade to premium</string>
+    <string name="add_more_with">Add more plants with premium access</string>
 </resources>

@@ -94,3 +94,11 @@ val bottomNavigationItems = listOf(
     BottomNavigation.Plants,
     BottomNavigation.Settings,
 )
+
+sealed class DialogDestination(
+    route: String,
+    val dismissOnBackPress: Boolean = true,
+    val dismissOnClickOutside: Boolean = true,
+) : Destination(route)
+
+object PurchaseDialog : DialogDestination("Purchase dialog")

@@ -37,8 +37,14 @@ fun Header(destination: HeaderDestination) {
             )
         }
 
+        //TODO refactor and remove crutch
+        val headerText = if (destination is CreatePlant) {
+            if (navigationEditPlantId == null) "Add plant" else "Edit plant"
+        } else destination.headerText
+
+
         Text(
-            text = destination.headerText,
+            text = headerText,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center),

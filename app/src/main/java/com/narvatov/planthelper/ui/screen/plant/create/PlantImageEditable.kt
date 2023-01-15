@@ -79,7 +79,7 @@ fun PlantImageEditable(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxHeight()
                         .clip(Shapes.large)
                         .clickable { takePhotoAction.launch() },
                 )

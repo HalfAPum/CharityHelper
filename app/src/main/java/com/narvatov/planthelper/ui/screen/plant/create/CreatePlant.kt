@@ -1,6 +1,5 @@
 package com.narvatov.planthelper.ui.screen.plant.create
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -17,10 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.ui.WeightedSpacer
-import com.narvatov.planthelper.ui.navigation.SearchPlantType
 import com.narvatov.planthelper.ui.navigation.Calendar
+import com.narvatov.planthelper.ui.navigation.SearchPlantType
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
-import com.narvatov.planthelper.ui.theme.*
+import com.narvatov.planthelper.ui.theme.AnotherGrey
+import com.narvatov.planthelper.ui.theme.PrimaryColor
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.viewmodel.plant.create.CreatePlantViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -98,7 +99,7 @@ fun CreatePlant(
                 ) {
                     Box {
                         Text(
-                            text = stringResource(R.string.add_plant),
+                            text = stringResource(if (createMode) R.string.add_plant else R.string.update_plant),
                             color = Color.White,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
