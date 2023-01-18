@@ -265,4 +265,9 @@ fun RowScope.WeightedSpacer(modifier: Modifier = Modifier) {
     Spacer(modifier = modifier.weight(1F))
 }
 
+@Composable
+fun ColumnScope.WeightedSpacer(modifier: Modifier = Modifier) {
+    Spacer(modifier = modifier.weight(1F))
+}
+
 fun generateWidth(intRange: IntRange): Float = Random.nextInt(intRange).toFloat() / 10

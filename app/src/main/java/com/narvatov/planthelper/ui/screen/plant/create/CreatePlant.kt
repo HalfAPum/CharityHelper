@@ -52,6 +52,7 @@ fun CreatePlant(
                 label = stringResource(R.string.name),
                 errorLabel = stringResource(R.string.empty_name),
                 singleLine = true,
+                isEdit = editMode,
                 error = createPlantUiState.isPlantNameError,
                 modifier = Modifier.padding(top = 20.dp),
                 onValueChanged = { plantNameChanged(it) }
@@ -64,6 +65,7 @@ fun CreatePlant(
                 label = stringResource(R.string.plant_type),
                 errorLabel = stringResource(R.string.empty_plant_type),
                 singleLine = false,
+                isEdit = editMode,
                 enabled = false,
                 error = createPlantUiState.isPlantTypeError,
                 modifier = Modifier.padding(top = 20.dp),
@@ -76,6 +78,7 @@ fun CreatePlant(
                 text = birthDate,
                 label = stringResource(R.string.plant_birthday),
                 singleLine = true,
+                isEdit = editMode,
                 enabled = false,
                 modifier = Modifier.padding(top = 20.dp),
                 onClick = { navigate(Calendar) }

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.ui.plant.create.CreatePlantUiState
+import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.theme.PrimaryColor
 import com.narvatov.planthelper.ui.theme.RegularBlack
 import com.narvatov.planthelper.ui.theme.Shapes
@@ -38,74 +39,61 @@ fun PlantImageEditable(
     modifier: Modifier = Modifier,
     onPhotoPicked: (Bitmap?) -> Unit,
 ) {
-    val stroke = Stroke(width = 10F,
-        pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f, 5f), 0f)
+    val isPhotoTaken = createPlantUiState.imageBitmap != null
+            || createPlantUiState.defaultImageUrl.isNotBlank()
+
+    val takePhotoAction = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview(),
+        onResult = { onPhotoPicked(it) }
     )
 
-    Box(
-        modifier = modifier
-            .height(220.dp)
-            .aspectRatio(0.66F, true),
-        contentAlignment = Alignment.Center
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Center,
     ) {
-        val isPhotoTaken = createPlantUiState.imageBitmap != null
-                || createPlantUiState.defaultImageUrl.isNotBlank()
-
-        if (!isPhotoTaken) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                drawRoundRect(
-                    color = PrimaryColor,
-                    style = stroke,
-                    cornerRadius = CornerRadius(20.dp.toPx())
-                )
-            }
-        }
-
-        val takePhotoAction = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.TakePicturePreview(),
-            onResult = { onPhotoPicked(it) }
-        )
-
         when {
             isPhotoTaken -> {
-                AsyncImage(
-                    model = createPlantUiState.imageBitmap ?: createPlantUiState.defaultImageUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                Box(
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .clip(Shapes.large)
-                        .clickable { takePhotoAction.launch() },
+                        .weight(1F)
+                        .fillMaxWidth()
+                        .aspectRatio(0.66F),
+                ) {
+                    AsyncImage(
+                        model = createPlantUiState.imageBitmap
+                            ?: createPlantUiState.defaultImageUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(Shapes.large),
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(20.dp))
+
+                ChooseArea(
+                    text = "Edit\nthe photo",
+                    image = R.drawable.ic_edit_big,
+                    onClick = { takePhotoAction.launch() },
+                    modifier = Modifier.weight(1F)
                 )
             }
             else -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(Shapes.large)
-                        .background(Color(0xFFD0FFD0))
-                        .clickable { takePhotoAction.launch() },
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.ic_add_photo),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(top = 40.dp)
-                            .align(Alignment.CenterHorizontally)
-                    )
+                WeightedSpacer()
 
-                    Text(
-                        text = "Take a\nphoto",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = RegularBlack,
-                        lineHeight = 24.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(top = 12.dp)
-                            .align(Alignment.CenterHorizontally)
-                    )
-                }
+                Spacer(modifier = Modifier.width(10.dp))
+
+                ChooseArea(
+                    text = "Take a\nphoto",
+                    image = R.drawable.ic_add_photo,
+                    onClick = { takePhotoAction.launch() },
+                    modifier = Modifier.weight(2F)
+                )
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                WeightedSpacer()
             }
         }
     }

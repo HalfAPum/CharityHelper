@@ -1,5 +1,6 @@
 package com.narvatov.planthelper.ui.screen.plant.details
 
+import androidx.activity.result.launch
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.background
@@ -8,18 +9,22 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import com.narvatov.planthelper.models.ui.task.Tab.History
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.ui.task.TaskUIElement
 import com.narvatov.planthelper.models.ui.task.tabs
 import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigateToEditPlant
 import com.narvatov.planthelper.ui.screen.plant.common.PlantAgeHealth
+import com.narvatov.planthelper.ui.screen.plant.create.ChooseArea
 import com.narvatov.planthelper.ui.screen.task.*
 import com.narvatov.planthelper.ui.screen.task.ACTIVE_TASKS_INDEX
 import com.narvatov.planthelper.ui.screen.task.HISTORY_TASKS_INDEX
@@ -28,6 +33,7 @@ import com.narvatov.planthelper.ui.screen.task.tab.TaskTab
 import com.narvatov.planthelper.ui.screen.task.tab.TaskTabRow
 import com.narvatov.planthelper.ui.spaceBetween
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
+import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.viewmodel.TaskViewModel
 import com.narvatov.planthelper.ui.viewmodel.plant.details.PlantDetailsViewModel
 import org.koin.androidx.compose.getViewModel
@@ -57,17 +63,39 @@ fun PlantDetails(plantId: Long) {
                 ) {
                     item {
                         Column(modifier = Modifier.background(color = Color.White)) {
-                            AsyncImage(
-                                model = ImageRequest.Builder(context = LocalContext.current)
-                                    .crossfade(true)
-                                    .data(plantDetailsUiState.plant.imageUrl)
-                                    .build(),
-                                contentDescription = null,
+                            Row(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .defaultMinSize(minHeight = 200.dp)
-                                    .background(color = LightGreyBackground),
-                            )
+                                    .padding(horizontal = 16.dp)
+                                    .padding(top = 30.dp),
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1F)
+                                        .fillMaxWidth()
+                                        .aspectRatio(0.66F),
+                                ) {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(context = LocalContext.current)
+                                            .crossfade(true)
+                                            .data(plantDetailsUiState.plant.imageUrl)
+                                            .build(),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(Shapes.large),
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.width(20.dp))
+
+                                ChooseArea(
+                                    text = "Edit\nthe plant",
+                                    image = R.drawable.ic_edit_big,
+                                    onClick = { navigateToEditPlant(plantDetailsUiState.plant) },
+                                    modifier = Modifier.weight(1F)
+                                )
+                            }
 
                             PlantAdditionalInfo(
                                 plant = plantDetailsUiState.plant,
