@@ -11,4 +11,6 @@ data class BillingSubscription(
     @PrimaryKey
     @ColumnInfo(name = "product_id")
     val productId: String,
+    @ColumnInfo(name = "purchase_token")
+    val purchaseToken: String,
 )

@@ -2,7 +2,6 @@ package com.narvatov.planthelper.data.utils
 
 import com.android.billingclient.api.*
 import com.narvatov.planthelper.models.data.local.BillingSubscription
-import com.narvatov.planthelper.models.ui.purchase.SuccessfulPurchaseUiState
 import timber.log.Timber
 
 private fun subscriptionProduct(productId: String): QueryProductDetailsParams.Product {
@@ -45,22 +44,32 @@ fun logBilling(message: String) {
 val BillingClient.isConnected: Boolean
     get() = connectionState == BillingClient.ConnectionState.CONNECTED
 
-val ProductDetails.billingFlowParams: BillingFlowParams
-    get() {
-        val productDetailsParamsList = listOf(
-            BillingFlowParams.ProductDetailsParams.newBuilder()
-                .setProductDetails(this)
-                // to get an offer token, call ProductDetails.subscriptionOfferDetails()
-                // for a list of offers that are available to the user
-                .setOfferToken(this.subscriptionOfferDetails!!.first().offerToken)
-                .build()
-        )
+fun ProductDetails.billingFlowParams(oldPurchaseToken: String?): BillingFlowParams {
+    val productDetailsParamsList = listOf(
+        BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(this)
+            // to get an offer token, call ProductDetails.subscriptionOfferDetails()
+            // for a list of offers that are available to the user
+            .setOfferToken(this.subscriptionOfferDetails!!.first().offerToken)
+            .build()
+    )
 
-
-        return BillingFlowParams.newBuilder()
-            .setProductDetailsParamsList(productDetailsParamsList)
+    val subscriptionUpdateParams = oldPurchaseToken?.let {
+        BillingFlowParams.SubscriptionUpdateParams.newBuilder()
+            .setOldPurchaseToken(oldPurchaseToken)
+            .setReplaceProrationMode(BillingFlowParams.ProrationMode.IMMEDIATE_AND_CHARGE_FULL_PRICE)
             .build()
     }
+
+
+    return BillingFlowParams.newBuilder().run {
+        setProductDetailsParamsList(productDetailsParamsList)
+
+        subscriptionUpdateParams?.let { setSubscriptionUpdateParams(it) }
+
+        build()
+    }
+}
 
 val acknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener { billingResult ->
     logBilling("Acknowledge result $billingResult")
@@ -82,7 +91,7 @@ fun BillingClient.acknowledgePurchase(purchase: Purchase) {
 }
 
 fun List<Purchase>.toBillingSubscriptions() = map {
-    BillingSubscription(it.products.first())
+    BillingSubscription(it.products.first(), it.purchaseToken)
 }
 
 fun List<ProductDetails>.toSubscriptionDetailsList() = mapNotNull {

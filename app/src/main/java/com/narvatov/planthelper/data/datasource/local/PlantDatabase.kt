@@ -42,4 +42,4 @@ abstract class PlantDatabase : RoomDatabase(), TransactionManager {
 
 }
 
-private const val DB_VERSION = 9
+private const val DB_VERSION = 10

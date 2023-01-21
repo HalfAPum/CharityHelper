@@ -84,7 +84,9 @@ fun Purchase(
                             .clickable {
 //                                enabled = !purchaseUiState.purchasedList.any { it.productId == productDetails.productId }
 
-                                val billingFlowParams = subscriptionDetails.productDetails?.billingFlowParams
+                                val billingFlowParams = subscriptionDetails.productDetails?.billingFlowParams(
+                                    oldPurchaseToken = purchaseUiState.purchasedList.firstOrNull()?.purchaseToken,
+                                )
 
                                 launchBillingFlow(activity, billingFlowParams)
                             }
