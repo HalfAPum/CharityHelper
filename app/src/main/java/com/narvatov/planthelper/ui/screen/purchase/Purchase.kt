@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -27,35 +28,31 @@ import com.narvatov.planthelper.ui.viewmodel.PurchaseViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun Purchase(
+fun PurchaseScreen(
     viewModel: PurchaseViewModel = getViewModel()
 ) = with(viewModel) {
     val activity = LocalContext.current as Activity
 
     when {
         purchaseUiState.loading -> {
-            Text("LOADING")
-            Text("LOADING")
-            Text("LOADING")
-            Text("LOADING")
-            Text("LOADING")
-            Text("LOADING")
-            Text("LOADING")
-            Text("LOADING")
-            Text("LOADING")
+            Box(modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp)) {
+                Text(
+                    text = "Loading purchases...",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
         purchaseUiState.error -> {
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
-            Text("ERROR")
+            Box(modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp)) {
+                Text(
+                    text = purchaseUiState.errorMessage,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
         else -> {
             LazyColumn(
@@ -68,12 +65,13 @@ fun Purchase(
                     Text(
                         text = stringResource(R.string.choose_plan),
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Normal,
-                        modifier = Modifier.padding(top = 20.dp, start = 16.dp)
+                        fontWeight = FontWeight.Normal
                     )
                 }
 
-                items(purchaseUiState.subscriptionDetailsList) { subscriptionDetails ->
+                items(purchaseUiState.subscriptionDetailsList.filter {
+                    it.productDetails?.productId != purchaseUiState.purchasedList.firstOrNull()?.productId
+                }) { subscriptionDetails ->
                     Card(
                         backgroundColor = subscriptionDetails.backgroundColor,
                         modifier = Modifier

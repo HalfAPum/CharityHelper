@@ -87,6 +87,10 @@ fun NavHostController.popBackStack(
     inclusive: Boolean,
 ) = popBackStack(destination.route, inclusive)
 
+fun NavController.getBackStackEntryNullable(
+    destination: Destination
+) = kotlin.runCatching { getBackStackEntry(destination.route) }.getOrNull()
+
 fun NavController.getBackStackEntry(
     destination: Destination
 ) = getBackStackEntry(destination.route)

@@ -4,15 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.dialog
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.planthelper.models.ui.purchase.PurchaseDialog
 import com.narvatov.planthelper.ui.screen.plant.create.Calendar
@@ -20,7 +17,8 @@ import com.narvatov.planthelper.ui.screen.plant.create.CreatePlant
 import com.narvatov.planthelper.ui.screen.plant.create.search.SearchPlantType
 import com.narvatov.planthelper.ui.screen.plant.details.PlantDetails
 import com.narvatov.planthelper.ui.screen.plant.list.PlantsScreen
-import com.narvatov.planthelper.ui.screen.purchase.Purchase
+import com.narvatov.planthelper.ui.screen.purchase.CurrentPurchase
+import com.narvatov.planthelper.ui.screen.purchase.PurchaseScreen
 import com.narvatov.planthelper.ui.screen.settings.SettingsScreen
 import com.narvatov.planthelper.ui.screen.task.TasksScreen
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
@@ -128,7 +126,18 @@ fun NavHostContent(
         }
 
         composable(Purchase) {
-            Purchase()
+            val viewModelStateOwner = remember {
+                navController.getBackStackEntryNullable(CurrentPurchase)
+            }
+
+            PurchaseScreen(viewModel = viewModelStateOwner?.let {
+                    getViewModel(owner = it)
+                } ?: getViewModel()
+            )
+        }
+
+        composable(CurrentPurchase) {
+            CurrentPurchase()
         }
 
         dialog(PurchaseDialog) {

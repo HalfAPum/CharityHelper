@@ -16,8 +16,9 @@ class PurchaseStateFlowUseCase(
             when(billingState) {
                 BillingState.Loading -> LoadingPurchaseUiState()
                 is BillingState.Success -> SuccessfulPurchaseUiState(billingState)
-                BillingState.Error -> ErrorPurchaseUiState()
-                else -> ErrorPurchaseUiState()
+                is BillingState.Error -> ErrorPurchaseUiState(billingState.errorMessage)
+                else -> ErrorPurchaseUiState("Unexpected billing error happened visit" +
+                        " this page later or check your google play account")
             }
         }
     }

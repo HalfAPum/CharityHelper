@@ -8,6 +8,6 @@ interface BillingState {
 
     class Success(val productDetailsList: List<ProductDetails>) : BillingState
 
-    object Error : BillingState
+    class Error(val errorMessage: String) : BillingState
 
 }

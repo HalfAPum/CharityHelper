@@ -20,7 +20,9 @@
     <string name="plant_type_hint">Plant type:</string>
     <string name="edit">Edit</string>
     <string name="choose_plan">Choose your subscription plan:</string>
+    <string name="current_subscription">Current subscription:</string>
     <string name="unlock_space">Unlock space</string>
     <string name="upgrade_premium">Upgrade to premium</string>
     <string name="add_more_with">Add more plants with premium access</string>
+    <string name="change_sucscription">Change the subscription</string>
 </resources>

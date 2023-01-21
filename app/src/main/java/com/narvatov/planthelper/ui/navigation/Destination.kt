@@ -89,6 +89,8 @@ object Calendar : Destination("Calendar")
 
 object Purchase : HeaderDestination("Purchase", "Subscription plan")
 
+object CurrentPurchase : HeaderDestination("CurrentPurchase", "Current subscription")
+
 val bottomNavigationItems = listOf(
     BottomNavigation.Tasks,
     BottomNavigation.Plants,

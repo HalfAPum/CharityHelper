@@ -46,13 +46,13 @@ class BillingConnector(
                 } else {
                     logBilling("Connected to billing unsuccessfully. $billingResult")
 
-                    _billingConnectionFlow.tryEmit(BillingState.Error)
+                    _billingConnectionFlow.tryEmit(BillingState.Error(billingResult.debugMessage))
                 }
             },
             onDisconnected = {
                 logBilling("Billing has been disconnected")
 
-                _billingConnectionFlow.tryEmit(BillingState.Error)
+                _billingConnectionFlow.tryEmit(BillingState.Error("App disconnected from billing open this screen again"))
             }
         )
     }

@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.R
+import com.narvatov.planthelper.ui.navigation.CurrentPurchase
 import com.narvatov.planthelper.ui.navigation.Purchase
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.screen.plant.create.OutlinedPlantTextField
@@ -23,6 +24,7 @@ import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.theme.RegularBlack
 import com.narvatov.planthelper.ui.theme.SecondaryColor
 import com.narvatov.planthelper.ui.theme.Shapes
+import com.narvatov.planthelper.ui.viewmodel.PurchaseViewModel
 import com.narvatov.planthelper.ui.viewmodel.SettingsViewModel
 import com.narvatov.planthelper.utils.UnitCallback
 import org.koin.androidx.compose.getViewModel
@@ -30,7 +32,13 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = getViewModel(),
+    purchaseViewModel: PurchaseViewModel = getViewModel()
 ) = with(viewModel) {
+    fun goToCurrentPurchases() = purchaseViewModel.purchaseUiState.subscriptionDetailsList.any {
+        println("FUKC WTF ${it.productDetails?.productId} vsss ${purchaseViewModel.purchaseUiState.purchasedList.firstOrNull()?.productId}")
+        it.productDetails?.productId == purchaseViewModel.purchaseUiState.purchasedList.firstOrNull()?.productId
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -78,12 +86,12 @@ fun SettingsScreen(
             text = settingsUiState.currentPlan,
             label = stringResource(R.string.current_pay_plan),
             enabled = false,
-            onClick = { navigate(Purchase) },
+            onClick = { navigate(if (goToCurrentPurchases()) CurrentPurchase else Purchase) },
             modifier = Modifier.padding(top = 20.dp),
         )
 
         Button(
-            onClick = { navigate(Purchase) },
+            onClick = { navigate(if (goToCurrentPurchases()) CurrentPurchase else Purchase) },
             shape = Shapes.large,
             modifier = Modifier
                 .padding(top = 20.dp)

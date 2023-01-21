@@ -17,7 +17,7 @@ import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class PurchaseViewModel(
-    private val billingConnector: BillingConnector,
+    billingConnector: BillingConnector,
     private val purchaseStateFlowUseCase: PurchaseStateFlowUseCase,
     private val billingRepository: BillingRepository,
 ) : ViewModel() {
@@ -35,7 +35,12 @@ class PurchaseViewModel(
 
     private fun collectBillingConnectionFlow() {
         purchaseStateFlowUseCase().onEach {
-            purchaseUiState = it
+            purchaseUiState = purchaseUiState.copy(
+                loading = it.loading,
+                subscriptionDetailsList = it.subscriptionDetailsList,
+                error = it.error,
+                errorMessage = it.errorMessage,
+            )
         }.launchIn(viewModelScope)
     }
 

@@ -8,9 +8,7 @@ import com.narvatov.planthelper.data.repository.base.Repository
 import com.narvatov.planthelper.data.utils.*
 import com.narvatov.planthelper.models.ui.purchase.BillingState
 import com.narvatov.planthelper.utils.logSeparator
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -46,12 +44,15 @@ class BillingPurchaseProcessor(
     }
 
     private fun handlePurchases(purchases: List<Purchase>) {
-        launchCatching { billingDao.clear() }
-
         val purchasedProductList = purchases.mapNotNull(::handlePurchase)
 
         launchCatching {
             val billingSubscriptions = purchasedProductList.toBillingSubscriptions()
+            val recordedSubscriptions = billingDao.flowAll().first()
+
+            if (recordedSubscriptions.containsAll(billingSubscriptions)) return@launchCatching
+
+            billingDao.clear()
             billingDao.insert(billingSubscriptions)
         }
     }

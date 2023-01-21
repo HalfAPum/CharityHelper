@@ -11,6 +11,7 @@ data class PurchaseUiState(
     val loading: Boolean,
     val subscriptionDetailsList: List<SubscriptionDetails>,
     val error: Boolean,
+    val errorMessage: String = "",
     val purchasedList: List<BillingSubscription> = emptyList(),
 )
 
@@ -26,4 +27,4 @@ fun SuccessfulPurchaseUiState(
     false,
 )
 
-fun ErrorPurchaseUiState() = PurchaseUiState(false, emptyList(), true)
+fun ErrorPurchaseUiState(errorMessage: String) = PurchaseUiState(false, emptyList(), true, errorMessage)
