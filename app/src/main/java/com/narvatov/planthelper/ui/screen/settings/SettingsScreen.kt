@@ -19,6 +19,7 @@ import com.narvatov.planthelper.R
 import com.narvatov.planthelper.ui.navigation.CurrentPurchase
 import com.narvatov.planthelper.ui.navigation.Purchase
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.popBack
 import com.narvatov.planthelper.ui.screen.plant.create.OutlinedPlantTextField
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
 import com.narvatov.planthelper.ui.theme.RegularBlack
@@ -34,9 +35,38 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = getViewModel(),
     purchaseViewModel: PurchaseViewModel = getViewModel()
 ) = with(viewModel) {
-    fun goToCurrentPurchases() = purchaseViewModel.purchaseUiState.subscriptionDetailsList.any {
-        println("FUKC WTF ${it.productDetails?.productId} vsss ${purchaseViewModel.purchaseUiState.purchasedList.firstOrNull()?.productId}")
-        it.productDetails?.productId == purchaseViewModel.purchaseUiState.purchasedList.firstOrNull()?.productId
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier
+            .padding(top = 20.dp)
+            .padding(horizontal = 16.dp)
+            .fillMaxSize()
+    ) {
+        SettingItem(
+            image = R.drawable.ic_notifications,
+            text = R.string.notifications,
+            onClick = { popBack() }
+        )
+
+        SettingItem(
+            image = R.drawable.ic_subscription,
+            text = R.string.subscription_plan,
+            onClick = {
+                val goToCurrentPurchases = purchaseViewModel.purchaseUiState.subscriptionDetailsList.any {
+                    it.productDetails?.productId == purchaseViewModel.purchaseUiState.purchasedList.firstOrNull()?.productId
+                }
+
+                val destination = if (goToCurrentPurchases) CurrentPurchase else Purchase
+
+                navigate(destination)
+            }
+        )
+
+        SettingItem(
+            image = R.drawable.ic_issue,
+            text = R.string.repost_an_issue,
+            onClick = { popBack() }
+        )
     }
 
     Column(
@@ -82,44 +112,6 @@ fun SettingsScreen(
             }
         }
 
-        OutlinedPlantTextField(
-            text = settingsUiState.currentPlan,
-            label = stringResource(R.string.current_pay_plan),
-            enabled = false,
-            onClick = { navigate(if (goToCurrentPurchases()) CurrentPurchase else Purchase) },
-            modifier = Modifier.padding(top = 20.dp),
-        )
-
-        Button(
-            onClick = { navigate(if (goToCurrentPurchases()) CurrentPurchase else Purchase) },
-            shape = Shapes.large,
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .align(Alignment.CenterHorizontally),
-            colors = ButtonDefaults.buttonColors(backgroundColor = SecondaryColor)
-        ) {
-            Text(
-                text = stringResource(R.string.get_premium),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = RegularBlack,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.fillMaxHeight())
-
-//        Button(
-//            onClick = { onPurchaseClicked() },
-//            shape = Shapes.large,
-//            modifier = Modifier.padding(vertical = 24.dp),
-//            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray)
-//        ) {
-//            Text(
-//                text = "Report an issue",
-//                fontSize = 16.sp,
-//            )
-//        }
     }
 }
 
