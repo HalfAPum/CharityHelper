@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.R
+import com.narvatov.planthelper.ui.LargePrimaryButton
 import com.narvatov.planthelper.ui.navigation.Purchase
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.theme.PrimaryColor
@@ -90,24 +91,10 @@ fun CurrentPurchase(
             }
         }
 
-        Card(
-            backgroundColor = PrimaryColor,
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth()
-                .height(40.dp)
-                .clip(shape = Shapes.large)
-                .clickable { navigate(Purchase) }
-        ) {
-            Box {
-                Text(
-                    text = stringResource(R.string.change_sucscription),
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }
+        LargePrimaryButton(
+            text = stringResource(R.string.change_sucscription),
+            modifier = Modifier.padding(top = 10.dp),
+            onClick = { navigate(Purchase) }
+        )
     }
 }

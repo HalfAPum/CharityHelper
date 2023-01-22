@@ -28,4 +28,16 @@
     <string name="notifications">Notifications</string>
     <string name="subscription_plan">Subscription plan</string>
     <string name="repost_an_issue">Report an issue</string>
+    <string name="found_issue">Found an issue? Report us.</string>
+    <string name="send">Send</string>
+    <string name="enter_text">Enter the text…</string>
+    <string name="customize_days">Customize days:</string>
+    <string name="customize_time">Customize time</string>
+    <string name="weekend">Weekend (Sat - Sun)</string>
+    <string name="weekday">Weekday (Mon - Fri)</string>
+    <string name="ftr">7 AM - 9 AM</string>
+    <string name="str">9 AM - 12 PM</string>
+    <string name="ttr">12 PM - 5 PM</string>
+    <string name="fotr">5 PM - 9 PM</string>
+    <string name="save">Save</string>
 </resources>

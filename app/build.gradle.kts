@@ -116,6 +116,9 @@ dependencies {
     //Billing
     implementation("com.android.billingclient:billing-ktx:5.1.0")
 
+    //Switch
+    implementation("com.github.luongvo:iOS-SwitchView:1.0.0")
+
     //Test dependencies
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:2.4.3")

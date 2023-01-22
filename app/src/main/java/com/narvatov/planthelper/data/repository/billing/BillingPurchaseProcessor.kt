@@ -44,6 +44,13 @@ class BillingPurchaseProcessor(
     }
 
     private fun handlePurchases(purchases: List<Purchase>) {
+        if (purchases.isEmpty()) {
+            logBilling("No active purchases. Clear purchase DB data.")
+
+            launchCatching { billingDao.clear() }
+            return
+        }
+
         val purchasedProductList = purchases.mapNotNull(::handlePurchase)
 
         launchCatching {

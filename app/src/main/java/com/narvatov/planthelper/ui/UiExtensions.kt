@@ -2,24 +2,30 @@ package com.narvatov.planthelper.ui
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.*
 import androidx.navigation.NavHostController
 import com.dt.composedatepicker.*
+import com.narvatov.planthelper.R
+import com.narvatov.planthelper.ui.navigation.Purchase
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator
+import com.narvatov.planthelper.ui.theme.PrimaryColor
 import com.narvatov.planthelper.ui.theme.Shapes
 import com.narvatov.planthelper.ui.theme.healthAverage
+import com.narvatov.planthelper.utils.UnitCallback
 import java.text.DateFormatSymbols
 import java.util.*
 import kotlin.math.roundToInt
@@ -271,3 +277,29 @@ fun ColumnScope.WeightedSpacer(modifier: Modifier = Modifier) {
 }
 
 fun generateWidth(intRange: IntRange): Float = Random.nextInt(intRange).toFloat() / 10
+
+@Composable
+fun LargePrimaryButton(
+    text: String,
+    onClick: UnitCallback,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        backgroundColor = PrimaryColor,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(40.dp)
+            .clip(shape = Shapes.large)
+            .clickable { onClick() }
+    ) {
+        Box {
+            Text(
+                text = text,
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+    }
+}

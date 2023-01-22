@@ -19,6 +19,8 @@ import com.narvatov.planthelper.ui.screen.plant.details.PlantDetails
 import com.narvatov.planthelper.ui.screen.plant.list.PlantsScreen
 import com.narvatov.planthelper.ui.screen.purchase.CurrentPurchase
 import com.narvatov.planthelper.ui.screen.purchase.PurchaseScreen
+import com.narvatov.planthelper.ui.screen.settings.SettingsIssues
+import com.narvatov.planthelper.ui.screen.settings.SettingsNotifications
 import com.narvatov.planthelper.ui.screen.settings.SettingsScreen
 import com.narvatov.planthelper.ui.screen.task.TasksScreen
 import com.narvatov.planthelper.ui.theme.LightGreyBackground
@@ -138,6 +140,14 @@ fun NavHostContent(
 
         composable(CurrentPurchase) {
             CurrentPurchase()
+        }
+
+        composable(SettingsNotification) {
+            SettingsNotifications()
+        }
+
+        composable(SettingsIssue) {
+            SettingsIssues()
         }
 
         dialog(PurchaseDialog) {

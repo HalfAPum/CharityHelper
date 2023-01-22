@@ -85,11 +85,18 @@ object CreatePlant : HeaderDestination("CreatePlant", "Add plant")
 
 object SearchPlantType : HeaderDestination("SearchPlantType", "Search your plant")
 
+
 object Calendar : Destination("Calendar")
+
 
 object Purchase : HeaderDestination("Purchase", "Subscription plan")
 
 object CurrentPurchase : HeaderDestination("CurrentPurchase", "Current subscription")
+
+
+object SettingsNotification : HeaderDestination("Notifications", "Notifications")
+
+object SettingsIssue : HeaderDestination("Issue", "Report an issue")
 
 val bottomNavigationItems = listOf(
     BottomNavigation.Tasks,

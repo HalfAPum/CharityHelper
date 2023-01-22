@@ -106,7 +106,7 @@ fun OutlinedPlantTextField(
                     }
                 },
                 //If you just set disabled OnClick it breaks inner tap logic
-                modifier = onClickModifier,
+                modifier = onClickModifier.fillMaxWidth(),
             )
 
             if (isEdit) {
