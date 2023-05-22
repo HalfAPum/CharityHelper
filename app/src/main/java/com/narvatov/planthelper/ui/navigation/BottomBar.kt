@@ -10,13 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
-import com.narvatov.planthelper.ui.theme.PrimaryColor
-import com.narvatov.planthelper.ui.theme.SoftGrey
-import com.narvatov.planthelper.ui.theme.SuperSoftGrey
+import com.narvatov.planthelper.ui.theme.*
 
 @Composable
 fun BottomBar(navController: NavHostController) = Box(modifier = Modifier.border(width = 1.dp, color = SoftGrey)) {
@@ -45,27 +44,17 @@ fun BottomBar(navController: NavHostController) = Box(modifier = Modifier.border
                 icon = {
                     Icon(
                         painter = painterResource(destination.icon),
-                        contentDescription = destination.text
+                        contentDescription = stringResource(destination.text)
                     )
                 },
-                selectedContentColor = PrimaryColor,
+                selectedContentColor = Purple500,
                 unselectedContentColor = SuperSoftGrey,
-                label = { Text(destination.text) },
+                label = { Text(stringResource(destination.text)) },
                 selected = destination.route == selectedRoute,
                 onClick = {
                     if (selected) return@BottomNavigationItem
 
-                    // First navigation strategy
-                    // Pop back to destination if it exists in stack
-                    // Each bottom nav destination have its mini back stack
-//                val poppedSuccessfully = navController.popBackStack(destination, inclusive = false)
-//
-//                if (poppedSuccessfully) return@BottomNavigationItem
-//
-//                navigate(destination)
-
-
-                    // Second navigation strategy
+                    // Navigation strategy
                     // no mini back stack for tabs is left
                     // when you navigate to next bottom nav item
                     var popNextDestination = false
