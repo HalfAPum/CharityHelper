@@ -4,8 +4,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
-    id ("com.google.gms.google-services")
-    id ("com.google.firebase.crashlytics")
     id("com.google.devtools.ksp") version "1.7.0-1.0.6"
 }
 
@@ -13,7 +11,7 @@ android {
     compileSdkVersion(33)
 
     defaultConfig {
-        applicationId = "com.narvatov.planthelper"
+        applicationId = "com.narvatov.charityhelper"
         minSdkVersion(21)
         targetSdkVersion(33)
         versionCode = 3
@@ -81,10 +79,6 @@ dependencies {
     //Timber
     implementation("com.jakewharton.timber:timber:5.0.1")
 
-    //Room
-    implementation("androidx.room:room-runtime:2.4.3")
-    kapt("androidx.room:room-compiler:2.4.3")
-    implementation("androidx.room:room-ktx:2.4.3")
 
     implementation("androidx.navigation:navigation-compose:2.5.2")
 
@@ -105,11 +99,6 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager:0.27.0")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.27.0")
 
-    //Firebase
-    implementation (platform("com.google.firebase:firebase-bom:31.1.1"))
-    implementation ("com.google.firebase:firebase-crashlytics-ktx")
-    implementation ("com.google.firebase:firebase-analytics-ktx")
-
     //Work manager
     implementation("androidx.work:work-runtime-ktx:2.7.1")
 
@@ -120,11 +109,6 @@ dependencies {
     implementation("com.github.luongvo:iOS-SwitchView:1.0.0")
 
     //Test dependencies
-    // optional - Test helpers
-    testImplementation("androidx.room:room-testing:2.4.3")
-
-    // Koin Test
-    testImplementation("io.insert-koin:koin-test:3.2.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

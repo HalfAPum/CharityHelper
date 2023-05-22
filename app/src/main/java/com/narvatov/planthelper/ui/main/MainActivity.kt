@@ -1,48 +1,26 @@
 package com.narvatov.planthelper.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
+import com.narvatov.planthelper.data.utils.LoginStateHolder
 import com.narvatov.planthelper.ui.Scaffold
-import com.narvatov.planthelper.ui.main.delegate.billing.BillingDelegate
-import com.narvatov.planthelper.ui.main.delegate.billing.IBillingDelegate
-import com.narvatov.planthelper.ui.main.delegate.exception.CoroutineExceptionCollector
-import com.narvatov.planthelper.ui.main.delegate.exception.ICoroutineExceptionCollector
-import com.narvatov.planthelper.ui.main.delegate.firebase.FirebaseDelegate
-import com.narvatov.planthelper.ui.main.delegate.firebase.IFirebaseDelegate
-import com.narvatov.planthelper.ui.main.delegate.permission.IPermissionProvider
-import com.narvatov.planthelper.ui.main.delegate.permission.PermissionProvider
-import com.narvatov.planthelper.ui.main.delegate.syncer.ITaskStatusSyncer
-import com.narvatov.planthelper.ui.main.delegate.syncer.TaskStatusSyncer
 import com.narvatov.planthelper.ui.navigation.BottomBar
 import com.narvatov.planthelper.ui.navigation.NavHostContent
-import com.narvatov.planthelper.ui.theme.PlanthelperTheme
+import com.narvatov.planthelper.ui.theme.CharityTheme
 
 
-class MainActivity : ComponentActivity(),
-    IFirebaseDelegate by FirebaseDelegate,
-    IPermissionProvider by PermissionProvider,
-    ICoroutineExceptionCollector by CoroutineExceptionCollector,
-    ITaskStatusSyncer by TaskStatusSyncer,
-    IBillingDelegate by BillingDelegate
-{
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initCoroutineExceptionCollector()
-
-        checkNotificationPermission()
-
-        initFirebase()
-
-        connectToBilling()
-
-        syncFailedTasks()
-
         setContent {
-            PlanthelperTheme {
+            CharityTheme {
                 val navController = rememberNavController()
                 Scaffold(
                     navController = navController,
@@ -52,4 +30,26 @@ class MainActivity : ComponentActivity(),
             }
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_PHOTO_CODE && resultCode == RESULT_OK) {
+            if (data == null) {
+                return
+            }
+            fun Uri.getName(): String {
+                val returnCursor = contentResolver.query(this, null, null, null, null)
+                val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                returnCursor.moveToFirst()
+                val fileName = returnCursor.getString(nameIndex)
+                returnCursor.close()
+                return fileName
+            }
+            LoginStateHolder.fname = data.data?.getName()
+            LoginStateHolder.inputStream = data.data?.let { contentResolver.openInputStream(it) }?.readBytes()
+        }
+    }
+
 }
+
+const val PICK_PHOTO_CODE = 9999

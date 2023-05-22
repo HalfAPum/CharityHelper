@@ -1,29 +1,20 @@
 package com.narvatov.planthelper.ui.navigation
 
-import com.narvatov.planthelper.models.data.local.Plant
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 
 object UiNavigationEventPropagator {
 
-    val navigationEvents = MutableSharedFlow<Destination>(extraBufferCapacity = 1)
+    val navigationEvents = MutableSharedFlow<Destination>(extraBufferCapacity = 10)
 
     private fun MutableSharedFlow<Destination>.navigate(destination: Destination) {
         println("NAVIGATOR LOGGER NAVIGATE TO ${destination.route}")
-        tryEmit(destination)
+        GlobalScope.launch { emit(destination) }
     }
 
     fun navigate(destination: Destination) {
         navigationEvents.navigate(destination)
-    }
-
-    fun navigateToPlantDetails(plant: Plant) {
-        navigationPlantId = plant.id
-        navigate(PlantDetails.withParam(PlantDetails.PLANT_ID_NAV_PARAM, plant.id))
-    }
-
-    fun navigateToEditPlant(plant: Plant) {
-        navigationEditPlantId = plant.id
-        navigate(CreatePlant)
     }
 
     fun popBack(destination: Destination, inclusive: Boolean = false) {
@@ -32,6 +23,10 @@ object UiNavigationEventPropagator {
 
     fun popBack() {
         navigationEvents.navigate(Back)
+    }
+
+    fun publishToaster(message: String) {
+        navigationEvents.navigate(Toast(message))
     }
 
 }

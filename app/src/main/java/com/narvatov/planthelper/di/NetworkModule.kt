@@ -1,6 +1,10 @@
 package com.narvatov.planthelper.di
 
-import com.narvatov.planthelper.data.datasource.remote.api.PlantApi
+import com.google.gson.GsonBuilder
+import com.narvatov.planthelper.data.datasource.remote.api.FileApi
+import com.narvatov.planthelper.data.datasource.remote.api.HelpApi
+import com.narvatov.planthelper.data.datasource.remote.api.ProposalApi
+import com.narvatov.planthelper.data.datasource.remote.api.SignApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -11,7 +15,7 @@ val networkModule = module {
 
     single {
         HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
+            level = HttpLoggingInterceptor.Level.BODY
         }
     }
 
@@ -25,17 +29,28 @@ val networkModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl(PLANT_INFO_JSON_BASE_URL)
+            .baseUrl(BASE_URL)
             .client(get())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build()
     }
 
-    fun providePlantInfoApi(retrofit: Retrofit) = retrofit.create(PlantApi::class.java)
+    fun provideSignApi(retrofit: Retrofit) = retrofit.create(SignApi::class.java)
 
-    single { providePlantInfoApi(get()) }
+    single { provideSignApi(get()) }
+
+    fun provideProposalApi(retrofit: Retrofit) = retrofit.create(ProposalApi::class.java)
+
+    single { provideProposalApi(get()) }
+
+    fun provideHelpApi(retrofit: Retrofit) = retrofit.create(HelpApi::class.java)
+
+    single { provideHelpApi(get()) }
+
+    fun provideFileApi(retrofit: Retrofit) = retrofit.create(FileApi::class.java)
+
+    single { provideFileApi(get()) }
 
 }
 
-private const val PLANT_INFO_JSON_BASE_URL = "https://drive.google.com/"
-const val PLANT_INFO_JSON_URL = "https://drive.google.com/uc?export=download&confirm=no_antivirus&id=1LeIzmxhkMfyaaEfQOS_OcdDBFGuvSveT"
+private const val BASE_URL = "http://10.0.2.2:8080/"

@@ -1,6 +1,7 @@
 package com.narvatov.planthelper.ui.navigation
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.narvatov.planthelper.R
 
 sealed class Destination(private val baseRoute: String) {
@@ -16,6 +17,8 @@ sealed class Destination(private val baseRoute: String) {
 
 }
 
+class Toast(val message: String) : Destination("Toaster")
+
 object Back : Destination("Back") {
 
     fun withParam(destination: Destination, inclusive: Boolean): BackWithParam {
@@ -29,85 +32,77 @@ class BackWithParam(
 ) : Destination("BackWithParam")
 
 sealed class HeaderDestination(
-    route: String,
+    @StringRes
+    val headerTextRes: Int,
     val headerText: String,
     val canGoBack: Boolean = true
-) : Destination(route)
+) : Destination(headerText)
 
 sealed class BottomNavigation(
-    name: String,
+    @StringRes
+    headerTextRes: Int,
     headerText: String,
     @DrawableRes val icon: Int,
-    //TODO CHANGE TO STRING RESOURCE
-    val text: String,
+    @StringRes
+    val text: Int,
 ): HeaderDestination(
-    route = name,
+    headerTextRes = headerTextRes,
     headerText = headerText,
     canGoBack = false
 ) {
 
-    object Tasks : BottomNavigation(
-        name = "Tasks",
-        headerText = "My tasks",
-        icon = R.drawable.ic_activity,
-        text = "Tasks"
+    object Requests : BottomNavigation(
+        headerTextRes = R.string.helprequests,
+        headerText = "Help requests",
+        icon = R.drawable.ic_help_request_24,
+        text = R.string.requersst
     )
 
-    object Plants : BottomNavigation(
-        name = "Plants",
-        headerText = "My plants list",
-        icon = R.drawable.ic_plant,
-        text = "Plants"
+    object Proposals : BottomNavigation(
+        headerTextRes = R.string.proposals,
+        headerText = "Proposals",
+        icon = R.drawable.ic_help_proposal_24,
+        text = R.string.prorporp
     )
 
-    object Settings : BottomNavigation(
-        name = "Settings",
-        headerText = "Settings",
-        icon = R.drawable.ic_settings,
-        text = "Settings"
+    object Notifications : BottomNavigation(
+        headerTextRes = R.string.notificationss,
+        headerText = "Notifications",
+        icon = R.drawable.ic_round_notification_important_24,
+        text = R.string.notftif
+    )
+
+    object Account : BottomNavigation(
+        headerTextRes = R.string.account,
+        headerText = "Account",
+        icon = R.drawable.ic_round_account_circle_24,
+        text = R.string.acctount
     )
 
 }
 
-object PlantDetails : Destination("PlantDetails/{plantId}") {
+object SignIn : HeaderDestination(R.string.signinn,"Sign In", canGoBack = false)
 
-    const val PLANT_ID_NAV_PARAM = "plantId"
+object SignUp : HeaderDestination(R.string.signups,"Sign Up")
 
-    override val params = listOf(PLANT_ID_NAV_PARAM)
+object CreateProposal : HeaderDestination(R.string.createproposal,"Create proposal")
 
-}
+object ProposalDetails : HeaderDestination(R.string.proposaldetails,"Proposal details")
+object HelpDetails : HeaderDestination(R.string.helpdetails,"Help details")
 
-//TODO TEMP NAVIGATION CRUTCH
-class PlantDetailsWithParam(route: String): Destination(route)
-
-
-object CreatePlant : HeaderDestination("CreatePlant", "Add plant")
-
-object SearchPlantType : HeaderDestination("SearchPlantType", "Search your plant")
-
-
-object Calendar : Destination("Calendar")
-
-
-object Purchase : HeaderDestination("Purchase", "Subscription plan")
-
-object CurrentPurchase : HeaderDestination("CurrentPurchase", "Current subscription")
-
-
-object SettingsNotification : HeaderDestination("Notifications", "Notifications")
-
-object SettingsIssue : HeaderDestination("Issue", "Report an issue")
+object Filter : HeaderDestination(R.string.searchfilter,"Search filter")
+object FilterHelp : HeaderDestination(R.string.searchfilterhelp,"Search filter help")
+object Transactions : HeaderDestination(R.string.evventtransacitns,"Event transactions")
+object HelpTransactions : HeaderDestination(R.string.evventtransacitns,"Event transactions")
+object CreateTransaction : HeaderDestination(R.string.createtransaction,"Create transaction")
+object CreateHelpTransaction : HeaderDestination(R.string.createtransaction,"Create transaction")
+object CreateHelp : HeaderDestination(R.string.createhelpevent,"Create help event")
+object EditProposal : HeaderDestination(R.string.editproposal,"Edit proposal")
+object EditHelp : HeaderDestination(R.string.edithelp,"Edit help")
 
 val bottomNavigationItems = listOf(
-    BottomNavigation.Tasks,
-    BottomNavigation.Plants,
-    BottomNavigation.Settings,
+    BottomNavigation.Requests,
+    BottomNavigation.Proposals,
+    BottomNavigation.Notifications,
+    BottomNavigation.Account,
 )
-
-sealed class DialogDestination(
-    route: String,
-    val dismissOnBackPress: Boolean = true,
-    val dismissOnClickOutside: Boolean = true,
-) : Destination(route)
-
-object PurchaseDialog : DialogDestination("Purchase dialog")

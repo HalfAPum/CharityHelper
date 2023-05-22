@@ -1,32 +1,35 @@
 package com.narvatov.planthelper.ui.navigation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.halfapum.general.coroutines.launchCatching
-import com.narvatov.planthelper.models.ui.purchase.PurchaseDialog
-import com.narvatov.planthelper.ui.screen.plant.create.Calendar
-import com.narvatov.planthelper.ui.screen.plant.create.CreatePlant
-import com.narvatov.planthelper.ui.screen.plant.create.search.SearchPlantType
-import com.narvatov.planthelper.ui.screen.plant.details.PlantDetails
-import com.narvatov.planthelper.ui.screen.plant.list.PlantsScreen
-import com.narvatov.planthelper.ui.screen.purchase.CurrentPurchase
-import com.narvatov.planthelper.ui.screen.purchase.PurchaseScreen
-import com.narvatov.planthelper.ui.screen.settings.SettingsIssues
-import com.narvatov.planthelper.ui.screen.settings.SettingsNotifications
-import com.narvatov.planthelper.ui.screen.settings.SettingsScreen
-import com.narvatov.planthelper.ui.screen.task.TasksScreen
-import com.narvatov.planthelper.ui.theme.LightGreyBackground
+import com.narvatov.planthelper.data.utils.LoginStateHolder
+import com.narvatov.planthelper.models.remote.help.HelpDetails
+import com.narvatov.planthelper.models.remote.proposal.EditHelp
+import com.narvatov.planthelper.models.remote.proposal.EditProposal
+import com.narvatov.planthelper.models.remote.proposal.ProposalDetails
+import com.narvatov.planthelper.ui.screen.CreateTransactionScreen
+import com.narvatov.planthelper.ui.screen.FilterHelpScreen
+import com.narvatov.planthelper.ui.screen.FilterScreen
+import com.narvatov.planthelper.ui.screen.TransactionsScreen
+import com.narvatov.planthelper.ui.screen.accont.Account
+import com.narvatov.planthelper.ui.screen.help.CreateHelp
+import com.narvatov.planthelper.ui.screen.help.CreateHelpTransactionScreen
+import com.narvatov.planthelper.ui.screen.help.HelpList
+import com.narvatov.planthelper.ui.screen.help.HelpTransactionsScreen
+import com.narvatov.planthelper.ui.screen.notification.NotificationList
+import com.narvatov.planthelper.ui.screen.proposal.CreateProposal
+import com.narvatov.planthelper.ui.screen.proposal.ProposalList
+import com.narvatov.planthelper.ui.screen.signs.SignIn
+import com.narvatov.planthelper.ui.screen.signs.SignUpScreen
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun NavHostContent(
@@ -34,10 +37,11 @@ fun NavHostContent(
     innerPadding: PaddingValues
 ) = with(navController) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     NavHost(
         navController = navController,
-        startDestination = BottomNavigation.Tasks,
+        startDestination = BottomNavigation.Requests,
         modifier = Modifier.padding(innerPadding),
     ) {
         scope.launchCatching {
@@ -52,9 +56,15 @@ fun NavHostContent(
                         if (poppedBackSuccessfully) return@collectLatest
 
                         popBackStack(
-                            destination = BottomNavigation.Tasks,
+                            destination = BottomNavigation.Requests,
                             inclusive = false,
                         )
+                    }
+                    is Toast -> {
+                        android.widget.Toast.makeText(
+                            context, destination.message,
+                            android.widget.Toast.LENGTH_LONG
+                        ).show()
                     }
                     Back -> popBackStack()
                     else -> {
@@ -73,89 +83,84 @@ fun NavHostContent(
         }
 
         bottomNavigation {
-            composable(BottomNavigation.Tasks) {
-                Column(
-                    modifier = Modifier
-                        .background(color = LightGreyBackground)
-                        .padding(top = 8.dp)
-                ) {
-                    TasksScreen()
-                }
+            composable(BottomNavigation.Requests) {
+                HelpList()
             }
 
-            composable(BottomNavigation.Plants) {
-                PlantsScreen()
+            composable(BottomNavigation.Proposals) {
+                ProposalList()
             }
 
-            composable(BottomNavigation.Settings) {
-                SettingsScreen()
+            composable(BottomNavigation.Notifications) {
+                NotificationList()
+            }
+
+            composable(BottomNavigation.Account) {
+                if (LoginStateHolder.signInState.isLoggedIn) Account()
+                else navigate(SignIn)
             }
         }
 
-
-        composable(PlantDetails) { navBackStackEntry ->
-//            val plantId = navBackStackEntry.arguments?.getString(PlantDetails.PLANT_ID_NAV_PARAM)?.toLong()
-
-//            plantId?.let {
-                PlantDetails(plantId = navigationPlantId)
-//            }
+        composable(SignIn) {
+            SignIn()
         }
 
-        composable(CreatePlant) {
-            CreatePlant(plantId = navigationEditPlantId)
+        composable(SignUp) {
+            SignUpScreen()
         }
 
-        composable(SearchPlantType) {
+        composable(CreateProposal) {
+            CreateProposal()
+        }
+
+        composable(ProposalDetails) {
+            ProposalDetails()
+        }
+
+        composable(HelpDetails) {
+            HelpDetails()
+        }
+
+        composable(Filter) {
             val viewModelStateOwner = remember {
-                navController.getBackStackEntry(CreatePlant)
+                navController.getBackStackEntry(BottomNavigation.Proposals)
             }
 
-            SearchPlantType(viewModel = getViewModel(
-                owner = viewModelStateOwner,
-                parameters = { parametersOf(navigationEditPlantId) }
-            ))
+            FilterScreen(viewModel = getViewModel(owner = viewModelStateOwner))
         }
 
-        composable(Calendar) {
+        composable(FilterHelp) {
             val viewModelStateOwner = remember {
-                navController.getBackStackEntry(CreatePlant)
+                navController.getBackStackEntry(BottomNavigation.Requests)
             }
 
-            Calendar(viewModel = getViewModel(
-                owner = viewModelStateOwner,
-                parameters = { parametersOf(navigationEditPlantId) }
-            ))
+            FilterHelpScreen(viewModel = getViewModel(owner = viewModelStateOwner))
         }
 
-        composable(Purchase) {
-            val viewModelStateOwner = remember {
-                navController.getBackStackEntryNullable(CurrentPurchase)
-            }
-
-            PurchaseScreen(viewModel = viewModelStateOwner?.let {
-                    getViewModel(owner = it)
-                } ?: getViewModel()
-            )
+        composable(Transactions) {
+            TransactionsScreen()
+        }
+        composable(CreateTransaction) {
+            CreateTransactionScreen()
         }
 
-        composable(CurrentPurchase) {
-            CurrentPurchase()
+        composable(HelpTransactions) {
+            HelpTransactionsScreen()
+        }
+        composable(CreateHelpTransaction) {
+            CreateHelpTransactionScreen()
         }
 
-        composable(SettingsNotification) {
-            SettingsNotifications()
+        composable(CreateHelp) {
+            CreateHelp()
         }
 
-        composable(SettingsIssue) {
-            SettingsIssues()
+        composable(EditProposal) {
+            EditProposal()
         }
 
-        dialog(PurchaseDialog) {
-            PurchaseDialog()
+        composable(EditHelp) {
+            EditHelp()
         }
     }
 }
-
-//TODO REALLY TEMP FIX NAVIGATION SHIT LATER
-var navigationPlantId = 0L
-var navigationEditPlantId: Long? = null

@@ -44,20 +44,6 @@ fun NavGraphBuilder.composable(
     )
 }
 
-fun NavGraphBuilder.dialog(
-    destination: DialogDestination,
-    content: @Composable (NavBackStackEntry) -> Unit
-) {
-    dialog(
-        route = destination.route,
-        dialogProperties = DialogProperties(
-            dismissOnBackPress = destination.dismissOnBackPress,
-            dismissOnClickOutside = destination.dismissOnClickOutside,
-        ),
-        content = content,
-    )
-}
-
 @Composable
 fun NavHost(
     navController: NavHostController,
@@ -94,12 +80,5 @@ fun NavController.getBackStackEntryNullable(
 fun NavController.getBackStackEntry(
     destination: Destination
 ) = getBackStackEntry(destination.route)
-
-/**
- * [value] takes only primitives or [String] otherwise it won't work as expected.
- */
-fun Destination.withParam(param: String, value: Any): PlantDetailsWithParam {
-    return PlantDetailsWithParam(route.replace("{$param}", "{$value}"))
-}
 
 val UiNavigator = UiNavigationEventPropagator

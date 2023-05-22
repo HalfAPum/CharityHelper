@@ -7,12 +7,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,27 +29,22 @@ fun Header(destination: HeaderDestination) {
     Box(modifier = Modifier
             .fillMaxWidth()
             .height(58.dp)
-            .background(color = Color.White)
+            .background(color = Color(0xFFEEEEEE))
     ) {
         if (destination.canGoBack) {
             Image(
-                painter = painterResource(R.drawable.ic_back),
+                imageVector = Icons.Rounded.ArrowBack,
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp)
+                    .clip(CircleShape)
                     .clickable { popBack() }
             )
         }
 
-        //TODO refactor and remove crutch
-        val headerText = if (destination is CreatePlant) {
-            if (navigationEditPlantId == null) "Add plant" else "Edit plant"
-        } else destination.headerText
-
-
         Text(
-            text = headerText,
+            text = stringResource(destination.headerTextRes),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center),
