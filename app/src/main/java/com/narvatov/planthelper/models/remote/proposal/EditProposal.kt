@@ -8,6 +8,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -34,7 +35,7 @@ fun EditProposal(
 
     var description by rememberSaveable { mutableStateOf(proposal.description) }
 
-    val parentOptions = listOf("Active", "Inactive", "Done", "Blocked")
+    val parentOptions = listOf(stringResource(R.string.active), stringResource(R.string.inactive), stringResource(R.string.done), stringResource(R.string.blocked))
     var expandedState by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(parentOptions.first { it.equals(proposal.status, ignoreCase = true) }) }
 
@@ -130,7 +131,7 @@ fun EditProposal(
                         viewModel.onFieldValueChanged()
                     },
                     label = {
-                        Text(text = "location1")
+                        Text(text = stringResource(R.string.oblast))
                     },
                     singleLine = true,
                     modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -145,7 +146,7 @@ fun EditProposal(
                         viewModel.onFieldValueChanged()
                     },
                     label = {
-                        Text(text = "location2")
+                        Text(text = stringResource(R.string.city))
                     },
                     singleLine = true,
                     modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -160,7 +161,7 @@ fun EditProposal(
                         viewModel.onFieldValueChanged()
                     },
                     label = {
-                        Text(text = "location3")
+                        Text(text = stringResource(R.string.region))
                     },
                     singleLine = true,
                     modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -175,7 +176,7 @@ fun EditProposal(
                         viewModel.onFieldValueChanged()
                     },
                     label = {
-                        Text(text = "location4")
+                        Text(text = stringResource(R.string.street))
                     },
                     singleLine = true,
                     modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -199,7 +200,7 @@ fun EditProposal(
                     label = childrenString,
                     modifier = Modifier.padding(top = 20.dp)
                 )
-                val scholarsString = "Scholars"
+                val scholarsString = stringResource(R.string.scholars)
 
                 val scholarsChecked = remember { mutableStateOf(ageGroupTags.contains(scholarsString)) }
 
@@ -284,7 +285,7 @@ fun EditProposal(
                     modifier = Modifier.padding(top = 20.dp)
                 )
 
-                val placeToLiveString = "Place to live"
+                val placeToLiveString = stringResource(R.string.place_tolive)
                 val placeToLiveChecked = remember { mutableStateOf(topicTags.contains(placeToLiveString)) }
 
                 CheckChoise(
@@ -316,6 +317,7 @@ fun EditProposal(
                     )
                 }
 
+                val context = LocalContext.current
                 Button(
                     onClick = {
                         val locationPair = Pair(
@@ -348,7 +350,14 @@ fun EditProposal(
 
                         val tags = listOf(locationPair, ageGroupPair, topics)
 
-                        viewModel.editHelp(title, description, selectedOption.toLowerCase(), tags)
+                        val realSelecteOption = when (selectedOption) {
+                            context.getString(R.string.active) -> "active"
+                            context.getString(R.string.inactive) -> "inactive"
+                            context.getString(R.string.done) -> "done"
+                            context.getString(R.string.blocked) -> "blocked"
+                            else -> ""
+                        }
+                        viewModel.editHelp(title, description, realSelecteOption.toLowerCase(), tags)
                     },
                     modifier = Modifier.padding(top = 10.dp).align(Alignment.CenterHorizontally)
                 ) {

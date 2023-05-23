@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,9 +35,10 @@ fun NotificationList(
     viewModel: NotificationViewModel = getViewModel()
 ) {
 
+    val context = LocalContext.current
     fun String.readableEventType() = when(this) {
-        "help" -> "Help event"
-        "proposal-event" -> "Proposal event"
+        "help" -> context.getString(R.string.help_event)
+        "proposal-event" -> context.getString(R.string.proposal_event)
         else -> this
     }
     val notifications = LoginStateHolder.notificationList

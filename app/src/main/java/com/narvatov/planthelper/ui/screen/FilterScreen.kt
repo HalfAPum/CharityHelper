@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -94,7 +95,7 @@ fun FilterScreen(
                     location1 = it
                 },
                 label = {
-                    Text(text = "location1")
+                    Text(text = stringResource(R.string.oblast))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -108,7 +109,7 @@ fun FilterScreen(
                     location2 = it
                 },
                 label = {
-                    Text(text = "location2")
+                    Text(text = stringResource(R.string.city))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -122,7 +123,7 @@ fun FilterScreen(
                     location3 = it
                 },
                 label = {
-                    Text(text = "location3")
+                    Text(text = stringResource(R.string.region))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -136,7 +137,7 @@ fun FilterScreen(
                     location4 = it
                 },
                 label = {
-                    Text(text = "location4")
+                    Text(text = stringResource(R.string.street))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -160,7 +161,7 @@ fun FilterScreen(
             )
 
             val scholarsChecked = remember { mutableStateOf(false) }
-            val scholarsString = "Scholars"
+            val scholarsString = stringResource(R.string.scholars)
 
             CheckChoise(
                 checked = scholarsChecked.value,
@@ -242,7 +243,7 @@ fun FilterScreen(
             )
 
             val placeToLiveChecked = remember { mutableStateOf(false) }
-            val placeToLiveString = "Place to live"
+            val placeToLiveString = stringResource(R.string.place_tolive)
 
             CheckChoise(
                 checked = placeToLiveChecked.value,
@@ -262,6 +263,7 @@ fun FilterScreen(
             )
             //Tags end
 
+            val context = LocalContext.current
             Button(
                 onClick = {
                     val locationPair = Pair(
@@ -296,13 +298,13 @@ fun FilterScreen(
 
                     viewModel.search(
                         viewModel.searchSavedStr.value,
-                        if (selectedS == "ASC")SortOrder.ASC else SortOrder.DESC,
-                        if (selectedSF == "Title") SortBy.TITLE else SortBy.CREATION_DATE,
+                        if (selectedS == context.getString(R.string.asc))SortOrder.ASC else SortOrder.DESC,
+                        if (selectedSF == context.getString(R.string.title)) SortBy.TITLE else SortBy.CREATION_DATE,
                         when (selectedStat) {
-                            "Active" -> Status.Active
-                            "Inactive" -> Status.Inactive
-                            "Done" -> Status.Done
-                            "Blocked" -> Status.Blocked
+                            context.getString(R.string.active) -> Status.Active
+                            context.getString(R.string.inactive) -> Status.Inactive
+                            context.getString(R.string.done) -> Status.Done
+                            context.getString(R.string.blocked) -> Status.Blocked
                             else -> null
                         },
                         tags = tags
@@ -396,7 +398,7 @@ fun FilterHelpScreen(
                     location1 = it
                 },
                 label = {
-                    Text(text = "location1")
+                    Text(text = stringResource(R.string.oblast))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -410,7 +412,7 @@ fun FilterHelpScreen(
                     location2 = it
                 },
                 label = {
-                    Text(text = "location2")
+                    Text(text = stringResource(R.string.city))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -424,7 +426,7 @@ fun FilterHelpScreen(
                     location3 = it
                 },
                 label = {
-                    Text(text = "location3")
+                    Text(text = stringResource(R.string.region))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -438,7 +440,7 @@ fun FilterHelpScreen(
                     location4 = it
                 },
                 label = {
-                    Text(text = "location4")
+                    Text(text = stringResource(R.string.street))
                 },
                 singleLine = true,
                 modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -462,7 +464,7 @@ fun FilterHelpScreen(
             )
 
             val scholarsChecked = remember { mutableStateOf(false) }
-            val scholarsString = "Scholars"
+            val scholarsString = stringResource(R.string.scholars)
 
             CheckChoise(
                 checked = scholarsChecked.value,
@@ -544,7 +546,7 @@ fun FilterHelpScreen(
             )
 
             val placeToLiveChecked = remember { mutableStateOf(false) }
-            val placeToLiveString = "Place to live"
+            val placeToLiveString = stringResource(R.string.place_tolive)
 
             CheckChoise(
                 checked = placeToLiveChecked.value,
@@ -564,6 +566,7 @@ fun FilterHelpScreen(
             )
             //Tags end
 
+            val context = LocalContext.current
             Button(
                 onClick = {
                     val locationPair = Pair(
@@ -598,13 +601,13 @@ fun FilterHelpScreen(
 
                     viewModel.search(
                         viewModel.searchSavedStr.value,
-                        if (selectedS == "ASC")SortOrder.ASC else SortOrder.DESC,
-                        if (selectedSF == "Title") SortBy.TITLE else SortBy.CREATION_DATE,
+                        if (selectedS == context.getString(R.string.asc))SortOrder.ASC else SortOrder.DESC,
+                        if (selectedSF == context.getString(R.string.title)) SortBy.TITLE else SortBy.CREATION_DATE,
                         when (selectedStat) {
-                            "Active" -> Status.Active
-                            "Inactive" -> Status.Inactive
-                            "Done" -> Status.Done
-                            "Blocked" -> Status.Blocked
+                            context.getString(R.string.active) -> Status.Active
+                            context.getString(R.string.inactive) -> Status.Inactive
+                            context.getString(R.string.done) -> Status.Done
+                            context.getString(R.string.blocked) -> Status.Blocked
                             else -> null
                         },
                         tags = tags

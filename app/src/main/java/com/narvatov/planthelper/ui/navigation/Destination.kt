@@ -101,8 +101,8 @@ object EditProposal : HeaderDestination(R.string.editproposal,"Edit proposal")
 object EditHelp : HeaderDestination(R.string.edithelp,"Edit help")
 
 val bottomNavigationItems = listOf(
+    BottomNavigation.Account,
     BottomNavigation.Requests,
     BottomNavigation.Proposals,
     BottomNavigation.Notifications,
-    BottomNavigation.Account,
 )

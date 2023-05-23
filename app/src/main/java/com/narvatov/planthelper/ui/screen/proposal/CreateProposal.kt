@@ -99,7 +99,7 @@ fun CreateProposal(
                 viewModel.onFieldValueChanged()
             },
             label = {
-                Text(text = "location1")
+                Text(text = stringResource(R.string.oblast))
             },
             singleLine = true,
             modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -114,7 +114,7 @@ fun CreateProposal(
                 viewModel.onFieldValueChanged()
             },
             label = {
-                Text(text = "location2")
+                Text(text = stringResource(R.string.city))
             },
             singleLine = true,
             modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -129,7 +129,7 @@ fun CreateProposal(
                 viewModel.onFieldValueChanged()
             },
             label = {
-                Text(text = "location3")
+                Text(text = stringResource(R.string.region))
             },
             singleLine = true,
             modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -144,7 +144,7 @@ fun CreateProposal(
                 viewModel.onFieldValueChanged()
             },
             label = {
-                Text(text = "location4")
+                Text(text = stringResource(R.string.street))
             },
             singleLine = true,
             modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
@@ -168,7 +168,7 @@ fun CreateProposal(
         )
 
         val scholarsChecked = remember { mutableStateOf(false) }
-        val scholarsString = "Scholars"
+        val scholarsString = stringResource(R.string.scholars)
 
         CheckChoise(
             checked = scholarsChecked.value,
@@ -250,7 +250,7 @@ fun CreateProposal(
         )
 
         val placeToLiveChecked = remember { mutableStateOf(false) }
-        val placeToLiveString = "Place to live"
+        val placeToLiveString = stringResource(R.string.place_tolive)
 
         CheckChoise(
             checked = placeToLiveChecked.value,

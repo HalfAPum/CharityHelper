@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,9 +19,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -37,6 +43,7 @@ import com.narvatov.planthelper.ui.viewmodel.TransactionViewModel
 import com.narvatov.planthelper.utils.isInvalidUrl
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun TransactionsScreen(
     viewModel: TransactionViewModel = getViewModel()
@@ -135,20 +142,35 @@ fun TransactionsScreen(
                             }
                         }
 
-                        if (reportURL.isNullOrEmpty().not()) {
-                            Text(
-                                text = AnnotatedString.Builder().apply {
-                                    append(stringResource(R.string.report))
-                                    append(" ")
-                                    addStringAnnotation(
-                                        tag = "URL",
-                                        annotation = reportURL!!,
-                                        start = 6,
-                                        end = 21
-                                    )
-                                }.toAnnotatedString(),
+                        if (reportURL.isNullOrBlank().not()) {
+                            val uriHandler = LocalUriHandler.current
+                            val annotatedLink =AnnotatedString.Builder().apply {
+                                append(stringResource(R.string.report))
+                                append(" ")
+                                append(reportURL!!)
+                                addStyle(
+                                    style = SpanStyle(
+                                        color = Color(0xff64B5F6),
+                                        fontSize = 18.sp,
+                                        textDecoration = TextDecoration.Underline
+                                    ), start = stringResource(R.string.report).length + 1, end = stringResource(R.string.report).length + 1 + reportURL!!.length
+                                )
+                                addStringAnnotation(
+                                    tag = "URL",
+                                    annotation = reportURL!!,
+                                    stringResource(R.string.report).length + 1,stringResource(R.string.report).length + 1 + reportURL!!.length
+                                )
+                            }.toAnnotatedString()
+                            ClickableText(
+                                text = annotatedLink,
                                 style = MaterialTheme.typography.body2,
                                 modifier = Modifier.padding(top = 8.dp),
+                                onClick = {
+                                    annotatedLink.getStringAnnotations("URL", it, it)
+                                        .firstOrNull()?.let { stringAnnotation ->
+                                            uriHandler.openUri(stringAnnotation.item)
+                                        }
+                                }
                             )
                         }
 
