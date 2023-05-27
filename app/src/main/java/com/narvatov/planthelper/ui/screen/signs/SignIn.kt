@@ -2,8 +2,11 @@ package com.narvatov.planthelper.ui.screen.signs
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Switch
@@ -31,7 +34,7 @@ fun SignIn(
     viewModel: SignInViewModel = getViewModel()
 ) {
       Column(
-            modifier = Modifier.padding(top = 120.dp).fillMaxSize(),
+            modifier = Modifier.padding(top = 120.dp).fillMaxSize().verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(

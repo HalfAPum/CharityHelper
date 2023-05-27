@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -39,6 +40,7 @@ import com.narvatov.planthelper.models.remote.RequestStatus
 import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.main.PICK_PHOTO_CODE
 import com.narvatov.planthelper.ui.navigation.CreateTransaction
+import com.narvatov.planthelper.ui.navigation.HelpComplaint
 import com.narvatov.planthelper.ui.navigation.Transactions
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator
 import com.narvatov.planthelper.ui.screen.toStringStatus
@@ -441,6 +443,21 @@ fun HelpTransactionsScreen(
                                         )
                                     }
 
+                                }
+                            }
+                        }
+
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            if (responder.id == LoginStateHolder.signInState.signInData!!.id && false) {
+                                FloatingActionButton(
+                                    onClick = { UiNavigationEventPropagator.navigate(HelpComplaint) },
+                                    modifier = Modifier.align(Alignment.TopEnd).padding(8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Warning,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(16.dp)
+                                    )
                                 }
                             }
                         }

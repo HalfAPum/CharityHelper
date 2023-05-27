@@ -149,4 +149,5 @@
     <string name="street">Street</string>
     <string name="help_event">Help event</string>
     <string name="proposal_event">Proposal event</string>
+    <string name="complaint">Complaint</string>
 </resources>

@@ -49,7 +49,7 @@ fun BottomBar(navController: NavHostController) = Box(modifier = Modifier.border
                 },
                 selectedContentColor = Purple500,
                 unselectedContentColor = SuperSoftGrey,
-                label = { Text(stringResource(destination.text)) },
+                label = { Text(stringResource(destination.text), maxLines = 1) },
                 selected = destination.route == selectedRoute,
                 onClick = {
                     if (selected) return@BottomNavigationItem

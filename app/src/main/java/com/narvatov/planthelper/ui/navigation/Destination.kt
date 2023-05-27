@@ -99,6 +99,8 @@ object CreateHelpTransaction : HeaderDestination(R.string.createtransaction,"Cre
 object CreateHelp : HeaderDestination(R.string.createhelpevent,"Create help event")
 object EditProposal : HeaderDestination(R.string.editproposal,"Edit proposal")
 object EditHelp : HeaderDestination(R.string.edithelp,"Edit help")
+object HelpComplaint : HeaderDestination(R.string.complaint,"Edit help")
+object ProposalComplaint : HeaderDestination(R.string.complaint,"Edit help")
 
 val bottomNavigationItems = listOf(
     BottomNavigation.Account,

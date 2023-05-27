@@ -2,6 +2,7 @@ package com.narvatov.planthelper.utils
 
 import android.util.Patterns
 
+
 fun String.isInvalidEmail() = isNullOrEmpty() || Patterns.EMAIL_ADDRESS.matcher(this).matches().not()
 
 fun String.isInvalidPhone() = isNullOrEmpty() || Patterns.PHONE.matcher(this).matches().not()

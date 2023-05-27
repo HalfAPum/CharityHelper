@@ -71,7 +71,7 @@ class HelpRepository(
         val andProp = helpApi.getPublicHelps(AllSearchQuery(takingPart = false))
         val list = getPublicHelps().helpEvents.toMutableList()
         list.addAll(andProp.helpEvents)
-        list.addAll(getOwnHelps().helpEvents)
+        list.addAll(kotlin.runCatching { getOwnHelps().helpEvents }.getOrNull() ?: emptyList())
         return@withContext list.first { it.id == id }
     }
 
