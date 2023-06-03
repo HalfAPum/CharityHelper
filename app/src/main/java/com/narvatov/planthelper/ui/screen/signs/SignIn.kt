@@ -55,7 +55,7 @@ fun SignIn(
                 )
             }
 
-            var email by rememberSaveable { mutableStateOf("test@test.com") }
+            var email by rememberSaveable { mutableStateOf("") }
 
             OutlinedTextField(
                 value = email,
@@ -71,7 +71,7 @@ fun SignIn(
                 modifier = Modifier.padding(top = 10.dp)
             )
 
-            var password by rememberSaveable { mutableStateOf("123123123") }
+            var password by rememberSaveable { mutableStateOf("") }
 
             OutlinedTextField(
                 value = password,

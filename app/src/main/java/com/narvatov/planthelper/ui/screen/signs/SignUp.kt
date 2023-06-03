@@ -43,7 +43,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 20.dp)
         )
 
-        var email by rememberSaveable { mutableStateOf("2222@gmail.com") }
+        var email by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = email,
@@ -59,7 +59,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        var password by rememberSaveable { mutableStateOf("22222222") }
+        var password by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = password,
@@ -81,7 +81,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 40.dp)
         )
 
-        var firstName by rememberSaveable { mutableStateOf("adkajsa") }
+        var firstName by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = firstName,
@@ -96,7 +96,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        var secondName by rememberSaveable { mutableStateOf("aflkjasd") }
+        var secondName by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = secondName,
@@ -111,7 +111,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        var telephone by rememberSaveable { mutableStateOf("+380507689187") }
+        var telephone by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = telephone,
@@ -127,7 +127,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        var companyName by rememberSaveable { mutableStateOf("alkdjsa") }
+        var companyName by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = companyName,
@@ -148,7 +148,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 40.dp)
         )
 
-        var city by rememberSaveable { mutableStateOf("asjdakd") }
+        var city by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = city,
@@ -163,7 +163,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        var district by rememberSaveable { mutableStateOf("asiojdoka") }
+        var district by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = district,
@@ -178,7 +178,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        var homeLocation by rememberSaveable { mutableStateOf("askjda") }
+        var homeLocation by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = homeLocation,
@@ -193,7 +193,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        var region by rememberSaveable { mutableStateOf("asidaodakla") }
+        var region by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
             value = region,
