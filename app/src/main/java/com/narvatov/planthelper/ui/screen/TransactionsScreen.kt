@@ -356,7 +356,7 @@ fun TransactionsScreen(
             ListSpacer()
         }}
 
-        if (event.value?.author?.id != LoginStateHolder.signInState.signInData?.id) {
+        if (event.value?.author?.phone != LoginStateHolder.signInState.signInData?.telephone) {
             FloatingActionButton(
                 onClick = { navigate(CreateTransaction) },
                 modifier = Modifier.align(Alignment.BottomEnd).padding(24.dp)
