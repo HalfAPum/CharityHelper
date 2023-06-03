@@ -8,6 +8,8 @@ data class CreateNeed(
     val title: String,
     @SerializedName("description")
     val description: String,
+    @SerializedName("endDate")
+    val endDate: String,
     @SerializedName("needs")
     val needs: List<Need>,
     @SerializedName("tags")

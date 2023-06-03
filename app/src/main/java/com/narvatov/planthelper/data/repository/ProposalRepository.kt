@@ -23,10 +23,10 @@ class ProposalRepository(
     private val fileRepository: FileRepository,
 ) {
 
-    suspend fun createProposal(title: String, description: String, maxConcurrentRequests: Long, tags: List<Pair<TagTitle, List<String>>>) = withContext(Dispatchers.IO) {
+    suspend fun createProposal(title: String, description: String, maxConcurrentRequests: Long, endDate: String, tags: List<Pair<TagTitle, List<String>>>) = withContext(Dispatchers.IO) {
         val image = fileRepository.uploadFile()
 
-        proposalApi.createProposal(CreateProposal(title, description, maxConcurrentRequests, tags.map { CreateTag(it.first, if (it.first == TagTitle.Location) it.second else it.second.filter { it.isBlank().not() }) },
+        proposalApi.createProposal(CreateProposal(title, description, maxConcurrentRequests, endDate, tags.map { CreateTag(it.first, if (it.first == TagTitle.Location) it.second else it.second.filter { it.isBlank().not() }) },
         image = image))
     }
 

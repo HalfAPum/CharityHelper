@@ -109,9 +109,7 @@ fun HelpDetails(
                         WeightedSpacer()
 
                         Text(
-                            text = stringResource(com.narvatov.planthelper.R.string.cmptdd) + " " + competitionDate.substringBefore(
-                                'T'
-                            ),
+                            text = stringResource(com.narvatov.planthelper.R.string.cmptdd) + " " + competitionDate.substringBefore("T"),
                             style = androidx.compose.material.MaterialTheme.typography.caption,
                         )
                     }
@@ -242,7 +240,7 @@ fun HelpDetails(
                                 location1 = it
                             },
                             label = {
-                                Text(text = "location1")
+                                Text(text = stringResource(R.string.oblast))
                             },
                             enabled = false,
                             singleLine = true,
@@ -257,7 +255,7 @@ fun HelpDetails(
                                 location2 = it
                             },
                             label = {
-                                Text(text = "location2")
+                                Text(text = stringResource(R.string.city))
                             },
                             enabled = false,
                             singleLine = true,
@@ -272,7 +270,7 @@ fun HelpDetails(
                                 location3 = it
                             },
                             label = {
-                                Text(text = "location3")
+                                Text(text = stringResource(R.string.region))
                             },
                             enabled = false,
                             singleLine = true,
@@ -287,7 +285,7 @@ fun HelpDetails(
                                 location4 = it
                             },
                             label = {
-                                Text(text = "location4")
+                                Text(text = stringResource(R.string.street))
                             },
                             enabled = false,
                             singleLine = true,

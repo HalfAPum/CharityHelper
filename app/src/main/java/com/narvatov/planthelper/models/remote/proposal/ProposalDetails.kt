@@ -111,9 +111,7 @@ fun ProposalDetails(
                         WeightedSpacer()
 
                         Text(
-                            text = stringResource(R.string.cmptdd) + " " + competitionDate.substringBefore(
-                                ' '
-                            ),
+                            text = stringResource(R.string.cmptdd) + " " + competitionDate.substringBefore("T"),
                             style = MaterialTheme.typography.caption,
                         )
                     }
@@ -201,7 +199,7 @@ fun ProposalDetails(
                                 location1 = it
                             },
                             label = {
-                                Text(text = "location1")
+                                Text(text = stringResource(R.string.oblast))
                             },
                             enabled = false,
                             singleLine = true,
@@ -216,7 +214,7 @@ fun ProposalDetails(
                                 location2 = it
                             },
                             label = {
-                                Text(text = "location2")
+                                Text(text = stringResource(R.string.city))
                             },
                             enabled = false,
                             singleLine = true,
@@ -231,7 +229,7 @@ fun ProposalDetails(
                                 location3 = it
                             },
                             label = {
-                                Text(text = "location3")
+                                Text(text = stringResource(R.string.region))
                             },
                             enabled = false,
                             singleLine = true,
@@ -246,7 +244,7 @@ fun ProposalDetails(
                                 location4 = it
                             },
                             label = {
-                                Text(text = "location4")
+                                Text(text = stringResource(R.string.street))
                             },
                             enabled = false,
                             singleLine = true,

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.OpenableColumns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
 import com.narvatov.planthelper.data.utils.LoginStateHolder
 import com.narvatov.planthelper.ui.Scaffold
@@ -14,7 +15,7 @@ import com.narvatov.planthelper.ui.navigation.NavHostContent
 import com.narvatov.planthelper.ui.theme.CharityTheme
 
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

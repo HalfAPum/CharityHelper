@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.CharityHelper" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.CharityHelper" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">#FF222227</item>
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
     </style>
 </resources>

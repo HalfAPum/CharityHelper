@@ -65,6 +65,7 @@
     <string name="authir">Автор:</string>
     <string name="crt_Datdd">Дата створення:</string>
     <string name="cmptdd">Дата завершення:</string>
+    <string name="cmptddd">Дата завершення</string>
     <string name="comments">Коментарі</string>
     <string name="add_comment">Додатки коментар</string>
     <string name="sendcom">Відправити</string>
@@ -150,4 +151,7 @@
     <string name="street">Вулиця</string>
     <string name="help_event">Запит допомоги</string>
     <string name="proposal_event">Пропозиція допомоги</string>
+    <string name="complaint">Скарга</string>
+    <string name="se">Оберіть дійсний час завершення</string>
+    <string name="add_at_least_one_need">Додайте хоча б одну потребу</string>
 </resources>

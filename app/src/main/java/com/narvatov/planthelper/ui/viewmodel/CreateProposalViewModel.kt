@@ -19,7 +19,7 @@ class CreateProposalViewModel(
 
 
     fun createProposal(
-        title: String, description: String, maxConcurrentRequests: Long,
+        title: String, description: String, maxConcurrentRequests: Long, datePicked: String?, datePickedTime: Long?,
         tags: List<Pair<TagTitle, List<String>>>
     ) = viewModelScope.launchPrintingError {
         when {
@@ -32,8 +32,11 @@ class CreateProposalViewModel(
             maxConcurrentRequests < 1 -> {
                 _errorSharedFlow.emit(context.getString(R.string.concurrentrequests))
             }
+            datePickedTime == null || datePickedTime < System.currentTimeMillis() -> {
+                _errorSharedFlow.emit(context.getString(R.string.se))
+            }
             else -> {
-                proposalRepository.createProposal(title, description, maxConcurrentRequests, tags)
+                proposalRepository.createProposal(title, description, maxConcurrentRequests, datePicked.toEndDate(), tags)
 
                 popBack()
 

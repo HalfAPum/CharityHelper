@@ -66,6 +66,7 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.2.0")
     implementation("io.insert-koin:koin-androidx-compose:3.2.0")
     implementation("io.insert-koin:koin-annotations:1.0.2")
+    implementation("com.google.android.material:material:1.9.0")
     ksp ("io.insert-koin:koin-ksp-compiler:1.0.2")
     implementation("io.insert-koin:koin-androidx-workmanager:3.1.2")
 
@@ -75,6 +76,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
+
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     //Coroutines
 
     //Timber

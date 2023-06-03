@@ -26,6 +26,8 @@ import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.remote.TagTitle
 import com.narvatov.planthelper.models.remote.help.Need
 import com.narvatov.planthelper.ui.main.PICK_PHOTO_CODE
+import com.narvatov.planthelper.ui.screen.DateFormater
+import com.narvatov.planthelper.ui.screen.DatePickerview
 import com.narvatov.planthelper.ui.screen.proposal.CheckChoise
 import com.narvatov.planthelper.ui.viewmodel.CreateHelpViewModel
 import org.koin.androidx.compose.getViewModel
@@ -40,6 +42,13 @@ fun CreateHelp(
     var title by rememberSaveable { mutableStateOf("") }
 
     var description by rememberSaveable { mutableStateOf("") }
+
+    var datePicked : String? by remember {
+        mutableStateOf(null)
+    }
+    var datePickedTime : Long? by remember {
+        mutableStateOf(null)
+    }
 
     LazyColumn (modifier = Modifier.fillMaxSize().padding(horizontal = 40.dp)) {
         item {
@@ -69,6 +78,15 @@ fun CreateHelp(
                     },
                     modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
                 )
+
+                Box(modifier = Modifier.padding(vertical = 10.dp)) {
+                    val updatedDate = { date : Long? ->
+                        datePicked = DateFormater(date)
+                        datePickedTime = date
+                    }
+
+                    DatePickerview( datePicked, updatedDate )
+                }
 
                 //Needs
                 Row(Modifier.padding(top = 40.dp, bottom = 10.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -436,7 +454,7 @@ fun CreateHelp(
 
                         val tags = listOf(locationPair, ageGroupPair, topics)
 
-                        viewModel.createHelp(title, description, needsList.toList(), tags)
+                        viewModel.createHelp(title, description, datePicked, datePickedTime, needsList.toList(), tags)
                     },
                     modifier = Modifier.padding(top = 10.dp).align(Alignment.CenterHorizontally)
                 ) {

@@ -63,7 +63,8 @@
     <string name="event_type_dd">Event type:</string>
     <string name="authir">Author:</string>
     <string name="crt_Datdd">Creation date:</string>
-    <string name="cmptdd">Competition date:</string>
+    <string name="cmptdd">Completion date:</string>
+    <string name="cmptddd">Completion date</string>
     <string name="comments">Comments</string>
     <string name="add_comment">Add comment</string>
     <string name="sendcom">Send</string>
@@ -150,4 +151,6 @@
     <string name="help_event">Help event</string>
     <string name="proposal_event">Proposal event</string>
     <string name="complaint">Complaint</string>
+    <string name="se">Select valid end time</string>
+    <string name="add_at_least_one_need">Add at least one need</string>
 </resources>

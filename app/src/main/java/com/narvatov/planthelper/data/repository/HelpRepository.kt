@@ -18,12 +18,12 @@ class HelpRepository(
 ) {
 
     suspend fun createHelp(
-        title: String, description: String, needs: List<Need>,
+        title: String, description: String, endDate: String, needs: List<Need>,
         tags: List<Pair<TagTitle, List<String>>>
     ) = withContext(Dispatchers.IO) {
         val image = fileRepository.uploadFile()
 
-        val createHelpResponse = helpApi.createHelp(CreateNeed(title, description, needs,
+        val createHelpResponse = helpApi.createHelp(CreateNeed(title, description, endDate, needs,
             emptyList(),
         image = image)
         )

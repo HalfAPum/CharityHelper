@@ -19,7 +19,7 @@ class CreateHelpViewModel(
     val context: Context by com.narvatov.planthelper.utils.inject<Context>()
 
     fun createHelp(
-        title: String, description: String, needs: List<Need>,
+        title: String, description: String, datePicked: String?, datePickedTime: Long?, needs: List<Need>,
         tags: List<Pair<TagTitle, List<String>>>
     ) = viewModelScope.launchPrintingError {
         when {
@@ -29,14 +29,20 @@ class CreateHelpViewModel(
             description.isBlank() -> {
                 _errorSharedFlow.emit(context.getString(R.string.descriptioncheck))
             }
+            needs.isEmpty() -> {
+                _errorSharedFlow.emit(context.getString(R.string.add_at_least_one_need))
+            }
             needs.any { it.title.isEmpty() } -> {
                 _errorSharedFlow.emit(context.getString(R.string.needscheck))
             }
-            needs.any { it.amount < 0 } -> {
+            needs.any { it.amount < 1 } -> {
                 _errorSharedFlow.emit(context.getString(R.string.amouncheck))
             }
+            datePickedTime == null || datePickedTime < System.currentTimeMillis() -> {
+                _errorSharedFlow.emit(context.getString(R.string.se))
+            }
             else -> {
-                helpRepository.createHelp(title, description, needs, tags)
+                helpRepository.createHelp(title, description, datePicked.toEndDate(), needs, tags)
 
                 UiNavigationEventPropagator.popBack()
 
@@ -49,3 +55,5 @@ class CreateHelpViewModel(
         }
     }
 }
+
+fun String?.toEndDate() = "${this!!}T23:59:59.999Z"

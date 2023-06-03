@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.models.remote.TagTitle
 import com.narvatov.planthelper.ui.main.PICK_PHOTO_CODE
+import com.narvatov.planthelper.ui.screen.DateFormater
+import com.narvatov.planthelper.ui.screen.DatePickerview
 import com.narvatov.planthelper.ui.viewmodel.CreateProposalViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -30,6 +32,13 @@ import org.koin.androidx.compose.getViewModel
 fun CreateProposal(
     viewModel: CreateProposalViewModel = getViewModel()
 ) {
+    var datePicked : String? by remember {
+        mutableStateOf(null)
+    }
+    var datePickedTime : Long? by remember {
+        mutableStateOf(null)
+    }
+
     Column(modifier = Modifier.fillMaxSize().padding(horizontal = 40.dp).verticalScroll(
         rememberScrollState())) {
         var title by rememberSaveable { mutableStateOf("") }
@@ -76,6 +85,15 @@ fun CreateProposal(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
         )
+
+        Box(modifier = Modifier.padding(vertical = 10.dp)) {
+            val updatedDate = { date : Long? ->
+                datePicked = DateFormater(date)
+                datePickedTime = date
+            }
+
+            DatePickerview( datePicked, updatedDate )
+        }
 
         //Tags start
         Text(
@@ -328,7 +346,7 @@ fun CreateProposal(
 
                 val tags = listOf(locationPair, ageGroupPair, topics)
 
-                viewModel.createProposal(title, description, maxConcurrentRequests, tags)
+                viewModel.createProposal(title, description, maxConcurrentRequests, datePicked, datePickedTime, tags)
             },
             modifier = Modifier.padding(top = 10.dp).align(Alignment.CenterHorizontally)
         ) {

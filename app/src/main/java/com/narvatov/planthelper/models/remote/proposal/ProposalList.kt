@@ -37,7 +37,7 @@ data class ProposalEvent(
     val description: String,
     @SerializedName("title")
     val title: String,
-    @SerializedName("competitionDate")
+    @SerializedName("endDate")
     val competitionDate: String,
     @SerializedName("creationDate")
     val creationDate: String,

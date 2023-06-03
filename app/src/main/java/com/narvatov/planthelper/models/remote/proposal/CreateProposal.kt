@@ -10,6 +10,8 @@ data class CreateProposal(
     val description: String,
     @SerializedName("maxConcurrentRequests")
     val maxConcurrentRequests: Long,
+    @SerializedName("endDate")
+    val endDate: String,
     @SerializedName("tags")
     val tags: List<Tag>,
     @SerializedName("imagePath")
