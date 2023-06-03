@@ -43,9 +43,10 @@ class ProposalListViewModel(
 
         viewModelScope.launchCatching {
             val publicProposals = proposalRepository.getPublicProposals()
+            val notpublicProposals = proposalRepository.getNotPublicProposals()
 
             _publicProposalSharedFlow.emit(publicProposals.proposalEvents)
-            _searchProposalSharedFlow.emit(publicProposals.proposalEvents)
+            _searchProposalSharedFlow.emit(notpublicProposals.proposalEvents)
         }
 
         viewModelScope.launchCatching {

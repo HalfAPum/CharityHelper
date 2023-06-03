@@ -34,6 +34,7 @@ class ProposalRepository(
         kotlin.runCatching { proposalApi.getOwnProposals() }.getOrNull() }
 
     suspend fun getPublicProposals() = withContext(Dispatchers.IO) { proposalApi.getPublicProposals() }
+    suspend fun getNotPublicProposals() = withContext(Dispatchers.IO) { proposalApi.getPublicProposals(AllSearchQuery(false)) }
 
     suspend fun searchProposals(
         query: String, order: String, sortField: String, status: String?, tags: List<Pair<TagTitle, List<String>>>

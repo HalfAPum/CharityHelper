@@ -44,8 +44,10 @@ class HelpListViewModel(
         viewModelScope.launchCatching {
             val publicProposals = helpRepository.getPublicHelps()
 
+            val notPublic = helpRepository.getNotPublicHelps()
+
             _publicHelpSharedFlow.emit(publicProposals.helpEvents)
-            _searchHelpSharedFlow.emit(publicProposals.helpEvents)
+            _searchHelpSharedFlow.emit(notPublic.helpEvents)
         }
 
         viewModelScope.launchCatching {

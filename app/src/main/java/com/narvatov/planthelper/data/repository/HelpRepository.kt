@@ -53,6 +53,7 @@ class HelpRepository(
     suspend fun getOwnHelps() = withContext(Dispatchers.IO) { helpApi.getOwnHelps() }
 
     suspend fun getPublicHelps() = withContext(Dispatchers.IO) { helpApi.getPublicHelps() }
+    suspend fun getNotPublicHelps() = withContext(Dispatchers.IO) { helpApi.getPublicHelps(AllSearchQuery(takingPart = false)) }
 
     suspend fun searchHelps(
         query: String, order: String, sortField: String, status: String?, tags: List<Pair<TagTitle, List<String>>>
