@@ -41,6 +41,7 @@ import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.main.PICK_PHOTO_CODE
 import com.narvatov.planthelper.ui.navigation.CreateTransaction
 import com.narvatov.planthelper.ui.navigation.HelpComplaint
+import com.narvatov.planthelper.ui.navigation.HelpTransactions
 import com.narvatov.planthelper.ui.navigation.Transactions
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator
 import com.narvatov.planthelper.ui.screen.toStringStatus
@@ -53,20 +54,20 @@ import java.lang.Integer.min
 fun HelpTransactionsScreen(
     viewModel: HelpTransactionViewModel = getViewModel()
 ) {
-
-    val transactions = viewModel.transactionFlow.collectAsState(null)
     val event = viewModel.eventFlow.collectAsState(null)
 
-    if (transactions.value.isNullOrEmpty()) {
+    val transactions = event.value?.transactions
+
+    if (transactions.isNullOrEmpty()) {
         Text(text = stringResource(R.string.notransactionyet), fontSize = 20.sp)
     }
 
     Box(Modifier.fillMaxSize()) {
-        if (transactions.value.isNullOrEmpty().not()) {
+        if (transactions.isNullOrEmpty().not()) {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
                 ListSpacer()
 
-                items(transactions.value!!) { transaction -> with(transaction) {
+                items(transactions!!) { transaction -> with(transaction) {
                     Card(
                         modifier = Modifier.padding(horizontal = 20.dp).fillMaxWidth()
                             .shadow(elevation = 10.dp, shape = Shapes.medium).clip(Shapes.medium)
@@ -185,7 +186,7 @@ fun HelpTransactionsScreen(
                                         onClick = {
                                             viewModel.updateTransactionStatus(transaction, RequestStatus.Accepted)
                                             UiNavigationEventPropagator.popBack()
-                                            UiNavigationEventPropagator.navigate(Transactions)
+                                            UiNavigationEventPropagator.navigate(HelpTransactions)
                                         },
                                         modifier = Modifier.weight(1F).padding(end = 4.dp)
                                     ) {
@@ -198,7 +199,7 @@ fun HelpTransactionsScreen(
                                         onClick = {
                                             viewModel.updateTransactionStatus(transaction, RequestStatus.Aborted)
                                             UiNavigationEventPropagator.popBack()
-                                            UiNavigationEventPropagator.navigate(Transactions)
+                                            UiNavigationEventPropagator.navigate(HelpTransactions)
                                         },
                                         modifier = Modifier.weight(1F).padding(start = 4.dp)
                                     ) {
@@ -212,14 +213,14 @@ fun HelpTransactionsScreen(
                                 Row(Modifier.padding(top = 12.dp)) {
                                     Button(
                                         onClick = {
-                                            viewModel.updateTransactionStatus(transaction, RequestStatus.Aborted)
+                                            viewModel.updateTransactionStatus(transaction, RequestStatus.InProgress)
                                             UiNavigationEventPropagator.popBack()
-                                            UiNavigationEventPropagator.navigate(Transactions)
+                                            UiNavigationEventPropagator.navigate(HelpTransactions)
                                         },
                                         modifier = Modifier.weight(1F)
                                     ) {
                                         Text(
-                                            text = stringResource(R.string.cancel)
+                                            text = stringResource(R.string.inprogress)
                                         )
                                     }
                                 }
@@ -248,7 +249,7 @@ fun HelpTransactionsScreen(
                                         onClick = {
                                             viewModel.updateTransactionStatus(transaction, RequestStatus.InProgress)
                                             UiNavigationEventPropagator.popBack()
-                                            UiNavigationEventPropagator.navigate(Transactions)
+                                            UiNavigationEventPropagator.navigate(HelpTransactions)
                                         },
                                         modifier = Modifier.weight(1F).padding(end = 4.dp)
                                     ) {
@@ -261,7 +262,7 @@ fun HelpTransactionsScreen(
                                         onClick = {
                                             viewModel.updateTransactionStatus(transaction, RequestStatus.Aborted)
                                             UiNavigationEventPropagator.popBack()
-                                            UiNavigationEventPropagator.navigate(Transactions)
+                                            UiNavigationEventPropagator.navigate(HelpTransactions)
                                         },
                                         modifier = Modifier.weight(1F).padding(start = 4.dp)
                                     ) {
@@ -355,7 +356,7 @@ fun HelpTransactionsScreen(
                                         onClick = {
                                             viewModel.updateTransactionStatus(transaction, RequestStatus.Completed, isApproved = true)
                                             UiNavigationEventPropagator.popBack()
-                                            UiNavigationEventPropagator.navigate(Transactions)
+                                            UiNavigationEventPropagator.navigate(HelpTransactions)
                                         },
                                         modifier = Modifier.weight(1F).padding(end = 4.dp)
                                     ) {
@@ -368,7 +369,7 @@ fun HelpTransactionsScreen(
                                         onClick = {
                                             viewModel.updateTransactionStatus(transaction, RequestStatus.Canceled)
                                             UiNavigationEventPropagator.popBack()
-                                            UiNavigationEventPropagator.navigate(Transactions)
+                                            UiNavigationEventPropagator.navigate(HelpTransactions)
                                         },
                                         modifier = Modifier.weight(1F).padding(start = 4.dp)
                                     ) {
@@ -424,7 +425,7 @@ fun HelpTransactionsScreen(
                                                     RequestStatus.Aborted
                                                 )
                                                 UiNavigationEventPropagator.popBack()
-                                                UiNavigationEventPropagator.navigate(Transactions)
+                                                UiNavigationEventPropagator.navigate(HelpTransactions)
                                             },
                                             modifier = Modifier.weight(1F).padding(start = 4.dp)
                                         ) {
@@ -468,7 +469,8 @@ fun HelpTransactionsScreen(
             }
         }
 
-        if (event.value?.author?.phone != LoginStateHolder.signInState.signInData?.telephone) {
+        println("FUCK ME IN ASS ${event.value} ")
+        if (event.value?.author?.id != LoginStateHolder.signInState.signInData?.id) {
             FloatingActionButton(
                 onClick = { UiNavigationEventPropagator.navigate(CreateTransaction) },
                 modifier = Modifier.align(Alignment.BottomEnd).padding(24.dp)

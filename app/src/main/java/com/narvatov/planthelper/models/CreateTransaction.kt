@@ -8,3 +8,7 @@ data class CreateTransaction(
     @SerializedName("comment")
     val comment: String,
 )
+data class CreateTransaction1(
+    @SerializedName("comment")
+    val comment: String,
+)

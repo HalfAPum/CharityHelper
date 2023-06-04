@@ -3,6 +3,7 @@ package com.narvatov.planthelper.data.utils
 import androidx.compose.runtime.mutableStateOf
 import com.narvatov.planthelper.models.remote.Notification
 import com.narvatov.planthelper.models.remote.sign.SignUpData
+import com.narvatov.planthelper.models.remote.sign.SignUpDataL
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,9 +23,9 @@ object LoginStateHolder {
 
 }
 
-sealed class SignInState(val signInData: SignUpData?) {
+sealed class SignInState(val signInData: SignUpDataL?) {
     object None: SignInState(null)
-    data class User(val signUpData: SignUpData): SignInState(signUpData)
+    data class User(val signUpData: SignUpDataL): SignInState(signUpData)
 
     val isLoggedIn: Boolean
         get() = signInData != null

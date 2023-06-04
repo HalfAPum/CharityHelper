@@ -43,10 +43,14 @@ class ProposalListViewModel(
 
         viewModelScope.launchCatching {
             val publicProposals = proposalRepository.getPublicProposals()
+
+            _searchProposalSharedFlow.emit(publicProposals.proposalEvents)
+        }
+        viewModelScope.launchCatching {
+
             val notpublicProposals = proposalRepository.getNotPublicProposals()
 
-            _publicProposalSharedFlow.emit(publicProposals.proposalEvents)
-            _searchProposalSharedFlow.emit(notpublicProposals.proposalEvents)
+            _publicProposalSharedFlow.emit(notpublicProposals.proposalEvents)
         }
 
         viewModelScope.launchCatching {
@@ -56,6 +60,23 @@ class ProposalListViewModel(
                 _searchProposalSharedFlow.emit(result.proposalEvents)
             }
         }
+    }
+
+    fun runInit() {
+        viewModelScope.launchCatching {
+            val ownProposals = proposalRepository.getOwnProposals()
+
+            _ownProposalSharedFlow.emit(ownProposals?.proposalEvents ?: emptyList())
+        }
+
+        viewModelScope.launchCatching {
+            val publicProposals = proposalRepository.getPublicProposals()
+            val notpublicProposals = proposalRepository.getNotPublicProposals()
+
+            _searchProposalSharedFlow.emit(publicProposals.proposalEvents)
+            _publicProposalSharedFlow.emit(notpublicProposals.proposalEvents)
+        }
+
     }
 
     fun search(query: String, order: SortOrder, sortField: SortBy, status: Status?, tags: List<Pair<TagTitle, List<String>>>) = viewModelScope.launchCatching {

@@ -3,6 +3,7 @@ package com.narvatov.planthelper.data.repository
 import com.narvatov.planthelper.data.datasource.remote.api.HelpApi
 import com.narvatov.planthelper.data.utils.NavigationParams
 import com.narvatov.planthelper.models.CreateTransaction
+import com.narvatov.planthelper.models.CreateTransaction1
 import com.narvatov.planthelper.models.remote.*
 import com.narvatov.planthelper.models.remote.help.*
 import com.narvatov.planthelper.models.remote.proposal.AllSearchQuery
@@ -53,7 +54,7 @@ class HelpRepository(
     suspend fun getOwnHelps() = withContext(Dispatchers.IO) { helpApi.getOwnHelps() }
 
     suspend fun getPublicHelps() = withContext(Dispatchers.IO) { helpApi.getPublicHelps() }
-    suspend fun getNotPublicHelps() = withContext(Dispatchers.IO) { helpApi.getPublicHelps(AllSearchQuery(takingPart = false)) }
+    suspend fun getNotPublicHelps() = withContext(Dispatchers.IO) { helpApi.getNotPublicHelps(AllSearchQuery(takingPart = false)) }
 
     suspend fun searchHelps(
         query: String, order: String, sortField: String, status: String?, tags: List<Pair<TagTitle, List<String>>>
@@ -69,7 +70,7 @@ class HelpRepository(
     }
 
     suspend fun getHelp(id: Long) = withContext(Dispatchers.IO) {
-        val andProp = helpApi.getPublicHelps(AllSearchQuery(takingPart = false))
+        val andProp = helpApi.getNotPublicHelps(AllSearchQuery(takingPart = false))
         val list = getPublicHelps().helpEvents.toMutableList()
         list.addAll(andProp.helpEvents)
         list.addAll(kotlin.runCatching { getOwnHelps().helpEvents }.getOrNull() ?: emptyList())
@@ -81,7 +82,7 @@ class HelpRepository(
     }
 
     suspend fun addTransaction(id: Long, text: String) = withContext(Dispatchers.IO) {
-        helpApi.addTransaction(CreateTransaction(id, text))
+        helpApi.addTransaction(CreateTransaction1(text))
     }
 
 

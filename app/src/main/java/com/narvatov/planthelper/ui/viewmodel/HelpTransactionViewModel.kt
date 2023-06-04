@@ -28,16 +28,27 @@ class HelpTransactionViewModel(
 
     init {
         viewModelScope.launchCatching {
-            val res = helpRepository.getHelp(NavigationParams.helpDetailsItemId)
+            kotlin.runCatching {
+                val res = helpRepository.getHelp(NavigationParams.helpDetailsItemId)
 
-            _transactionsFlow.emit(res.transactions)
+                launchCatching {
+                    _transactionsFlow.emit(res.transactions)
+                }
 
-            _eventFlow.emit(res)
+                launchCatching {
+                    _eventFlow.emit(res)
+                }
+            }
         }
     }
 
     fun updateTransactionStatus(transaction: Transaction, status: RequestStatus, isApproved: Boolean? = null, callback: UnitCallback = {}) = viewModelScope.launchCatching {
-        helpRepository.updateTransaction(transaction.copy(transactionStatus = status.nameR), isApproved)
-        callback.invoke()
+        kotlin.runCatching {
+            helpRepository.updateTransaction(
+                transaction.copy(transactionStatus = status.nameR),
+                isApproved
+            )
+            callback.invoke()
+        }
     }
 }

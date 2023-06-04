@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.narvatov.planthelper.R
 import com.narvatov.planthelper.data.utils.NavigationParams
 import com.narvatov.planthelper.ui.main.PICK_PHOTO_CODE
+import com.narvatov.planthelper.ui.navigation.HelpTransactions
 import com.narvatov.planthelper.ui.navigation.Transactions
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.popBack
@@ -49,9 +50,6 @@ fun CreateHelpTransactionScreen(
         Button(
             onClick = {
                 viewModel.addTransaction(NavigationParams.helpDetailsItemId, comment)
-                popBack()
-                popBack()
-                navigate(Transactions)
             },
             modifier = Modifier.padding(top = 20.dp)
         ) {

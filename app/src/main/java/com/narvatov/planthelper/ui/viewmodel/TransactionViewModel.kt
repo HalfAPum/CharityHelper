@@ -26,11 +26,15 @@ class TransactionViewModel(
 
     init {
         viewModelScope.launchCatching {
-            val res = proposalRepository.getProposal(NavigationParams.proposalDetailsItemId)
+                val res = proposalRepository.getProposal(NavigationParams.proposalDetailsItemId)
 
-            _transactionsFlow.emit(res.transactions)
+//                launchCatching {
+//                    _transactionsFlow.emit(res.transactions)
+//                }
 
-            _eventFlow.emit(res)
+                launchCatching {
+                    _eventFlow.emit(res)
+                }
         }
     }
 
@@ -43,7 +47,7 @@ class TransactionViewModel(
     }
 
     fun updateTransactionStatus(id: Long, status: RequestStatus, callback: UnitCallback = {}) = viewModelScope.launchCatching {
-        proposalRepository.updateTransactionStatus(id, status)
-        callback.invoke()
+            proposalRepository.updateTransactionStatus(id, status)
+            callback.invoke()
     }
 }

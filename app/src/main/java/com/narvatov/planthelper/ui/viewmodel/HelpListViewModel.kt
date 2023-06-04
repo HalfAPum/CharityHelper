@@ -44,10 +44,14 @@ class HelpListViewModel(
         viewModelScope.launchCatching {
             val publicProposals = helpRepository.getPublicHelps()
 
-            val notPublic = helpRepository.getNotPublicHelps()
 
-            _publicHelpSharedFlow.emit(publicProposals.helpEvents)
-            _searchHelpSharedFlow.emit(notPublic.helpEvents)
+            _searchHelpSharedFlow.emit(publicProposals.helpEvents)
+        }
+        viewModelScope.launchCatching {
+
+        val notPublic = helpRepository.getNotPublicHelps()
+
+            _publicHelpSharedFlow.emit(notPublic.helpEvents)
         }
 
         viewModelScope.launchCatching {
@@ -56,6 +60,23 @@ class HelpListViewModel(
 
                 _searchHelpSharedFlow.emit(result.helpEvents)
             }
+        }
+    }
+
+    fun runInit() {
+        viewModelScope.launchCatching {
+            val ownProposals = helpRepository.getOwnHelps()
+
+            _ownHelpSharedFlow.emit(ownProposals.helpEvents)
+        }
+
+        viewModelScope.launchCatching {
+            val publicProposals = helpRepository.getPublicHelps()
+
+            val notPublic = helpRepository.getNotPublicHelps()
+
+            _searchHelpSharedFlow.emit(publicProposals.helpEvents)
+            _publicHelpSharedFlow.emit(notPublic.helpEvents)
         }
     }
 

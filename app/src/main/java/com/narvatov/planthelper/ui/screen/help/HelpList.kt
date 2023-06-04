@@ -70,6 +70,7 @@ fun HelpList(
                 Tab(
                     selected = pagerState.currentPage == index,
                     onClick = {
+                        viewModel.runInit()
                         tabIndex = index
 
                         scope.launch {

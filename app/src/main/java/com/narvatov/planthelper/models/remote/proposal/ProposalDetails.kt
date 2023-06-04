@@ -111,7 +111,7 @@ fun ProposalDetails(
                         WeightedSpacer()
 
                         Text(
-                            text = stringResource(R.string.cmptdd) + " " + competitionDate.substringBefore("T"),
+                            text = stringResource(R.string.cmptdd) + " " + competitionDate?.substringBefore("T"),
                             style = MaterialTheme.typography.caption,
                         )
                     }

@@ -29,6 +29,7 @@ import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.navigation.EditHelp
 import com.narvatov.planthelper.ui.navigation.EditProposal
+import com.narvatov.planthelper.ui.navigation.HelpTransactions
 import com.narvatov.planthelper.ui.navigation.Transactions
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator
 import com.narvatov.planthelper.ui.screen.proposal.CheckChoise
@@ -109,7 +110,7 @@ fun HelpDetails(
                         WeightedSpacer()
 
                         Text(
-                            text = stringResource(com.narvatov.planthelper.R.string.cmptdd) + " " + competitionDate.substringBefore("T"),
+                            text = stringResource(com.narvatov.planthelper.R.string.cmptdd) + " " + competitionDate?.substringBefore("T"),
                             style = androidx.compose.material.MaterialTheme.typography.caption,
                         )
                     }
@@ -437,7 +438,7 @@ fun HelpDetails(
 
         if (LoginStateHolder.isLoggedIn) {
             FloatingActionButton(
-                onClick = { UiNavigationEventPropagator.navigate(Transactions) },
+                onClick = { UiNavigationEventPropagator.navigate(HelpTransactions) },
                 modifier = Modifier.align(Alignment.TopEnd).padding(20.dp)
             ) {
                 Text(text = stringResource(R.string.transactions), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 20.dp))

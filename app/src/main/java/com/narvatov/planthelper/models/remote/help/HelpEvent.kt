@@ -34,7 +34,7 @@ data class HelpEvent(
     @SerializedName("title")
     val title: String,
     @SerializedName("endDate")
-    val competitionDate: String,
+    val competitionDate: String?,
     @SerializedName("creationDate")
     val creationDate: String,
     @SerializedName("transactions")

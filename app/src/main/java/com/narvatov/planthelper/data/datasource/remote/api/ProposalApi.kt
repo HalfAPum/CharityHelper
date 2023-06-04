@@ -3,9 +3,11 @@ package com.narvatov.planthelper.data.datasource.remote.api
 import com.narvatov.planthelper.data.utils.LoginStateHolder
 import com.narvatov.planthelper.models.AcceptTransaction
 import com.narvatov.planthelper.models.CreateTransaction
+import com.narvatov.planthelper.models.CreateTransaction1
 import com.narvatov.planthelper.models.remote.CreateComment
 import com.narvatov.planthelper.models.remote.NotificationsCheck
 import com.narvatov.planthelper.models.remote.UpdateTransactionStatus
+import com.narvatov.planthelper.models.remote.UpdateTransactionStatus1
 import com.narvatov.planthelper.models.remote.help.EditHelpData
 import com.narvatov.planthelper.models.remote.help.UpdateHelpTags
 import com.narvatov.planthelper.models.remote.proposal.*
@@ -44,6 +46,12 @@ interface ProposalApi {
         @Body allSearchQuery: AllSearchQuery = AllSearchQuery(),
     ): ProposalSearchList
 
+    @POST("open-api/proposal-search")
+    suspend fun getNotPublicProposals(
+        @Body allSearchQuery: AllSearchQuery = AllSearchQuery(),
+        @Header("Authorization") authHeader: String  = LoginStateHolder.token
+    ): ProposalSearchList
+
 
     @POST("open-api/proposal-search")
     suspend fun searchProposals(
@@ -65,7 +73,7 @@ interface ProposalApi {
 
     @POST("api/events/proposal/response")
     suspend fun addTransaction(
-        @Body commentCreate: CreateTransaction,
+        @Body commentCreate: CreateTransaction1,
         @Header("Authorization") authHeader: String = LoginStateHolder.token
     )
 
@@ -82,6 +90,12 @@ interface ProposalApi {
     suspend fun updateTransactionStatus(
         @Path("id") id: Long,
         @Body updateTransactionStatus: UpdateTransactionStatus,
+        @Header("Authorization") authHeader: String = LoginStateHolder.token
+    )
+    @POST("api/events/proposal/update-status/{id}")
+    suspend fun updateTransactionStatus1(
+        @Path("id") id: Long,
+        @Body updateTransactionStatus: UpdateTransactionStatus1,
         @Header("Authorization") authHeader: String = LoginStateHolder.token
     )
 

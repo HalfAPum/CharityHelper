@@ -4,11 +4,13 @@ import com.narvatov.planthelper.data.datasource.remote.api.ProposalApi
 import com.narvatov.planthelper.data.utils.NavigationParams
 import com.narvatov.planthelper.models.AcceptTransaction
 import com.narvatov.planthelper.models.CreateTransaction
+import com.narvatov.planthelper.models.CreateTransaction1
 import com.narvatov.planthelper.models.remote.*
 import com.narvatov.planthelper.models.remote.help.EditHelpData
 import com.narvatov.planthelper.models.remote.help.UpdateHelpTags
 import com.narvatov.planthelper.models.remote.proposal.AllSearchQuery
 import com.narvatov.planthelper.models.remote.proposal.CreateProposal
+import com.narvatov.planthelper.models.remote.proposal.ProposalEvent
 import com.narvatov.planthelper.models.remote.proposal.SearchQuery
 import com.narvatov.planthelper.models.remote.proposal.UpdateTransaction
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +36,9 @@ class ProposalRepository(
         kotlin.runCatching { proposalApi.getOwnProposals() }.getOrNull() }
 
     suspend fun getPublicProposals() = withContext(Dispatchers.IO) { proposalApi.getPublicProposals() }
-    suspend fun getNotPublicProposals() = withContext(Dispatchers.IO) { proposalApi.getPublicProposals(AllSearchQuery(false)) }
+    suspend fun getNotPublicProposals() = withContext(Dispatchers.IO) { proposalApi.getNotPublicProposals(
+        AllSearchQuery(false)
+    ) }
 
     suspend fun searchProposals(
         query: String, order: String, sortField: String, status: String?, tags: List<Pair<TagTitle, List<String>>>
@@ -54,9 +58,13 @@ class ProposalRepository(
     }
 
     suspend fun getProposal(id: Long) = withContext(Dispatchers.IO) {
-        val andProp = proposalApi.getPublicProposals(AllSearchQuery(takingPart = false))
-        val list = getPublicProposals().proposalEvents.toMutableList()
-            list.addAll(andProp.proposalEvents)
+        val list = mutableListOf<ProposalEvent>()
+        kotlin.runCatching {
+            list.addAll(proposalApi.getNotPublicProposals(AllSearchQuery(takingPart = false)).proposalEvents)
+        }
+        kotlin.runCatching {
+            list.addAll(getPublicProposals().proposalEvents)
+        }
 //            list.addAll(getOwnProposals()?.proposalEvents ?: emptyList())
         return@withContext list.first { it.id == id }
     }
@@ -66,7 +74,7 @@ class ProposalRepository(
     }
 
     suspend fun addTransaction(id: Long, text: String) = withContext(Dispatchers.IO) {
-        proposalApi.addTransaction(CreateTransaction(id, text))
+        proposalApi.addTransaction(CreateTransaction1( text))
     }
 
     suspend fun acceptTransaction(id: Long) = withContext(Dispatchers.IO) {
@@ -80,10 +88,11 @@ class ProposalRepository(
     suspend fun updateTransactionStatus(id: Long, status: RequestStatus) = withContext(Dispatchers.IO) {
         val file = fileRepository.uploadFile()
 
-        proposalApi.updateTransactionStatus(id, UpdateTransactionStatus(status.nameR))
 
         if (file != null) {
-            proposalApi.updateTransaction(id, UpdateTransaction(id, file))
+            proposalApi.updateTransactionStatus1(id, UpdateTransactionStatus1(status.nameR, file))
+        } else {
+            proposalApi.updateTransactionStatus(id, UpdateTransactionStatus(status.nameR))
         }
     }
 

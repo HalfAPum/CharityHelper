@@ -3,6 +3,7 @@ package com.narvatov.planthelper.data.datasource.remote.api
 import com.narvatov.planthelper.data.utils.LoginStateHolder
 import com.narvatov.planthelper.models.AcceptTransaction
 import com.narvatov.planthelper.models.CreateTransaction
+import com.narvatov.planthelper.models.CreateTransaction1
 import com.narvatov.planthelper.models.remote.CreateComment
 import com.narvatov.planthelper.models.remote.NotificationsCheck
 import com.narvatov.planthelper.models.remote.UpdateTransactionStatus
@@ -36,6 +37,12 @@ interface HelpApi {
         @Body allSearchQuery: AllSearchQuery = AllSearchQuery(),
     ): SearchHelpEvents
 
+    @POST("open-api/help-search")
+    suspend fun getNotPublicHelps(
+        @Body allSearchQuery: AllSearchQuery = AllSearchQuery(),
+        @Header("Authorization") authHeader: String = LoginStateHolder.token
+    ): SearchHelpEvents
+
 
     @POST("open-api/help-search")
     suspend fun searchHelps(
@@ -58,7 +65,7 @@ interface HelpApi {
 
     @POST("api/events/help/response")
     suspend fun addTransaction(
-        @Body createHelpTransaction: CreateTransaction,
+        @Body createHelpTransaction: CreateTransaction1,
         @Header("Authorization") authHeader: String = LoginStateHolder.token
     )
 

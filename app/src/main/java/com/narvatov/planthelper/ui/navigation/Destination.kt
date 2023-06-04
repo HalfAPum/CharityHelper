@@ -92,7 +92,7 @@ object HelpDetails : HeaderDestination(R.string.helpdetails,"Help details")
 
 object Filter : HeaderDestination(R.string.searchfilter,"Search filter")
 object FilterHelp : HeaderDestination(R.string.searchfilterhelp,"Search filter help")
-object Transactions : HeaderDestination(R.string.evventtransacitns,"Event transactions")
+object Transactions : HeaderDestination(R.string.evventtransacitns,"Event transactions123")
 object HelpTransactions : HeaderDestination(R.string.evventtransacitns,"Event transactions")
 object CreateTransaction : HeaderDestination(R.string.createtransaction,"Create transaction")
 object CreateHelpTransaction : HeaderDestination(R.string.createtransaction,"Create transaction")

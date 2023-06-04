@@ -44,25 +44,24 @@ import com.narvatov.planthelper.ui.viewmodel.TransactionViewModel
 import com.narvatov.planthelper.utils.isInvalidUrl
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 fun TransactionsScreen(
     viewModel: TransactionViewModel = getViewModel()
 ) {
-
-    val transactions = viewModel.transactionFlow.collectAsState(null)
     val event = viewModel.eventFlow.collectAsState(null)
 
-    if (transactions.value.isNullOrEmpty()) {
+    val transactions = event.value?.transactions
+
+    if (transactions.isNullOrEmpty()) {
         Text(text = stringResource(R.string.notransactionyet), fontSize = 20.sp)
     }
 
     Box(Modifier.fillMaxSize()) {
-        if (transactions.value.isNullOrEmpty().not()) {
+        if (transactions.isNullOrEmpty().not()) {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
             ListSpacer()
 
-            items(transactions.value!!) { proposal -> with(proposal) {
+            items(transactions!!) { proposal -> with(proposal) {
                 Card(
                     modifier = Modifier.padding(horizontal = 20.dp).fillMaxWidth()
                         .shadow(elevation = 10.dp, shape = Shapes.medium).clip(Shapes.medium)
@@ -295,9 +294,10 @@ fun TransactionsScreen(
                                                 viewModel.updateTransactionStatus(
                                                     id,
                                                     RequestStatus.Completed
-                                                )
-                                                popBack()
-                                                navigate(Transactions)
+                                                ) {
+                                                    popBack()
+                                                    navigate(Transactions)
+                                                }
                                         },
                                         modifier = Modifier.weight(1F).padding(end = 4.dp)
                                     ) {
@@ -356,7 +356,8 @@ fun TransactionsScreen(
             ListSpacer()
         }}
 
-        if (event.value?.author?.phone != LoginStateHolder.signInState.signInData?.telephone) {
+        println("FUCK ME IN ASS ${event.value} ")
+        if (event.value?.author?.id != LoginStateHolder.signInState.signInData?.id) {
             FloatingActionButton(
                 onClick = { navigate(CreateTransaction) },
                 modifier = Modifier.align(Alignment.BottomEnd).padding(24.dp)

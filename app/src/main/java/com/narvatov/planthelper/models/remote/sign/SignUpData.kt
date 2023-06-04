@@ -29,8 +29,34 @@ data class SignUpData(
     val refreshToken: String = "",
     @SerializedName("transactionNotifications")
     var transactionNotifications: List<Notification>? = null,
+): ApiErrorModel()
+data class SignUpDataL(
+    @SerializedName("address")
+    val address: Address?,
+    @SerializedName("companyName")
+    val companyName: String,
+    @SerializedName("email")
+    val email: String,
+    @SerializedName("password")
+    val password: String,
+    @SerializedName("firstName")
+    val firstName: String,
+    @SerializedName("secondName")
+    val secondName: String,
+    @SerializedName("telephone")
+    val telephone: String,
+    @SerializedName("imagePath")
+    val imagePath: String? = null,
+    @SerializedName("token")
+    val token: String = "",
+    @SerializedName("profileImageURL")
+    val profileImageUrl: String? = null,
+    @SerializedName("refreshToken")
+    val refreshToken: String = "",
+    @SerializedName("transactionNotifications")
+    var transactionNotifications: List<Notification>? = null,
     @SerializedName("id")
-    val id: Int = -1,
+    val id: Int
 ): ApiErrorModel()
 
 data class Address(
