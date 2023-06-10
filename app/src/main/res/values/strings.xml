@@ -153,4 +153,6 @@
     <string name="complaint">Complaint</string>
     <string name="se">Select valid end time</string>
     <string name="add_at_least_one_need">Add at least one need</string>
+    <string name="add_complaint">Add complaint</string>
+    <string name="complaintt">Complaint</string>
 </resources>

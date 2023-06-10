@@ -20,6 +20,8 @@ import com.narvatov.planthelper.ui.screen.FilterScreen
 import com.narvatov.planthelper.ui.screen.TransactionsScreen
 import com.narvatov.planthelper.ui.screen.accont.Account
 import com.narvatov.planthelper.ui.screen.help.CreateHelp
+import com.narvatov.planthelper.ui.screen.help.HelpComplaint
+import com.narvatov.planthelper.ui.screen.proposal.ProposalComplaint
 import com.narvatov.planthelper.ui.screen.help.CreateHelpTransactionScreen
 import com.narvatov.planthelper.ui.screen.help.HelpList
 import com.narvatov.planthelper.ui.screen.help.HelpTransactionsScreen
@@ -161,6 +163,14 @@ fun NavHostContent(
 
         composable(EditHelp) {
             EditHelp()
+        }
+
+        composable(HelpComplaint) {
+            HelpComplaint()
+        }
+
+        composable(ProposalComplaint) {
+            ProposalComplaint()
         }
     }
 }

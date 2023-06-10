@@ -18,6 +18,10 @@ class HelpRepository(
     private val fileRepository: FileRepository,
 ) {
 
+    suspend fun sendComplaint(text: String, id: Long) = withContext(Dispatchers.IO) {
+        helpApi.sendComplaint(Complaint(text, id, "help"))
+    }
+
     suspend fun createHelp(
         title: String, description: String, endDate: String, needs: List<Need>,
         tags: List<Pair<TagTitle, List<String>>>

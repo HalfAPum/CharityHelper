@@ -29,9 +29,11 @@ import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.navigation.EditHelp
 import com.narvatov.planthelper.ui.navigation.EditProposal
+import com.narvatov.planthelper.ui.navigation.HelpComplaint
 import com.narvatov.planthelper.ui.navigation.HelpTransactions
 import com.narvatov.planthelper.ui.navigation.Transactions
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator
+import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.screen.proposal.CheckChoise
 import com.narvatov.planthelper.ui.viewmodel.HelpEventDetailsViewModel
 import org.koin.androidx.compose.getViewModel
@@ -429,6 +431,22 @@ fun HelpDetails(
                             enabled = false,
                             modifier = androidx.compose.ui.Modifier.padding(top = 20.dp)
                         )
+                    }
+                }
+
+                item {
+                    if (LoginStateHolder.isLoggedIn && help.value?.author?.id != LoginStateHolder.signInState.signInData?.id) {
+                        Button(
+                            onClick = {
+                                navigate(HelpComplaint)
+                            },
+                            modifier = Modifier.padding(top = 20.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.add_complaint),
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        }
                     }
                 }
 

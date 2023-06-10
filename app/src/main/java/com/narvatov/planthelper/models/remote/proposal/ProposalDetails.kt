@@ -31,6 +31,8 @@ import com.narvatov.planthelper.models.remote.TagTitle
 import com.narvatov.planthelper.ui.ListSpacer
 import com.narvatov.planthelper.ui.WeightedSpacer
 import com.narvatov.planthelper.ui.navigation.EditProposal
+import com.narvatov.planthelper.ui.navigation.HelpComplaint
+import com.narvatov.planthelper.ui.navigation.ProposalComplaint
 import com.narvatov.planthelper.ui.navigation.Transactions
 import com.narvatov.planthelper.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.planthelper.ui.screen.proposal.CheckChoise
@@ -387,6 +389,22 @@ fun ProposalDetails(
                             enabled = false,
                             modifier = Modifier.padding(top = 20.dp)
                         )
+                    }
+                }
+
+                item {
+                    if (LoginStateHolder.isLoggedIn && proposal.value?.author?.id == LoginStateHolder.signInState.signInData?.id) {
+                        Button(
+                            onClick = {
+                                navigate(ProposalComplaint)
+                            },
+                            modifier = Modifier.padding(top = 20.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.add_complaint),
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        }
                     }
                 }
 

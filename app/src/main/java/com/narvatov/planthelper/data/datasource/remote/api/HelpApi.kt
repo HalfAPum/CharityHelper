@@ -4,6 +4,7 @@ import com.narvatov.planthelper.data.utils.LoginStateHolder
 import com.narvatov.planthelper.models.AcceptTransaction
 import com.narvatov.planthelper.models.CreateTransaction
 import com.narvatov.planthelper.models.CreateTransaction1
+import com.narvatov.planthelper.models.remote.Complaint
 import com.narvatov.planthelper.models.remote.CreateComment
 import com.narvatov.planthelper.models.remote.NotificationsCheck
 import com.narvatov.planthelper.models.remote.UpdateTransactionStatus
@@ -13,6 +14,11 @@ import retrofit2.http.*
 
 interface HelpApi {
 
+    @POST("api/complaint")
+    suspend fun sendComplaint(
+        @Body complaint: Complaint,
+        @Header("Authorization") authHeader: String = LoginStateHolder.token
+    )
     @POST("api/events/help/create")
     suspend fun createHelp(
         @Body createHelp: CreateNeed,

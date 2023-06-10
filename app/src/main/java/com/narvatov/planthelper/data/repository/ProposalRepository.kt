@@ -25,6 +25,10 @@ class ProposalRepository(
     private val fileRepository: FileRepository,
 ) {
 
+    suspend fun sendComplaint(text: String, id: Long) = withContext(Dispatchers.IO) {
+        proposalApi.sendComplaint(Complaint(text, id, "proposal-event"))
+    }
+
     suspend fun createProposal(title: String, description: String, maxConcurrentRequests: Long, endDate: String, tags: List<Pair<TagTitle, List<String>>>) = withContext(Dispatchers.IO) {
         val image = fileRepository.uploadFile()
 
