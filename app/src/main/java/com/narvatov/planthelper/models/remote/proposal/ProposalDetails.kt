@@ -393,7 +393,7 @@ fun ProposalDetails(
                 }
 
                 item {
-                    if (LoginStateHolder.isLoggedIn && proposal.value?.author?.id == LoginStateHolder.signInState.signInData?.id) {
+                    if (LoginStateHolder.isLoggedIn && proposal.value?.author?.id != LoginStateHolder.signInState.signInData?.id) {
                         Button(
                             onClick = {
                                 navigate(ProposalComplaint)
